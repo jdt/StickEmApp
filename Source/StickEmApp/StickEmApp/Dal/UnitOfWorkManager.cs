@@ -5,6 +5,7 @@ using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
 using NHibernate;
 using NHibernate.Cfg;
+using NHibernate.Tool.hbm2ddl;
 
 namespace StickEmApp.Dal
 {
@@ -15,7 +16,16 @@ namespace StickEmApp.Dal
         static UnitOfWorkManager()
         {
             var dbFile = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "data.db");
-            Initialize(dbFile, config => { });
+            Initialize(dbFile, config =>
+            {
+                if (File.Exists(dbFile) == false)
+                {
+                    // this NHibernate tool takes a configuration (with mapping info in)
+                    // and exports a database schema from it
+                    new SchemaExport(config)
+                        .Create(false, true);
+                }
+            });
         }
 
         internal static void Initialize(string databaseFile, Action<Configuration> exposeConfiguration)

@@ -31,7 +31,13 @@ namespace StickEmApp.UnitTest
             _unitOfWork.Dispose();
         }
 
-        public void ExposeConfiguration(Configuration obj)
+        protected void RenewSession()
+        {
+            Session.Flush();
+            Session.Clear();
+        }
+
+        private void ExposeConfiguration(Configuration obj)
         {
             // delete the existing db on each run
             if (File.Exists(DatabaseFile))
@@ -43,7 +49,7 @@ namespace StickEmApp.UnitTest
               .Create(false, true);
         }
 
-        public string DatabaseFile
+        private string DatabaseFile
         {
             get
             {
