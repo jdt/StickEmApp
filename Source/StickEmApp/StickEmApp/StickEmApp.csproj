@@ -57,6 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dal\DatabaseFileMode.cs" />
     <Compile Include="Dal\IVendorRepository.cs" />
     <Compile Include="Dal\Mapping\VendorMapping.cs" />
     <Compile Include="Dal\UnitOfWorkManager.cs" />

@@ -1,34 +1,15 @@
 ﻿using System;
 using System.IO;
-using System.Reflection;
 using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
 using NHibernate;
-using NHibernate.Cfg;
 using NHibernate.Tool.hbm2ddl;
 
 namespace StickEmApp.Dal
 {
-    internal static class UnitOfWorkManager
+    public static class UnitOfWorkManager
     {
-        private static ISessionFactory _sessionFactory;
-
-        static UnitOfWorkManager()
-        {
-            var dbFile = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "data.db");
-            Initialize(dbFile, config =>
-            {
-                if (File.Exists(dbFile) == false)
-                {
-                    // this NHibernate tool takes a configuration (with mapping info in)
-                    // and exports a database schema from it
-                    new SchemaExport(config)
-                        .Create(false, true);
-                }
-            });
-        }
-
-        internal static void Initialize(string databaseFile, Action<Configuration> exposeConfiguration)
+        public static void Initialize(string databaseFile, DatabaseFileMode mode)
         {
             _sessionFactory = Fluently.Configure()
                     .Database(
@@ -36,12 +17,41 @@ namespace StickEmApp.Dal
                             .UsingFile(databaseFile)
                     )
                     .Mappings(m => m.FluentMappings.AddFromAssemblyOf<UnitOfWork>())
-                    .ExposeConfiguration(exposeConfiguration)
+                    .ExposeConfiguration((configuration =>
+                    {
+                        if (mode == DatabaseFileMode.Overwrite && File.Exists(databaseFile))
+                        {
+                            File.Delete(databaseFile);
+                        }
+
+                        if (File.Exists(databaseFile) == false)
+                        {
+                            // this NHibernate tool takes a configuration (with mapping info in)
+                            // and exports a database schema from it
+                            new SchemaExport(configuration).Create(false, true);
+                        }
+                    }))
                     .BuildSessionFactory();
         }
 
-        private static ISession _session;
+        public static void Initialize(ISessionFactory sessionFactory)
+        {
+            _sessionFactory = sessionFactory;
+        }
 
+        private static ISessionFactory _sessionFactory;
+        private static ISessionFactory SessionFactory
+        {
+            get
+            {
+                if(_sessionFactory == null)
+                    throw new InvalidOperationException("The UnitOfWorkManager was not initialized.");
+
+                return _sessionFactory;
+            }
+        }
+
+        private static ISession _session;
         public static ISession Session
         {
             get
@@ -56,7 +66,7 @@ namespace StickEmApp.Dal
         {
             if (_session != null)
                 throw new InvalidOperationException("There is already an active Unit Of Work.");
-            _session = _sessionFactory.OpenSession();
+            _session = SessionFactory.OpenSession();
         }
 
         public static void Release()

@@ -15,7 +15,7 @@ namespace StickEmApp.UnitTest
         [SetUp]
         public void AwareSetUp()
         {
-            UnitOfWorkManager.Initialize(DatabaseFile, ExposeConfiguration);
+            UnitOfWorkManager.Initialize(DatabaseFile, DatabaseFileMode.Overwrite);
 
             _unitOfWork = new UnitOfWork();
         }
