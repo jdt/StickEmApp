@@ -57,6 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dal\IVendorRepository.cs" />
     <Compile Include="Dal\Mapping\VendorMapping.cs" />
     <Compile Include="Dal\UnitOfWorkManager.cs" />
     <Compile Include="Dal\VendorRepository.cs" />
@@ -66,7 +67,6 @@
     <Compile Include="UnitOfWork.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>

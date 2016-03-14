@@ -14,15 +14,5 @@ namespace StickEmApp
         {
             UnitOfWorkManager.Release();
         }
-
-        public T Get<T>(Guid id)
-        {
-            return UnitOfWorkManager.Session.Get<T>(id);
-        }
-
-        public void SaveOrUpdate<T>(T obj)
-        {
-            UnitOfWorkManager.Session.SaveOrUpdate(obj);
-        }
     }
 }
