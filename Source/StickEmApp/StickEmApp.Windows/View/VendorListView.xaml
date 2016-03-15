@@ -1,0 +1,28 @@
+﻿<UserControl x:Class="StickEmApp.Windows.View.VendorListView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <DataTemplate x:Key="RowButtons">
+            <StackPanel Orientation="Horizontal">
+                <Button Content="Edit"/>
+                <Button Content="Delete"/>
+            </StackPanel>
+        </DataTemplate>
+
+    </UserControl.Resources>
+    <StackPanel>
+        <Button Content="Add" Width="75" HorizontalAlignment="Right" Margin="5,5,5,5" />
+        <ListView ItemsSource="{Binding VendorList}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="100"/>
+                    <GridViewColumn CellTemplate="{StaticResource RowButtons}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </StackPanel>
+</UserControl>
