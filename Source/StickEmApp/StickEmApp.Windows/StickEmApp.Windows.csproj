@@ -58,14 +58,20 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ViewModel\Command.cs" />
     <Compile Include="ViewModel\IViewModelFactory.cs" />
     <Compile Include="ViewModel\VendorListViewModel.cs" />
     <Compile Include="ViewModel\VendorViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="ViewModel\ViewModelFactory.cs" />
+    <Compile Include="View\IViewFactory.cs" />
     <Compile Include="View\VendorListView.xaml.cs">
       <DependentUpon>VendorListView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\VendorView.xaml.cs">
+      <DependentUpon>VendorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ViewFactory.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -79,6 +85,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="View\VendorListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\VendorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

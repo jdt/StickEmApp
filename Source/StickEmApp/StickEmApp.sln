@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StickEmApp", "StickEmApp\St
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StickEmApp.Windows.UnitTest", "StickEmApp.Windows.UnitTest\StickEmApp.Windows.UnitTest.csproj", "{83948665-79B6-4660-B1B6-197F6C9CFC61}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StickEmApp.Sandbox", "StickEmApp.Sandbox\StickEmApp.Sandbox.csproj", "{D67500AE-4532-4D4D-81DF-26AE4B4C3DAD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,10 @@ Global
 		{83948665-79B6-4660-B1B6-197F6C9CFC61}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{83948665-79B6-4660-B1B6-197F6C9CFC61}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{83948665-79B6-4660-B1B6-197F6C9CFC61}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D67500AE-4532-4D4D-81DF-26AE4B4C3DAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D67500AE-4532-4D4D-81DF-26AE4B4C3DAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D67500AE-4532-4D4D-81DF-26AE4B4C3DAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D67500AE-4532-4D4D-81DF-26AE4B4C3DAD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -42,5 +48,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{B05B6270-4CBA-4279-9C76-4744B7172271} = {7FFC7806-060E-4945-AA6D-8FCB836BF065}
 		{83948665-79B6-4660-B1B6-197F6C9CFC61} = {7FFC7806-060E-4945-AA6D-8FCB836BF065}
+		{D67500AE-4532-4D4D-81DF-26AE4B4C3DAD} = {7FFC7806-060E-4945-AA6D-8FCB836BF065}
 	EndGlobalSection
 EndGlobal

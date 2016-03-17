@@ -15,7 +15,7 @@
 
     </UserControl.Resources>
     <StackPanel>
-        <Button Content="Add" Width="75" HorizontalAlignment="Right" Margin="5,5,5,5" />
+        <Button Content="Add" Width="75" HorizontalAlignment="Right" Margin="5,5,5,5" Command="{Binding AddVendorCommand}" />
         <ListView ItemsSource="{Binding VendorList}">
             <ListView.View>
                 <GridView>

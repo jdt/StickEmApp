@@ -1,5 +1,6 @@
 ﻿using StickEmApp.Dal;
 using StickEmApp.Entities;
+using StickEmApp.Windows.View;
 
 namespace StickEmApp.Windows.ViewModel
 {
@@ -9,7 +10,7 @@ namespace StickEmApp.Windows.ViewModel
         {
             get
             {
-                return new VendorListViewModel(this, new VendorRepository());
+                return new VendorListViewModel(this, new ViewFactory(), new VendorRepository());
             }
         }
 
