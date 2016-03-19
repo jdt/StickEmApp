@@ -1,13 +1,11 @@
-﻿namespace StickEmApp.Windows.ViewModel
+﻿using System;
+using System.Windows.Input;
+
+namespace StickEmApp.Windows.ViewModel
 {
     public class VendorViewModel : ViewModelBase
     {
         private string _name;
-
-        public VendorViewModel(string name)
-        {
-            Name = name;
-        }
 
         public string Name
         {
@@ -17,6 +15,13 @@
                 _name = value;
                 OnPropertyChanged("Name");
             }
+        }
+
+        public ICommand SaveChangesCommand { get { return new Command(i => SaveChanges()); } }
+
+        private void SaveChanges()
+        {
+
         }
     }
 }

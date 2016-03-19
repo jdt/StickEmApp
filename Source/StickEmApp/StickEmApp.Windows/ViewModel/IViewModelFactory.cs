@@ -4,6 +4,6 @@ namespace StickEmApp.Windows.ViewModel
 {
     public interface IViewModelFactory
     {
-        VendorViewModel VendorViewModel(Vendor vendor);
+        VendorListItemViewModel VendorListItemViewModel(Vendor vendor);
     }
 }

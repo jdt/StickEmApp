@@ -8,22 +8,22 @@ namespace StickEmApp.Windows.ViewModel
     public class VendorListViewModel : ViewModelBase
     {
         private readonly IViewFactory _viewFactory;
-        private ObservableCollection<VendorViewModel> _vendorList;
+        private ObservableCollection<VendorListItemViewModel> _vendorList;
 
         public VendorListViewModel(IViewModelFactory viewModelFactory, IViewFactory viewFactory, IVendorRepository vendorRepository)
         {
             _viewFactory = viewFactory;
             using (new UnitOfWork())
             {
-                _vendorList = new ObservableCollection<VendorViewModel>();
+                _vendorList = new ObservableCollection<VendorListItemViewModel>();
                 foreach (var vendor in vendorRepository.SelectVendors())
                 {
-                    _vendorList.Add(viewModelFactory.VendorViewModel(vendor));
+                    _vendorList.Add(viewModelFactory.VendorListItemViewModel(vendor));
                 }
             }
         }
 
-        public ObservableCollection<VendorViewModel> VendorList
+        public ObservableCollection<VendorListItemViewModel> VendorList
         {
             get { return _vendorList; }
             set

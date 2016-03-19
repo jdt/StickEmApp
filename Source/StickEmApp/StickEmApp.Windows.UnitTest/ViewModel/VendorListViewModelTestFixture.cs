@@ -33,10 +33,10 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
             var vendor2 = new Vendor();
             _vendorRepository.Expect(p => p.SelectVendors()).Return(new List<Vendor> {vendor1, vendor2});
 
-            var viewModel1 = new VendorViewModel("test1");
-            var viewModel2 = new VendorViewModel("test2");
-            _viewModelFactory.Expect(p => p.VendorViewModel(vendor1)).Return(viewModel1);
-            _viewModelFactory.Expect(p => p.VendorViewModel(vendor2)).Return(viewModel2);
+            var viewModel1 = new VendorListItemViewModel("test1");
+            var viewModel2 = new VendorListItemViewModel("test2");
+            _viewModelFactory.Expect(p => p.VendorListItemViewModel(vendor1)).Return(viewModel1);
+            _viewModelFactory.Expect(p => p.VendorListItemViewModel(vendor2)).Return(viewModel2);
 
             //act
             _viewModel = new VendorListViewModel(_viewModelFactory, _viewFactory, _vendorRepository);

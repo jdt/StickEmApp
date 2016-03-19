@@ -14,9 +14,17 @@ namespace StickEmApp.Windows.ViewModel
             }
         }
 
-        public VendorViewModel VendorViewModel(Vendor vendor)
+        public VendorListItemViewModel VendorListItemViewModel(Vendor vendor)
         {
-            return new VendorViewModel(vendor.Name);
+            return new VendorListItemViewModel(vendor.Name);
+        }
+
+        public VendorViewModel VendorViewModel
+        {
+            get
+            {
+                return new VendorViewModel();
+            }
         }
     }
 }
