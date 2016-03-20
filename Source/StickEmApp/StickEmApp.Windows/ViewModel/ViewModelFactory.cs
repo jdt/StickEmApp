@@ -10,7 +10,7 @@ namespace StickEmApp.Windows.ViewModel
         {
             get
             {
-                return new VendorListViewModel(this, new ViewFactory(), new VendorRepository());
+                return new VendorListViewModel(this, new ViewManager(), new VendorRepository());
             }
         }
 
@@ -23,7 +23,7 @@ namespace StickEmApp.Windows.ViewModel
         {
             get
             {
-                return new VendorViewModel();
+                return new VendorViewModel(new VendorRepository(), new ViewManager());
             }
         }
     }

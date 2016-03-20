@@ -65,7 +65,8 @@
     <Compile Include="ViewModel\VendorViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="ViewModel\ViewModelFactory.cs" />
-    <Compile Include="View\IViewFactory.cs" />
+    <Compile Include="View\IView.cs" />
+    <Compile Include="View\IViewManager.cs" />
     <Compile Include="View\VendorDetailView.xaml.cs">
       <DependentUpon>VendorDetailView.xaml</DependentUpon>
     </Compile>
@@ -75,7 +76,7 @@
     <Compile Include="View\VendorView.xaml.cs">
       <DependentUpon>VendorView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\ViewFactory.cs" />
+    <Compile Include="View\ViewManager.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

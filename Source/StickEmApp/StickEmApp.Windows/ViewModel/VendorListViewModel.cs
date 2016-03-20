@@ -7,20 +7,18 @@ namespace StickEmApp.Windows.ViewModel
 {
     public class VendorListViewModel : ViewModelBase
     {
-        private readonly IViewFactory _viewFactory;
+        private readonly IViewModelFactory _viewModelFactory;
+        private readonly IViewManager _viewManager;
+        private readonly IVendorRepository _vendorRepository;
         private ObservableCollection<VendorListItemViewModel> _vendorList;
 
-        public VendorListViewModel(IViewModelFactory viewModelFactory, IViewFactory viewFactory, IVendorRepository vendorRepository)
+        public VendorListViewModel(IViewModelFactory viewModelFactory, IViewManager viewManager, IVendorRepository vendorRepository)
         {
-            _viewFactory = viewFactory;
-            using (new UnitOfWork())
-            {
-                _vendorList = new ObservableCollection<VendorListItemViewModel>();
-                foreach (var vendor in vendorRepository.SelectVendors())
-                {
-                    _vendorList.Add(viewModelFactory.VendorListItemViewModel(vendor));
-                }
-            }
+            _viewModelFactory = viewModelFactory;
+            _viewManager = viewManager;
+            _vendorRepository = vendorRepository;
+
+            LoadData();
         }
 
         public ObservableCollection<VendorListItemViewModel> VendorList
@@ -33,11 +31,26 @@ namespace StickEmApp.Windows.ViewModel
             }
         }
 
+        private void LoadData()
+        {
+            using (new UnitOfWork())
+            {
+                var vendorList = new ObservableCollection<VendorListItemViewModel>();
+                foreach (var vendor in _vendorRepository.SelectVendors())
+                {
+                    vendorList.Add(_viewModelFactory.VendorListItemViewModel(vendor));
+                }
+                VendorList = vendorList;
+            }
+        }
+
         public ICommand AddVendorCommand { get { return new Command(i => AddVendor()); } }
 
         private void AddVendor()
         {
-            _viewFactory.DisplayVendorView();
+            var view = _viewManager.VendorView();
+            view.ViewClosed += LoadData;
+            view.Display();
         }
     }
 }

@@ -12,7 +12,7 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
     public class VendorListViewModelTestFixture : UnitOfWorkAwareTestFixture
     {
         private IViewModelFactory _viewModelFactory;
-        private IViewFactory _viewFactory;
+        private IViewManager _viewManager;
         private IVendorRepository _vendorRepository;
 
         private VendorListViewModel _viewModel;
@@ -21,7 +21,7 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
         public void SetUp()
         {
             _viewModelFactory = MockRepository.GenerateMock<IViewModelFactory>();
-            _viewFactory = MockRepository.GenerateMock<IViewFactory>();
+            _viewManager = MockRepository.GenerateMock<IViewManager>();
             _vendorRepository = MockRepository.GenerateMock<IVendorRepository>();
         }
 
@@ -39,7 +39,7 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
             _viewModelFactory.Expect(p => p.VendorListItemViewModel(vendor2)).Return(viewModel2);
 
             //act
-            _viewModel = new VendorListViewModel(_viewModelFactory, _viewFactory, _vendorRepository);
+            _viewModel = new VendorListViewModel(_viewModelFactory, _viewManager, _vendorRepository);
 
             //assert
             var vendors = _viewModel.VendorList;
@@ -50,20 +50,25 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
         }
 
         [Test]
-        public void AddVendorCommandShouldShowVendorView()
+        public void AddVendorCommandShouldShowVendorViewAndRefreshOnClose()
         {
             //arrange
-            _viewFactory.Expect(vf => vf.DisplayVendorView());
+            var openedView = new TestableIView();
+
+            _viewManager.Expect(vf => vf.VendorView()).Return(openedView);
             
-            _vendorRepository.Expect(p => p.SelectVendors()).Return(new List<Vendor>());
+            _vendorRepository.Expect(p => p.SelectVendors()).Return(new List<Vendor>()).Repeat.Times(2);
             
-            _viewModel = new VendorListViewModel(_viewModelFactory, _viewFactory, _vendorRepository);
+            _viewModel = new VendorListViewModel(_viewModelFactory, _viewManager, _vendorRepository);
 
             //act
             _viewModel.AddVendorCommand.Execute(null);
+            openedView.DoClose();
 
             //assert
-            _viewFactory.VerifyAllExpectations();
+            Assert.That(openedView.WasDisplayed, Is.True);
+            _viewManager.VerifyAllExpectations();
+            _vendorRepository.VerifyAllExpectations();
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System.Windows.Controls;
-using StickEmApp.Windows.ViewModel;
 
 namespace StickEmApp.Windows.View
 {

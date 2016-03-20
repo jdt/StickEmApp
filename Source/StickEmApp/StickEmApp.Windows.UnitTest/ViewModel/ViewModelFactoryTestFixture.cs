@@ -16,7 +16,7 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
         }
 
         [Test]
-        public void TestVendorViewModel()
+        public void TestVendorListItemViewModel()
         {
             //arrange
             var vendor = new Vendor
@@ -25,7 +25,7 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
             };
 
             //act
-            var viewModel = _factory.VendorViewModel(vendor);
+            var viewModel = _factory.VendorListItemViewModel(vendor);
 
             //assert
             Assert.That(viewModel.Name, Is.EqualTo("Vendor 1"));
