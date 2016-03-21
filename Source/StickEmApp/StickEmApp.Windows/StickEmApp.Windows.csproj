@@ -36,11 +36,37 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Practices.ServiceLocation">
+      <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity">
+      <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Configuration">
+      <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.RegistrationByConvention">
+      <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
+    </Reference>
+    <Reference Include="Prism">
+      <HintPath>..\packages\Prism.Core.6.1.0\lib\net45\Prism.dll</HintPath>
+    </Reference>
+    <Reference Include="Prism.Mef.Wpf">
+      <HintPath>..\packages\Prism.Mef.6.1.0\lib\net45\Prism.Mef.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="Prism.Unity.Wpf">
+      <HintPath>..\packages\Prism.Unity.6.1.1\lib\net45\Prism.Unity.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="Prism.Wpf">
+      <HintPath>..\packages\Prism.Wpf.6.1.0\lib\net45\Prism.Wpf.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.SQLite">
       <HintPath>..\packages\System.Data.SQLite.Core.1.0.99.0\lib\net451\System.Data.SQLite.dll</HintPath>
     </Reference>
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -58,26 +84,28 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Infrastructure\Behaviors\DialogActivationBehavior.cs" />
+    <Compile Include="Infrastructure\Behaviors\RegionPopupBehaviors.cs" />
+    <Compile Include="Infrastructure\Behaviors\IWindow.cs" />
+    <Compile Include="Infrastructure\Behaviors\WindowDialogActivationBehavior.cs" />
+    <Compile Include="Infrastructure\Behaviors\WindowWrapper.cs" />
+    <Compile Include="StickEmAppBootStrapper.cs" />
     <Compile Include="ViewModel\Command.cs" />
-    <Compile Include="ViewModel\IViewModelFactory.cs" />
     <Compile Include="ViewModel\VendorListViewModel.cs" />
     <Compile Include="ViewModel\VendorListItemViewModel.cs" />
     <Compile Include="ViewModel\VendorViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
-    <Compile Include="ViewModel\ViewModelFactory.cs" />
-    <Compile Include="View\IView.cs" />
-    <Compile Include="View\IViewManager.cs" />
+    <Compile Include="Infrastructure\Behaviors\AutoPopulateExportedViewsBehavior.cs" />
+    <Compile Include="Infrastructure\Behaviors\IViewRegionRegistration.cs" />
+    <Compile Include="Infrastructure\RegionNames.cs" />
     <Compile Include="View\VendorDetailView.xaml.cs">
       <DependentUpon>VendorDetailView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\VendorListView.xaml.cs">
       <DependentUpon>VendorListView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\VendorView.xaml.cs">
-      <DependentUpon>VendorView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\ViewManager.cs" />
-    <Page Include="MainWindow.xaml">
+    <Compile Include="Infrastructure\Behaviors\ViewExportAttribute.cs" />
+    <Page Include="Shell.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -85,8 +113,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
+    <Compile Include="Shell.xaml.cs">
+      <DependentUpon>Shell.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Page Include="View\VendorDetailView.xaml">
@@ -94,10 +122,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\VendorListView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\VendorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

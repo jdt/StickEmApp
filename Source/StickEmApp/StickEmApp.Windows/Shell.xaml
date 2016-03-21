@@ -1,0 +1,10 @@
+﻿<Window x:Class="StickEmApp.Windows.Shell"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:prism="http://www.codeplex.com/prism"
+        xmlns:behaviors1="clr-namespace:StickEmApp.Windows.Infrastructure.Behaviors"
+        xmlns:infrastructure="clr-namespace:StickEmApp.Windows.Infrastructure"
+        behaviors1:RegionPopupBehaviors.CreatePopupRegionWithName="{x:Static infrastructure:RegionNames.EditVendorRegion}"
+        Title="MainWindow" Height="350" Width="525">
+    <ItemsControl prism:RegionManager.RegionName="{x:Static infrastructure:RegionNames.MainRegion}" />
+</Window>

@@ -1,26 +1,30 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.ComponentModel.Composition;
 using System.Windows.Input;
+using Prism.Regions;
 using StickEmApp.Dal;
-using StickEmApp.Windows.View;
+using StickEmApp.Windows.Infrastructure;
 
 namespace StickEmApp.Windows.ViewModel
 {
+    [Export(typeof(VendorListViewModel))]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
     public class VendorListViewModel : ViewModelBase
     {
-        private readonly IViewModelFactory _viewModelFactory;
-        private readonly IViewManager _viewManager;
         private readonly IVendorRepository _vendorRepository;
+        private readonly IRegionManager _regionManager;
         private ObservableCollection<VendorListItemViewModel> _vendorList;
 
-        public VendorListViewModel(IViewModelFactory viewModelFactory, IViewManager viewManager, IVendorRepository vendorRepository)
+        [ImportingConstructor]
+        public VendorListViewModel(IVendorRepository vendorRepository, IRegionManager regionManager)
         {
-            _viewModelFactory = viewModelFactory;
-            _viewManager = viewManager;
             _vendorRepository = vendorRepository;
+            _regionManager = regionManager;
 
             LoadData();
         }
-
+        
         public ObservableCollection<VendorListItemViewModel> VendorList
         {
             get { return _vendorList; }
@@ -38,7 +42,7 @@ namespace StickEmApp.Windows.ViewModel
                 var vendorList = new ObservableCollection<VendorListItemViewModel>();
                 foreach (var vendor in _vendorRepository.SelectVendors())
                 {
-                    vendorList.Add(_viewModelFactory.VendorListItemViewModel(vendor));
+                    vendorList.Add(new VendorListItemViewModel(vendor.Name));
                 }
                 VendorList = vendorList;
             }
@@ -48,9 +52,7 @@ namespace StickEmApp.Windows.ViewModel
 
         private void AddVendor()
         {
-            var view = _viewManager.VendorView();
-            view.ViewClosed += LoadData;
-            view.Display();
+            _regionManager.RequestNavigate(RegionNames.EditVendorRegion, new Uri("VendorDetailView", UriKind.Relative));
         }
     }
 }

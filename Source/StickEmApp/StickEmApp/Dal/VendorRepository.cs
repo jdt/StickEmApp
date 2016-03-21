@@ -1,9 +1,11 @@
 ﻿using StickEmApp.Entities;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 
 namespace StickEmApp.Dal
 {
+    [Export(typeof(IVendorRepository))]
     public class VendorRepository : IVendorRepository
     {
         public Vendor Get(Guid id)

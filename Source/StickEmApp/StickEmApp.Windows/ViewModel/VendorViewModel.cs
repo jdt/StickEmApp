@@ -1,21 +1,17 @@
-﻿using System.Windows;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using StickEmApp.Dal;
 using StickEmApp.Entities;
-using StickEmApp.Windows.View;
 
 namespace StickEmApp.Windows.ViewModel
 {
     public class VendorViewModel : ViewModelBase
     {
         private readonly IVendorRepository _vendorRepository;
-        private readonly IViewManager _viewManager;
         private string _name;
 
-        public VendorViewModel(IVendorRepository vendorRepository, IViewManager viewManager)
+        public VendorViewModel(IVendorRepository vendorRepository)
         {
             _vendorRepository = vendorRepository;
-            _viewManager = viewManager;
         }
 
         public string Name
@@ -41,8 +37,6 @@ namespace StickEmApp.Windows.ViewModel
             {
                 _vendorRepository.Save(vendor);
             }
-
-            _viewManager.Close(view as DependencyObject);
         }
     }
 }
