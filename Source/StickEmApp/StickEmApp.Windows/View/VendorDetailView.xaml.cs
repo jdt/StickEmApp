@@ -19,7 +19,7 @@ namespace StickEmApp.Windows.View
         }
 
         [Import]
-        public VendorViewModel ViewModel
+        public VendorDetailViewModel ViewModel
         {
             set { DataContext = value; }
         }

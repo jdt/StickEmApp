@@ -1,25 +1,23 @@
-﻿using System;
-using System.ComponentModel.Composition;
-using System.Linq;
+﻿using System.ComponentModel.Composition;
 using System.Windows.Input;
+using Prism.Commands;
 using Prism.Events;
-using Prism.Regions;
+using Prism.Mvvm;
 using StickEmApp.Dal;
 using StickEmApp.Entities;
-using StickEmApp.Windows.Infrastructure;
 using StickEmApp.Windows.Infrastructure.Events;
 
 namespace StickEmApp.Windows.ViewModel
 {
-    [Export(typeof(VendorViewModel))]
-    public class VendorViewModel : ViewModelBase
+    [Export(typeof(VendorDetailViewModel))]
+    public class VendorDetailViewModel : BindableBase
     {
         private readonly IVendorRepository _vendorRepository;
         private readonly IEventAggregator _eventAggregator;
         private string _name;
 
         [ImportingConstructor]
-        public VendorViewModel(IVendorRepository vendorRepository, IEventAggregator eventAggregator)
+        public VendorDetailViewModel(IVendorRepository vendorRepository, IEventAggregator eventAggregator)
         {
             _vendorRepository = vendorRepository;
             _eventAggregator = eventAggregator;
@@ -35,9 +33,9 @@ namespace StickEmApp.Windows.ViewModel
             }
         }
 
-        public ICommand SaveChangesCommand { get { return new Command(SaveChanges); } }
+        public ICommand SaveChangesCommand { get { return new DelegateCommand(SaveChanges); } }
 
-        private void SaveChanges(object view)
+        private void SaveChanges()
         {
             var vendor = new Vendor
             {

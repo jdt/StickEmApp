@@ -84,18 +84,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Infrastructure\Behaviors\DialogActivationBehavior.cs" />
-    <Compile Include="Infrastructure\Behaviors\RegionPopupBehaviors.cs" />
-    <Compile Include="Infrastructure\Behaviors\IWindow.cs" />
-    <Compile Include="Infrastructure\Behaviors\WindowDialogActivationBehavior.cs" />
-    <Compile Include="Infrastructure\Behaviors\WindowWrapper.cs" />
     <Compile Include="Infrastructure\Events\VendorUpdatedEvent.cs" />
     <Compile Include="StickEmAppBootStrapper.cs" />
-    <Compile Include="ViewModel\Command.cs" />
     <Compile Include="ViewModel\VendorListViewModel.cs" />
-    <Compile Include="ViewModel\VendorListItemViewModel.cs" />
-    <Compile Include="ViewModel\VendorViewModel.cs" />
-    <Compile Include="ViewModel\ViewModelBase.cs" />
+    <Compile Include="ViewModel\VendorListitem.cs" />
+    <Compile Include="ViewModel\VendorDetailViewModel.cs" />
     <Compile Include="Infrastructure\Behaviors\AutoPopulateExportedViewsBehavior.cs" />
     <Compile Include="Infrastructure\Behaviors\IViewRegionRegistration.cs" />
     <Compile Include="Infrastructure\RegionNames.cs" />

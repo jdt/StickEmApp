@@ -1,9 +1,9 @@
 ﻿using System.Windows;
 using NUnit.Framework;
+using Prism.Events;
 using Rhino.Mocks;
 using StickEmApp.Dal;
 using StickEmApp.Entities;
-using StickEmApp.Windows.View;
 using StickEmApp.Windows.ViewModel;
 
 namespace StickEmApp.Windows.UnitTest.ViewModel
@@ -12,17 +12,17 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
     public class VendorViewModelTestFixture : UnitOfWorkAwareTestFixture
     {
         private IVendorRepository _vendorRepository;
-        private IViewManager _viewManager;
+        private IEventAggregator _eventAggregator;
 
-        private VendorViewModel _viewModel;
+        private VendorDetailViewModel _viewModel;
 
         [SetUp]
         public void SetUp()
         {
             _vendorRepository = MockRepository.GenerateMock<IVendorRepository>();
-            _viewManager = MockRepository.GenerateMock<IViewManager>();
-
-            _viewModel = new VendorViewModel(_vendorRepository, _viewManager);
+            _eventAggregator = MockRepository.GenerateMock<IEventAggregator>();
+            
+            _viewModel = new VendorDetailViewModel(_vendorRepository, _eventAggregator);
         }
 
         [Test]
@@ -35,15 +35,12 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
                     x => x.Name == "foo"
                 )));
 
-            _viewManager.Expect(p => p.Close(executingView));
-
             //act
             _viewModel.Name = "foo";
             _viewModel.SaveChangesCommand.Execute(executingView);
 
             //assert
             _vendorRepository.VerifyAllExpectations();
-            _viewManager.VerifyAllExpectations();
         }
     }
 }
