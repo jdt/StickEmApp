@@ -1,17 +1,28 @@
-﻿using System.Windows.Input;
+﻿using System;
+using System.ComponentModel.Composition;
+using System.Linq;
+using System.Windows.Input;
+using Prism.Events;
+using Prism.Regions;
 using StickEmApp.Dal;
 using StickEmApp.Entities;
+using StickEmApp.Windows.Infrastructure;
+using StickEmApp.Windows.Infrastructure.Events;
 
 namespace StickEmApp.Windows.ViewModel
 {
+    [Export(typeof(VendorViewModel))]
     public class VendorViewModel : ViewModelBase
     {
         private readonly IVendorRepository _vendorRepository;
+        private readonly IEventAggregator _eventAggregator;
         private string _name;
 
-        public VendorViewModel(IVendorRepository vendorRepository)
+        [ImportingConstructor]
+        public VendorViewModel(IVendorRepository vendorRepository, IEventAggregator eventAggregator)
         {
             _vendorRepository = vendorRepository;
+            _eventAggregator = eventAggregator;
         }
 
         public string Name
@@ -37,6 +48,8 @@ namespace StickEmApp.Windows.ViewModel
             {
                 _vendorRepository.Save(vendor);
             }
+
+            _eventAggregator.GetEvent<VendorUpdatedEvent>().Publish(vendor.Id);
         }
     }
 }

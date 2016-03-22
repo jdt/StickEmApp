@@ -2,6 +2,7 @@
 using System.Windows.Controls;
 using StickEmApp.Windows.Infrastructure;
 using StickEmApp.Windows.Infrastructure.Behaviors;
+using StickEmApp.Windows.ViewModel;
 
 namespace StickEmApp.Windows.View
 {
@@ -15,6 +16,12 @@ namespace StickEmApp.Windows.View
         public VendorDetailView()
         {
             InitializeComponent();
+        }
+
+        [Import]
+        public VendorViewModel ViewModel
+        {
+            set { DataContext = value; }
         }
     }
 }

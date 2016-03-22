@@ -2,9 +2,11 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Windows.Input;
+using Prism.Events;
 using Prism.Regions;
 using StickEmApp.Dal;
 using StickEmApp.Windows.Infrastructure;
+using StickEmApp.Windows.Infrastructure.Events;
 
 namespace StickEmApp.Windows.ViewModel
 {
@@ -17,11 +19,18 @@ namespace StickEmApp.Windows.ViewModel
         private ObservableCollection<VendorListItemViewModel> _vendorList;
 
         [ImportingConstructor]
-        public VendorListViewModel(IVendorRepository vendorRepository, IRegionManager regionManager)
+        public VendorListViewModel(IVendorRepository vendorRepository, IRegionManager regionManager, IEventAggregator eventAggregator)
         {
             _vendorRepository = vendorRepository;
             _regionManager = regionManager;
 
+            LoadData();
+
+            eventAggregator.GetEvent<VendorUpdatedEvent>().Subscribe(VendorUpdated, ThreadOption.UIThread);
+        }
+
+        private void VendorUpdated(Guid id)
+        {
             LoadData();
         }
         
