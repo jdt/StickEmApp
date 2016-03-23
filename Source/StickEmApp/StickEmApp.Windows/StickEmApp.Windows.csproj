@@ -87,7 +87,7 @@
     <Compile Include="Infrastructure\Events\VendorUpdatedEvent.cs" />
     <Compile Include="StickEmAppBootStrapper.cs" />
     <Compile Include="ViewModel\VendorListViewModel.cs" />
-    <Compile Include="ViewModel\VendorListitem.cs" />
+    <Compile Include="ViewModel\VendorListItem.cs" />
     <Compile Include="ViewModel\VendorDetailViewModel.cs" />
     <Compile Include="Infrastructure\Behaviors\AutoPopulateExportedViewsBehavior.cs" />
     <Compile Include="Infrastructure\Behaviors\IViewRegionRegistration.cs" />

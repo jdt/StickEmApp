@@ -2,9 +2,9 @@
 
 namespace StickEmApp.Windows.ViewModel
 {
-    public class VendorListitem : BindableBase
+    public class VendorListItem : BindableBase
     {
-        public VendorListitem(string name)
+        public VendorListItem(string name)
         {
             Name = name;
         }

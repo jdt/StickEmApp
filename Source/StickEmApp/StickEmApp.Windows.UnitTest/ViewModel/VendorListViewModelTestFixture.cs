@@ -34,8 +34,8 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
             var vendor2 = new Vendor();
             _vendorRepository.Expect(p => p.SelectVendors()).Return(new List<Vendor> {vendor1, vendor2});
 
-            var viewModel1 = new VendorListitem("test1");
-            var viewModel2 = new VendorListitem("test2");
+            var viewModel1 = new VendorListItem("test1");
+            var viewModel2 = new VendorListItem("test2");
             
             //act
             _viewModel = new VendorListViewModel(_vendorRepository, _regionManager, _eventAggregator);

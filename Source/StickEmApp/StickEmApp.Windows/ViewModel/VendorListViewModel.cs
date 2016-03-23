@@ -18,7 +18,7 @@ namespace StickEmApp.Windows.ViewModel
     {
         private readonly IVendorRepository _vendorRepository;
         private readonly IRegionManager _regionManager;
-        private ObservableCollection<VendorListitem> _vendorList;
+        private ObservableCollection<VendorListItem> _vendorList;
 
         [ImportingConstructor]
         public VendorListViewModel(IVendorRepository vendorRepository, IRegionManager regionManager, IEventAggregator eventAggregator)
@@ -36,7 +36,7 @@ namespace StickEmApp.Windows.ViewModel
             LoadData();
         }
         
-        public ObservableCollection<VendorListitem> VendorList
+        public ObservableCollection<VendorListItem> VendorList
         {
             get { return _vendorList; }
             set
@@ -50,10 +50,10 @@ namespace StickEmApp.Windows.ViewModel
         {
             using (new UnitOfWork())
             {
-                var vendorList = new ObservableCollection<VendorListitem>();
+                var vendorList = new ObservableCollection<VendorListItem>();
                 foreach (var vendor in _vendorRepository.SelectVendors())
                 {
-                    vendorList.Add(new VendorListitem(vendor.Name));
+                    vendorList.Add(new VendorListItem(vendor.Name));
                 }
                 VendorList = vendorList;
             }
