@@ -15,6 +15,6 @@
             <TextBox Width="100" Text="{Binding Name}" Grid.Row="0" Grid.Column="1" Name="VendorName" />
         </Grid>
 
-        <Button Content="Save" Command="{Binding SaveChangesCommand}" CommandParameter="{Binding ElementName=VendorViewControl}"></Button>
+        <Button Content="Save" Command="{Binding SaveChangesCommand}"></Button>
     </StackPanel>
 </UserControl>
