@@ -7,7 +7,7 @@ namespace StickEmApp.Dal.Mapping
     {
         public VendorMapping()
         {
-            Id(x => x.Id);
+            Id(x => x.Id).GeneratedBy.Assigned();
             Map(x => x.Name);
         }
     }
