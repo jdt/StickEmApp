@@ -37,18 +37,6 @@ namespace StickEmApp.UnitTest
             Session.Clear();
         }
 
-        private void ExposeConfiguration(Configuration obj)
-        {
-            // delete the existing db on each run
-            if (File.Exists(DatabaseFile))
-                File.Delete(DatabaseFile);
-
-            // this NHibernate tool takes a configuration (with mapping info in)
-            // and exports a database schema from it
-            new SchemaExport(obj)
-              .Create(false, true);
-        }
-
         private string DatabaseFile
         {
             get
