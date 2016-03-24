@@ -7,6 +7,7 @@ using Rhino.Mocks;
 using StickEmApp.Dal;
 using StickEmApp.Entities;
 using StickEmApp.Windows.Builders;
+using StickEmApp.Windows.Infrastructure;
 using StickEmApp.Windows.Infrastructure.Events;
 using StickEmApp.Windows.ViewModel;
 
@@ -56,6 +57,21 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
 
             Assert.That(vendors.Count, Is.EqualTo(1));
             Assert.That(vendors[0], Is.EqualTo(viewModelItem));
+        }
+
+        [Test]
+        public void AddVendorCommandShouldNavigateToVendorDetailView()
+        {
+            _vendorListItemBuilder.Expect(b => b.BuildFrom(null)).Return(new List<VendorListItem>());
+            _viewModel = new VendorListViewModel(_vendorRepository, _vendorListItemBuilder, _regionManager, _eventAggregator);
+
+            _regionManager.Expect(rm => rm.RequestNavigate(RegionNames.EditVendorRegion, new Uri("VendorDetailView", UriKind.Relative)));
+
+            //act
+            _viewModel.AddVendorCommand.Execute(null);
+
+            //assert
+            _regionManager.VerifyAllExpectations();
         }
     }
 }
