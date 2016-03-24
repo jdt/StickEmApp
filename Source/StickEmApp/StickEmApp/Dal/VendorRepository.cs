@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Linq;
 
 namespace StickEmApp.Dal
 {
@@ -18,9 +19,9 @@ namespace StickEmApp.Dal
             UnitOfWorkManager.Session.SaveOrUpdate(obj);
         }
 
-        public IEnumerable<Vendor> SelectVendors()
+        public IReadOnlyCollection<Vendor> SelectVendors()
         {
-            return UnitOfWorkManager.Session.QueryOver<Vendor>().List();
+            return UnitOfWorkManager.Session.QueryOver<Vendor>().List().ToArray();
         }
     }
 }

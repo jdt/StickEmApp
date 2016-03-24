@@ -7,6 +7,7 @@ using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
 using StickEmApp.Dal;
+using StickEmApp.Windows.Builders;
 using StickEmApp.Windows.Infrastructure;
 using StickEmApp.Windows.Infrastructure.Events;
 
@@ -17,13 +18,16 @@ namespace StickEmApp.Windows.ViewModel
     public class VendorListViewModel : BindableBase
     {
         private readonly IVendorRepository _vendorRepository;
+        private readonly IVendorListItemBuilder _listItemBuilder;
         private readonly IRegionManager _regionManager;
+
         private ObservableCollection<VendorListItem> _vendorList;
 
         [ImportingConstructor]
-        public VendorListViewModel(IVendorRepository vendorRepository, IRegionManager regionManager, IEventAggregator eventAggregator)
+        public VendorListViewModel(IVendorRepository vendorRepository, IVendorListItemBuilder listItemBuilder, IRegionManager regionManager, IEventAggregator eventAggregator)
         {
             _vendorRepository = vendorRepository;
+            _listItemBuilder = listItemBuilder;
             _regionManager = regionManager;
 
             LoadData();
@@ -50,12 +54,8 @@ namespace StickEmApp.Windows.ViewModel
         {
             using (new UnitOfWork())
             {
-                var vendorList = new ObservableCollection<VendorListItem>();
-                foreach (var vendor in _vendorRepository.SelectVendors())
-                {
-                    vendorList.Add(new VendorListItem(vendor.Name));
-                }
-                VendorList = vendorList;
+                var items = _listItemBuilder.BuildFrom(_vendorRepository.SelectVendors());
+                VendorList = new ObservableCollection<VendorListItem>(items);
             }
         }
 

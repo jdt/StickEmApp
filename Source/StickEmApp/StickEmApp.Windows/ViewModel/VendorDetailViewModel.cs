@@ -29,7 +29,7 @@ namespace StickEmApp.Windows.ViewModel
             set
             {
                 _name = value;
-                OnPropertyChanged("Name");
+                OnPropertyChanged();
             }
         }
 

@@ -5,6 +5,8 @@ using Prism.Regions;
 using Rhino.Mocks;
 using StickEmApp.Dal;
 using StickEmApp.Entities;
+using StickEmApp.Windows.Builders;
+using StickEmApp.Windows.Infrastructure.Events;
 using StickEmApp.Windows.ViewModel;
 
 namespace StickEmApp.Windows.UnitTest.ViewModel
@@ -13,8 +15,11 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
     public class VendorListViewModelTestFixture : UnitOfWorkAwareTestFixture
     {
         private IVendorRepository _vendorRepository;
+        private IVendorListItemBuilder _vendorListItemBuilder;
         private IRegionManager _regionManager;
         private IEventAggregator _eventAggregator;
+
+        private VendorUpdatedEvent _vendorUpdatedEvent;
 
         private VendorListViewModel _viewModel;
 
@@ -23,29 +28,33 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
         {
             _vendorRepository = MockRepository.GenerateMock<IVendorRepository>();
             _regionManager = MockRepository.GenerateMock<IRegionManager>();
+
+            _vendorListItemBuilder = MockRepository.GenerateMock<IVendorListItemBuilder>();
+
             _eventAggregator = MockRepository.GenerateMock<IEventAggregator>();
+            _vendorUpdatedEvent = MockRepository.GenerateMock<VendorUpdatedEvent>();
+            _eventAggregator.Expect(p => p.GetEvent<VendorUpdatedEvent>()).Return(_vendorUpdatedEvent);
         }
 
         [Test]
         public void VendorListViewModelShouldLoadVendorsInVendorList()
         {
             //arrange
-            var vendor1 = new Vendor();
-            var vendor2 = new Vendor();
-            _vendorRepository.Expect(p => p.SelectVendors()).Return(new List<Vendor> {vendor1, vendor2});
+            var vendorList = new List<Vendor> { new Vendor() };
+            _vendorRepository.Expect(p => p.SelectVendors()).Return(vendorList);
 
-            var viewModel1 = new VendorListItem("test1");
-            var viewModel2 = new VendorListItem("test2");
-            
+            var viewModelItem = new VendorListItem("test1");
+            var viewModelList = new List<VendorListItem> { viewModelItem };
+            _vendorListItemBuilder.Expect(p => p.BuildFrom(vendorList)).Return(viewModelList);
+
             //act
-            _viewModel = new VendorListViewModel(_vendorRepository, _regionManager, _eventAggregator);
+            _viewModel = new VendorListViewModel(_vendorRepository, _vendorListItemBuilder, _regionManager, _eventAggregator);
 
             //assert
             var vendors = _viewModel.VendorList;
 
-            Assert.That(vendors.Count, Is.EqualTo(2));
-            Assert.That(vendors[0], Is.EqualTo(viewModel1));
-            Assert.That(vendors[1], Is.EqualTo(viewModel2));
+            Assert.That(vendors.Count, Is.EqualTo(1));
+            Assert.That(vendors[0], Is.EqualTo(viewModelItem));
         }
     }
 }

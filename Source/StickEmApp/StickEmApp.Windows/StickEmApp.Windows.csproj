@@ -84,6 +84,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Builders\IVendorListItemBuilder.cs" />
+    <Compile Include="Builders\VendorListItemBuilder.cs" />
     <Compile Include="Infrastructure\Events\VendorUpdatedEvent.cs" />
     <Compile Include="StickEmAppBootStrapper.cs" />
     <Compile Include="ViewModel\VendorListViewModel.cs" />
