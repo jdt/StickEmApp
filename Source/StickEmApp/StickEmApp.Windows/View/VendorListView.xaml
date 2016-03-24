@@ -9,7 +9,7 @@
         <DataTemplate x:Key="RowButtons">
             <StackPanel Orientation="Horizontal">
                 <Button Content="Edit"/>
-                <Button Content="Delete"/>
+                <Button Content="Delete" Command="{Binding RelativeSource={RelativeSource AncestorType=ListView}, Path=DataContext.EditVendorCommand }" CommandParameter="{Binding}"/>
             </StackPanel>
         </DataTemplate>
 

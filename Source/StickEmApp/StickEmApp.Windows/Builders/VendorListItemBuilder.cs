@@ -13,7 +13,7 @@ namespace StickEmApp.Windows.Builders
             var result = new List<VendorListItem>();
             foreach (var vendor in vendorList)
             {
-                result.Add(new VendorListItem(vendor.Name));
+                result.Add(new VendorListItem(vendor.Id, vendor.Name));
             }
             return result;
         }

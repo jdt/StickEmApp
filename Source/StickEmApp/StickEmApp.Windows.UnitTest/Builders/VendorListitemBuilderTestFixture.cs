@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using StickEmApp.Entities;
@@ -21,10 +22,13 @@ namespace StickEmApp.Windows.UnitTest.Builders
         public void TestBuild()
         {
             //arrange
+            var id1 = Guid.NewGuid();
+            var id2 = Guid.NewGuid();
+
             var input = new List<Vendor>
             {
-                new Vendor {Name = "foo"}, 
-                new Vendor {Name = "bar"}
+                new Vendor {Id = id1, Name = "foo"}, 
+                new Vendor {Id = id2, Name = "bar"}
             };
 
             //act
@@ -34,9 +38,11 @@ namespace StickEmApp.Windows.UnitTest.Builders
             Assert.That(result.Count, Is.EqualTo(2));
 
             var resultItem = result.ElementAt(0);
+            Assert.That(resultItem.Id, Is.EqualTo(id1));
             Assert.That(resultItem.Name, Is.EqualTo("foo"));
 
             resultItem = result.ElementAt(1);
+            Assert.That(resultItem.Id, Is.EqualTo(id2));
             Assert.That(resultItem.Name, Is.EqualTo("bar"));
         }
     }

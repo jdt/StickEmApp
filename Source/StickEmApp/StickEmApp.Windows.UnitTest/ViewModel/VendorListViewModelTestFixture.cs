@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 using Prism.Events;
 using Prism.Regions;
@@ -43,7 +44,7 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
             var vendorList = new List<Vendor> { new Vendor() };
             _vendorRepository.Expect(p => p.SelectVendors()).Return(vendorList);
 
-            var viewModelItem = new VendorListItem("test1");
+            var viewModelItem = new VendorListItem(Guid.NewGuid(), "test1");
             var viewModelList = new List<VendorListItem> { viewModelItem };
             _vendorListItemBuilder.Expect(p => p.BuildFrom(vendorList)).Return(viewModelList);
 

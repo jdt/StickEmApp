@@ -60,10 +60,15 @@ namespace StickEmApp.Windows.ViewModel
         }
 
         public ICommand AddVendorCommand { get { return new DelegateCommand(AddVendor); } }
+        public ICommand EditVendorCommand { get { return new DelegateCommand<VendorListItem>(EditVendor); } }
 
         private void AddVendor()
         {
             _regionManager.RequestNavigate(RegionNames.EditVendorRegion, new Uri("VendorDetailView", UriKind.Relative));
+        }
+
+        private void EditVendor(VendorListItem item)
+        {
         }
     }
 }
