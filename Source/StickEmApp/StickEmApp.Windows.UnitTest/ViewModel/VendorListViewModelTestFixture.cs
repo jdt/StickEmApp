@@ -60,6 +60,44 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
         }
 
         [Test]
+        public void VendorUpdateEventShouldReloadVendorData()
+        {
+            //arrange
+            var vendorList = new List<Vendor> { new Vendor() };
+            var updatedVendorList = new List<Vendor> { new Vendor() };
+            _vendorRepository.Expect(p => p.SelectVendors()).Return(vendorList);
+            _vendorRepository.Expect(p => p.SelectVendors()).Return(updatedVendorList);
+
+            var viewModelItem = new VendorListItem(Guid.NewGuid(), "test1");
+            var viewModelList = new List<VendorListItem> { viewModelItem };
+            _vendorListItemBuilder.Expect(p => p.BuildFrom(vendorList)).Return(viewModelList);
+
+            var addedViewModelItem = new VendorListItem(Guid.NewGuid(), "test2");
+            var updatedViewModelList = new List<VendorListItem> { viewModelItem, addedViewModelItem };
+            _vendorListItemBuilder.Expect(p => p.BuildFrom(updatedVendorList)).Return(updatedViewModelList);
+
+            Action<Guid> callback = null;
+            _vendorUpdatedEvent.Expect(
+                p =>
+                    p.Subscribe(Arg<Action<Guid>>.Is.Anything, Arg<ThreadOption>.Is.Anything, Arg<bool>.Is.Anything,
+                        Arg<Predicate<Guid>>.Is.Anything))
+                .WhenCalled(cb => callback = (Action<Guid>) cb.Arguments[0])
+                .Return(null);
+
+            _viewModel = new VendorListViewModel(_vendorRepository, _vendorListItemBuilder, _regionManager, _eventAggregator);
+
+            //act
+            callback(Guid.NewGuid());
+
+            //assert
+            var vendors = _viewModel.VendorList;
+
+            Assert.That(vendors.Count, Is.EqualTo(2));
+            Assert.That(vendors[0], Is.EqualTo(viewModelItem));
+            Assert.That(vendors[0], Is.EqualTo(addedViewModelItem));
+        }
+
+        [Test]
         public void AddVendorCommandShouldNavigateToVendorDetailView()
         {
             _vendorListItemBuilder.Expect(b => b.BuildFrom(null)).Return(new List<VendorListItem>());
