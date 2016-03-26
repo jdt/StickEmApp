@@ -65,8 +65,8 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
             //arrange
             var vendorList = new List<Vendor> { new Vendor() };
             var updatedVendorList = new List<Vendor> { new Vendor() };
-            _vendorRepository.Expect(p => p.SelectVendors()).Return(vendorList);
-            _vendorRepository.Expect(p => p.SelectVendors()).Return(updatedVendorList);
+            _vendorRepository.Expect(p => p.SelectVendors()).Return(vendorList).Repeat.Once();
+            _vendorRepository.Expect(p => p.SelectVendors()).Return(updatedVendorList).Repeat.Once();
 
             var viewModelItem = new VendorListItem(Guid.NewGuid(), "test1");
             var viewModelList = new List<VendorListItem> { viewModelItem };
@@ -94,7 +94,7 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
 
             Assert.That(vendors.Count, Is.EqualTo(2));
             Assert.That(vendors[0], Is.EqualTo(viewModelItem));
-            Assert.That(vendors[0], Is.EqualTo(addedViewModelItem));
+            Assert.That(vendors[1], Is.EqualTo(addedViewModelItem));
         }
 
         [Test]
