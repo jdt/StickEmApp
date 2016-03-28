@@ -21,7 +21,7 @@ namespace StickEmApp.Dal
 
         public IReadOnlyCollection<Vendor> SelectVendors()
         {
-            return UnitOfWorkManager.Session.QueryOver<Vendor>().List().ToArray();
+            return UnitOfWorkManager.Session.QueryOver<Vendor>().Where(x => x.Status != VendorStatus.Removed).List().ToArray();
         }
     }
 }

@@ -13,5 +13,10 @@ namespace StickEmApp.Entities
         public virtual Guid Id { get; set; }
         public virtual string Name { get; set; }
         public virtual VendorStatus Status { get; set; }
+
+        public virtual void Remove()
+        {
+            Status = VendorStatus.Removed;
+        }
     }
 }
