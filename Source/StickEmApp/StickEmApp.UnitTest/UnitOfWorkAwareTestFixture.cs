@@ -1,8 +1,6 @@
 ﻿using System.IO;
 using System.Reflection;
 using NHibernate;
-using NHibernate.Cfg;
-using NHibernate.Tool.hbm2ddl;
 using NUnit.Framework;
 using StickEmApp.Dal;
 
