@@ -84,7 +84,6 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
         [Test]
         public void AddVendorCommandShouldNavigateToVendorDetailView()
         {
-            _vendorListItemBuilder.Expect(b => b.BuildFrom(null)).Return(new List<VendorListItem>());
             _regionManager.Expect(rm => rm.RequestNavigate(RegionNames.EditVendorRegion, new Uri("VendorDetailView", UriKind.Relative)));
 
             //act
