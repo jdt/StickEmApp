@@ -51,36 +51,7 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
             Assert.That(vendors.Count, Is.EqualTo(1));
             Assert.That(vendors[0], Is.EqualTo(viewModelItem));
         }
-
-        [Test]
-        public void VendorUpdateEventShouldReloadVendorData()
-        {
-            //arrange
-            var updatedVendorList = new List<Vendor> { new Vendor() };
-            _vendorRepository.Expect(p => p.SelectVendors()).Return(updatedVendorList);
-
-            var addedViewModelItem = new VendorListItem(Guid.NewGuid(), "test2");
-            var updatedViewModelList = new List<VendorListItem> { addedViewModelItem };
-            _vendorListItemBuilder.Expect(p => p.BuildFrom(updatedVendorList)).Return(updatedViewModelList);
-
-            Action<Guid> callback = null;
-            _eventBus.Expect(
-                p =>
-                    p.On<VendorUpdatedEvent, Guid>(Arg<Action<Guid>>.Is.Anything))
-                .WhenCalled(cb => callback = (Action<Guid>) cb.Arguments[0]);
-
-            _viewModel = new VendorListViewModel(_vendorRepository, _vendorListItemBuilder, _regionManager, _eventBus);
-
-            //act
-            callback(Guid.NewGuid());
-
-            //assert
-            var vendors = _viewModel.VendorList;
-
-            Assert.That(vendors.Count, Is.EqualTo(1));
-            Assert.That(vendors[0], Is.EqualTo(addedViewModelItem));
-        }
-
+        
         [Test]
         public void AddVendorCommandShouldNavigateToVendorDetailView()
         {
@@ -113,6 +84,82 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
             //assert
             _regionManager.VerifyAllExpectations();
             _eventBus.VerifyAllExpectations();
+        }
+    }
+
+    [TestFixture]
+    public class VendorListViewModelEventSubscriptionTestFixture : UnitOfWorkAwareTestFixture
+    {
+        private IVendorRepository _vendorRepository;
+        private IVendorListItemBuilder _vendorListItemBuilder;
+        private IRegionManager _regionManager;
+        private IEventBus _eventBus;
+
+        private VendorListViewModel _viewModel;
+        private VendorListItem _updatedViewModelItem;
+
+        [SetUp]
+        public void SetUp()
+        {
+            _vendorRepository = MockRepository.GenerateMock<IVendorRepository>();
+            _vendorListItemBuilder = MockRepository.GenerateMock<IVendorListItemBuilder>();
+            _regionManager = MockRepository.GenerateMock<IRegionManager>();
+            _eventBus = MockRepository.GenerateMock<IEventBus>();
+
+            _viewModel = new VendorListViewModel(_vendorRepository, _vendorListItemBuilder, _regionManager, _eventBus);
+
+            var updatedVendorList = new List<Vendor> { new Vendor() };
+            _vendorRepository.Expect(p => p.SelectVendors()).Return(updatedVendorList);
+
+            _updatedViewModelItem = new VendorListItem(Guid.NewGuid(), "test2");
+            var updatedViewModelList = new List<VendorListItem> { _updatedViewModelItem };
+            _vendorListItemBuilder.Expect(p => p.BuildFrom(updatedVendorList)).Return(updatedViewModelList);
+        }
+        
+        [Test]
+        public void VendorUpdatedEventShouldReloadVendorData()
+        {
+            //arrange
+            Action<Guid> callback = null;
+            _eventBus.Expect(
+                p =>
+                    p.On<VendorUpdatedEvent, Guid>(Arg<Action<Guid>>.Is.Anything))
+                .WhenCalled(cb => callback = (Action<Guid>)cb.Arguments[0]);
+
+            _viewModel = new VendorListViewModel(_vendorRepository, _vendorListItemBuilder, _regionManager, _eventBus);
+
+            //act
+            callback(Guid.NewGuid());
+
+            //assert
+            AssertDataLoaded();
+        }
+
+        [Test]
+        public void VendorRemovedEventShouldReloadVendorData()
+        {
+            //arrange
+            Action<Guid> callback = null;
+            _eventBus.Expect(
+                p =>
+                    p.On<VendorRemovedEvent, Guid>(Arg<Action<Guid>>.Is.Anything))
+                .WhenCalled(cb => callback = (Action<Guid>)cb.Arguments[0]);
+
+            _viewModel = new VendorListViewModel(_vendorRepository, _vendorListItemBuilder, _regionManager, _eventBus);
+
+            //act
+            callback(Guid.NewGuid());
+
+            //assert
+            AssertDataLoaded();
+        }
+
+        private void AssertDataLoaded()
+        {
+            var vendors = _viewModel.VendorList;
+
+            Assert.That(vendors.Count, Is.EqualTo(1));
+            Assert.That(vendors[0], Is.EqualTo(_updatedViewModelItem));
         }
     }
 }

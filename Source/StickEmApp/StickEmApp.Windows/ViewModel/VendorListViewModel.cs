@@ -7,6 +7,7 @@ using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
 using StickEmApp.Dal;
+using StickEmApp.Entities;
 using StickEmApp.Windows.Builders;
 using StickEmApp.Windows.Infrastructure;
 using StickEmApp.Windows.Infrastructure.Events;
@@ -32,10 +33,11 @@ namespace StickEmApp.Windows.ViewModel
             _regionManager = regionManager;
             _eventBus = eventBus;
 
-            _eventBus.On<VendorUpdatedEvent, Guid>(VendorUpdated);
+            _eventBus.On<VendorUpdatedEvent, Guid>(VendorChanged);
+            _eventBus.On<VendorRemovedEvent, Guid>(VendorChanged);
         }
 
-        private void VendorUpdated(Guid id)
+        private void VendorChanged(Guid id)
         {
             LoadData();
         }
@@ -80,15 +82,16 @@ namespace StickEmApp.Windows.ViewModel
 
         private void RemoveVendor(VendorListItem item)
         {
+            Vendor vendorToRemove;
             using (new UnitOfWork())
             {
-                var vendor = _vendorRepository.Get(item.Id);
-                vendor.Remove();
+                vendorToRemove = _vendorRepository.Get(item.Id);
+                vendorToRemove.Remove();
 
-                _vendorRepository.Save(vendor);
-
-                _eventBus.Publish<VendorRemovedEvent, Guid>(vendor.Id);
+                _vendorRepository.Save(vendorToRemove);
             }
+
+            _eventBus.Publish<VendorRemovedEvent, Guid>(vendorToRemove.Id);
         }
 
     }
