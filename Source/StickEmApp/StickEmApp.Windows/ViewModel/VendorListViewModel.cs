@@ -20,19 +20,19 @@ namespace StickEmApp.Windows.ViewModel
         private readonly IVendorRepository _vendorRepository;
         private readonly IVendorListItemBuilder _listItemBuilder;
         private readonly IRegionManager _regionManager;
-        private readonly IEventAggregator _eventAggregator;
+        private readonly IEventBus _eventBus;
 
         private ObservableCollection<VendorListItem> _vendorList;
 
         [ImportingConstructor]
-        public VendorListViewModel(IVendorRepository vendorRepository, IVendorListItemBuilder listItemBuilder, IRegionManager regionManager, IEventAggregator eventAggregator)
+        public VendorListViewModel(IVendorRepository vendorRepository, IVendorListItemBuilder listItemBuilder, IRegionManager regionManager, IEventBus eventBus)
         {
             _vendorRepository = vendorRepository;
             _listItemBuilder = listItemBuilder;
             _regionManager = regionManager;
-            _eventAggregator = eventAggregator;
-            
-            eventAggregator.GetEvent<VendorUpdatedEvent>().Subscribe(VendorUpdated);
+            _eventBus = eventBus;
+
+            _eventBus.On<VendorUpdatedEvent, Guid>(VendorUpdated);
         }
 
         private void VendorUpdated(Guid id)
@@ -87,7 +87,7 @@ namespace StickEmApp.Windows.ViewModel
 
                 _vendorRepository.Save(vendor);
 
-                _eventAggregator.GetEvent<VendorRemovedEvent>().Publish(vendor.Id);
+                _eventBus.Publish<VendorRemovedEvent, Guid>(vendor.Id);
             }
         }
 

@@ -86,6 +86,8 @@
     </ApplicationDefinition>
     <Compile Include="Builders\IVendorListItemBuilder.cs" />
     <Compile Include="Builders\VendorListItemBuilder.cs" />
+    <Compile Include="Infrastructure\Events\EventBus.cs" />
+    <Compile Include="Infrastructure\Events\IEventBus.cs" />
     <Compile Include="Infrastructure\Events\VendorRemovedEvent.cs" />
     <Compile Include="Infrastructure\Events\VendorUpdatedEvent.cs" />
     <Compile Include="StickEmAppBootStrapper.cs" />

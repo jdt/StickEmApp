@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using NUnit.Framework;
-using Prism.Events;
 using Prism.Regions;
 using Rhino.Mocks;
 using StickEmApp.Dal;
@@ -19,9 +18,7 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
         private IVendorRepository _vendorRepository;
         private IVendorListItemBuilder _vendorListItemBuilder;
         private IRegionManager _regionManager;
-        private IEventAggregator _eventAggregator;
-
-        private VendorUpdatedEvent _vendorUpdatedEvent;
+        private IEventBus _eventBus;
 
         private VendorListViewModel _viewModel;
 
@@ -29,15 +26,11 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
         public void SetUp()
         {
             _vendorRepository = MockRepository.GenerateMock<IVendorRepository>();
-            _regionManager = MockRepository.GenerateMock<IRegionManager>();
-
             _vendorListItemBuilder = MockRepository.GenerateMock<IVendorListItemBuilder>();
+            _regionManager = MockRepository.GenerateMock<IRegionManager>();
+            _eventBus = MockRepository.GenerateMock<IEventBus>();
 
-            _eventAggregator = MockRepository.GenerateMock<IEventAggregator>();
-            _vendorUpdatedEvent = MockRepository.GenerateMock<VendorUpdatedEvent>();
-            _eventAggregator.Expect(p => p.GetEvent<VendorUpdatedEvent>()).Return(_vendorUpdatedEvent);
-
-            _viewModel = new VendorListViewModel(_vendorRepository, _vendorListItemBuilder, _regionManager, _eventAggregator);
+            _viewModel = new VendorListViewModel(_vendorRepository, _vendorListItemBuilder, _regionManager, _eventBus);
         }
 
         [Test]
@@ -71,14 +64,12 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
             _vendorListItemBuilder.Expect(p => p.BuildFrom(updatedVendorList)).Return(updatedViewModelList);
 
             Action<Guid> callback = null;
-            _vendorUpdatedEvent.Expect(
+            _eventBus.Expect(
                 p =>
-                    p.Subscribe(Arg<Action<Guid>>.Is.Anything, Arg<ThreadOption>.Is.Anything, Arg<bool>.Is.Anything,
-                        Arg<Predicate<Guid>>.Is.Anything))
-                .WhenCalled(cb => callback = (Action<Guid>) cb.Arguments[0])
-                .Return(null);
+                    p.On<VendorUpdatedEvent, Guid>(Arg<Action<Guid>>.Is.Anything))
+                .WhenCalled(cb => callback = (Action<Guid>) cb.Arguments[0]);
 
-            _viewModel = new VendorListViewModel(_vendorRepository, _vendorListItemBuilder, _regionManager, _eventAggregator);
+            _viewModel = new VendorListViewModel(_vendorRepository, _vendorListItemBuilder, _regionManager, _eventBus);
 
             //act
             callback(Guid.NewGuid());
@@ -94,8 +85,6 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
         public void AddVendorCommandShouldNavigateToVendorDetailView()
         {
             _vendorListItemBuilder.Expect(b => b.BuildFrom(null)).Return(new List<VendorListItem>());
-            _viewModel = new VendorListViewModel(_vendorRepository, _vendorListItemBuilder, _regionManager, _eventAggregator);
-
             _regionManager.Expect(rm => rm.RequestNavigate(RegionNames.EditVendorRegion, new Uri("VendorDetailView", UriKind.Relative)));
 
             //act
@@ -108,33 +97,23 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
         [Test]
         public void RemoveVendorCommandShouldRemoveVendorAndRaiseVendorRemovedEvent()
         {
-            _vendorListItemBuilder.Expect(b => b.BuildFrom(null)).Return(new List<VendorListItem>());
-
-            _viewModel = new VendorListViewModel(_vendorRepository, _vendorListItemBuilder, _regionManager, _eventAggregator);
-
-            var generatedGuid = Guid.NewGuid();
-            
-            var returnedEvent = MockRepository.GenerateMock<VendorRemovedEvent>();
-            returnedEvent.Expect(p => p.Publish(generatedGuid));
-
-            _eventAggregator.Expect(ea => ea.GetEvent<VendorRemovedEvent>()).Return(returnedEvent);
-
+            var removedVendorId = Guid.NewGuid();
             var removedVendor = new Vendor
             {
-                Id = generatedGuid
+                Id = removedVendorId
             };
-
-            var removedItemid = Guid.NewGuid();
-            var removedItem = new VendorListItem(removedItemid, "test");
-            _vendorRepository.Expect(p => p.Get(removedItemid)).Return(removedVendor);
-
+            
+            _vendorRepository.Expect(p => p.Get(removedVendorId)).Return(removedVendor);
+            _eventBus.Expect(ea => ea.Publish<VendorRemovedEvent, Guid>(removedVendorId));
+            
+            var removedItem = new VendorListItem(removedVendorId, "test");
+            
             //act
             _viewModel.RemoveVendorCommand.Execute(removedItem);
 
             //assert
             _regionManager.VerifyAllExpectations();
-            _eventAggregator.VerifyAllExpectations();
-            returnedEvent.VerifyAllExpectations();
+            _eventBus.VerifyAllExpectations();
         }
     }
 }
