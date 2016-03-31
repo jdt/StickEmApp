@@ -31,10 +31,8 @@ namespace StickEmApp.Windows.ViewModel
             _listItemBuilder = listItemBuilder;
             _regionManager = regionManager;
             _eventAggregator = eventAggregator;
-
-            LoadData();
-
-            eventAggregator.GetEvent<VendorUpdatedEvent>().Subscribe(VendorUpdated, ThreadOption.UIThread);
+            
+            eventAggregator.GetEvent<VendorUpdatedEvent>().Subscribe(VendorUpdated);
         }
 
         private void VendorUpdated(Guid id)
@@ -44,7 +42,13 @@ namespace StickEmApp.Windows.ViewModel
         
         public ObservableCollection<VendorListItem> VendorList
         {
-            get { return _vendorList; }
+            get
+            {
+                if(_vendorList == null)
+                    LoadData();
+
+                return _vendorList;
+            }
             set
             {
                 _vendorList = value;

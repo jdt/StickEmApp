@@ -36,6 +36,8 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
             _eventAggregator = MockRepository.GenerateMock<IEventAggregator>();
             _vendorUpdatedEvent = MockRepository.GenerateMock<VendorUpdatedEvent>();
             _eventAggregator.Expect(p => p.GetEvent<VendorUpdatedEvent>()).Return(_vendorUpdatedEvent);
+
+            _viewModel = new VendorListViewModel(_vendorRepository, _vendorListItemBuilder, _regionManager, _eventAggregator);
         }
 
         [Test]
@@ -50,11 +52,9 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
             _vendorListItemBuilder.Expect(p => p.BuildFrom(vendorList)).Return(viewModelList);
 
             //act
-            _viewModel = new VendorListViewModel(_vendorRepository, _vendorListItemBuilder, _regionManager, _eventAggregator);
-
-            //assert
             var vendors = _viewModel.VendorList;
-
+            
+            //assert
             Assert.That(vendors.Count, Is.EqualTo(1));
             Assert.That(vendors[0], Is.EqualTo(viewModelItem));
         }
@@ -63,17 +63,11 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
         public void VendorUpdateEventShouldReloadVendorData()
         {
             //arrange
-            var vendorList = new List<Vendor> { new Vendor() };
             var updatedVendorList = new List<Vendor> { new Vendor() };
-            _vendorRepository.Expect(p => p.SelectVendors()).Return(vendorList).Repeat.Once();
-            _vendorRepository.Expect(p => p.SelectVendors()).Return(updatedVendorList).Repeat.Once();
-
-            var viewModelItem = new VendorListItem(Guid.NewGuid(), "test1");
-            var viewModelList = new List<VendorListItem> { viewModelItem };
-            _vendorListItemBuilder.Expect(p => p.BuildFrom(vendorList)).Return(viewModelList);
+            _vendorRepository.Expect(p => p.SelectVendors()).Return(updatedVendorList);
 
             var addedViewModelItem = new VendorListItem(Guid.NewGuid(), "test2");
-            var updatedViewModelList = new List<VendorListItem> { viewModelItem, addedViewModelItem };
+            var updatedViewModelList = new List<VendorListItem> { addedViewModelItem };
             _vendorListItemBuilder.Expect(p => p.BuildFrom(updatedVendorList)).Return(updatedViewModelList);
 
             Action<Guid> callback = null;
@@ -92,9 +86,8 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
             //assert
             var vendors = _viewModel.VendorList;
 
-            Assert.That(vendors.Count, Is.EqualTo(2));
-            Assert.That(vendors[0], Is.EqualTo(viewModelItem));
-            Assert.That(vendors[1], Is.EqualTo(addedViewModelItem));
+            Assert.That(vendors.Count, Is.EqualTo(1));
+            Assert.That(vendors[0], Is.EqualTo(addedViewModelItem));
         }
 
         [Test]
