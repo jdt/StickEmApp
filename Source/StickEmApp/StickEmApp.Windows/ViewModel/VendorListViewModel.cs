@@ -20,6 +20,7 @@ namespace StickEmApp.Windows.ViewModel
         private readonly IVendorRepository _vendorRepository;
         private readonly IVendorListItemBuilder _listItemBuilder;
         private readonly IRegionManager _regionManager;
+        private readonly IEventAggregator _eventAggregator;
 
         private ObservableCollection<VendorListItem> _vendorList;
 
@@ -29,6 +30,7 @@ namespace StickEmApp.Windows.ViewModel
             _vendorRepository = vendorRepository;
             _listItemBuilder = listItemBuilder;
             _regionManager = regionManager;
+            _eventAggregator = eventAggregator;
 
             LoadData();
 
@@ -61,6 +63,7 @@ namespace StickEmApp.Windows.ViewModel
 
         public ICommand AddVendorCommand { get { return new DelegateCommand(AddVendor); } }
         public ICommand EditVendorCommand { get { return new DelegateCommand<VendorListItem>(EditVendor); } }
+        public ICommand RemoveVendorCommand { get { return new DelegateCommand<VendorListItem>(RemoveVendor); } }
 
         private void AddVendor()
         {
@@ -70,5 +73,19 @@ namespace StickEmApp.Windows.ViewModel
         private void EditVendor(VendorListItem item)
         {
         }
+
+        private void RemoveVendor(VendorListItem item)
+        {
+            using (new UnitOfWork())
+            {
+                var vendor = _vendorRepository.Get(item.Id);
+                vendor.Remove();
+
+                _vendorRepository.Save(vendor);
+
+                _eventAggregator.GetEvent<VendorRemovedEvent>().Publish(vendor.Id);
+            }
+        }
+
     }
 }

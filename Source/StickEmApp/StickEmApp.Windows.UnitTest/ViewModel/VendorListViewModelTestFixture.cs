@@ -111,5 +111,37 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
             //assert
             _regionManager.VerifyAllExpectations();
         }
+
+        [Test]
+        public void RemoveVendorCommandShouldRemoveVendorAndRaiseVendorRemovedEvent()
+        {
+            _vendorListItemBuilder.Expect(b => b.BuildFrom(null)).Return(new List<VendorListItem>());
+
+            _viewModel = new VendorListViewModel(_vendorRepository, _vendorListItemBuilder, _regionManager, _eventAggregator);
+
+            var generatedGuid = Guid.NewGuid();
+            
+            var returnedEvent = MockRepository.GenerateMock<VendorRemovedEvent>();
+            returnedEvent.Expect(p => p.Publish(generatedGuid));
+
+            _eventAggregator.Expect(ea => ea.GetEvent<VendorRemovedEvent>()).Return(returnedEvent);
+
+            var removedVendor = new Vendor
+            {
+                Id = generatedGuid
+            };
+
+            var removedItemid = Guid.NewGuid();
+            var removedItem = new VendorListItem(removedItemid, "test");
+            _vendorRepository.Expect(p => p.Get(removedItemid)).Return(removedVendor);
+
+            //act
+            _viewModel.RemoveVendorCommand.Execute(removedItem);
+
+            //assert
+            _regionManager.VerifyAllExpectations();
+            _eventAggregator.VerifyAllExpectations();
+            returnedEvent.VerifyAllExpectations();
+        }
     }
 }
