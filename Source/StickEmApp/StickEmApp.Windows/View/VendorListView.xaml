@@ -8,7 +8,7 @@
     <UserControl.Resources>
         <DataTemplate x:Key="RowButtons">
             <StackPanel Orientation="Horizontal">
-                <Button Content="Edit"/>
+                <Button Content="Edit" Command="{Binding RelativeSource={RelativeSource AncestorType=ListView}, Path=DataContext.EditVendorCommand }" CommandParameter="{Binding}"/>
                 <Button Content="Delete" Command="{Binding RelativeSource={RelativeSource AncestorType=ListView}, Path=DataContext.RemoveVendorCommand }" CommandParameter="{Binding}"/>
             </StackPanel>
         </DataTemplate>
