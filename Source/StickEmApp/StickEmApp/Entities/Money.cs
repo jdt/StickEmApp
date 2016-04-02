@@ -17,6 +17,16 @@
             }
         }
 
+        public static Money operator *(int a, Money b)
+        {
+            return new Money(b._amount * a);
+        }
+
+        public static Money operator -(Money a, Money b)
+        {
+            return new Money(a._amount - b._amount);
+        }
+
         public override bool Equals(object obj)
         {
             if (obj == null)
