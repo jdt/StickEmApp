@@ -22,7 +22,7 @@ namespace StickEmApp.Entities
         public virtual int NumberOfStickersReceived { get; set; }
         public virtual int NumberOfStickersReturned { get; set; }
         public virtual Money ChangeReceived { get; set; }
-        public virtual AmountReturned AmountReturned { get; protected set; }
+        public virtual AmountReturned AmountReturned { get; set; }
         
         public virtual VendorStatus Status { get; set; }
 
