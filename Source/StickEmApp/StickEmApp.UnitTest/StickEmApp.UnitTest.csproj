@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Dal\Mapping\VendorMappingTestFixture.cs" />
+    <Compile Include="Entities\AmountReturnedTestFixture.cs" />
     <Compile Include="Entities\MoneyTestFixture.cs" />
     <Compile Include="Entities\VendorTestFixture.cs" />
     <Compile Include="UnitOfWorkAwareTestFixture.cs" />
