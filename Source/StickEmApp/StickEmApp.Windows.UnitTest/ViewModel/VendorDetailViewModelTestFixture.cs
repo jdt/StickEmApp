@@ -31,10 +31,13 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
         {
             //arrange
             var generatedGuid = Guid.NewGuid();
+            Vendor savedVendor = null;
 
-            _vendorRepository.Expect(p => p.Save(Arg<Vendor>.Matches(
-                x => x.Name == "foo"
-                ))).WhenCalled(m => (m.Arguments[0] as Vendor).Id = generatedGuid);
+            _vendorRepository.Expect(p => p.Save(Arg<Vendor>.Is.Anything)).WhenCalled(m =>
+            {
+                savedVendor = (m.Arguments[0] as Vendor); 
+                savedVendor.Id = generatedGuid;
+            });
 
             var returnedEvent = MockRepository.GenerateMock<VendorUpdatedEvent>();
             returnedEvent.Expect(p => p.Publish(generatedGuid));
@@ -43,9 +46,48 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
 
             //act
             _viewModel.Name = "foo";
+            _viewModel.ChangeReceived = new Money(55);
+            _viewModel.NumberOfStickersReceived = 15;
+            _viewModel.NumberOfStickersReturned = 10;
+            _viewModel.FiveHundreds = 500;
+            _viewModel.TwoHundreds = 200;
+            _viewModel.Hundreds = 100;
+            _viewModel.Fifties = 50;
+            _viewModel.Twenties = 20;
+            _viewModel.Tens = 10;
+            _viewModel.Fives = 5;
+            _viewModel.Twos = 2;
+            _viewModel.Ones = 1;
+            _viewModel.FiftyCents = 5010;
+            _viewModel.TwentyCents = 2010;
+            _viewModel.TenCents = 1010;
+            _viewModel.FiveCents = 510;
+            _viewModel.TwoCents = 210;
+            _viewModel.OneCents = 110;
+
             _viewModel.SaveChangesCommand.Execute(null);
 
             //assert
+            Assert.That(savedVendor.Name, Is.EqualTo("foo"));
+            Assert.That(savedVendor.ChangeReceived, Is.EqualTo(new Money(55)));
+            Assert.That(savedVendor.NumberOfStickersReceived, Is.EqualTo(15));
+            Assert.That(savedVendor.NumberOfStickersReturned, Is.EqualTo(10));
+            Assert.That(savedVendor.AmountReturned.FiveHundreds, Is.EqualTo(500));
+            Assert.That(savedVendor.AmountReturned.TwoHundreds, Is.EqualTo(200));
+            Assert.That(savedVendor.AmountReturned.Hundreds, Is.EqualTo(100));
+            Assert.That(savedVendor.AmountReturned.Fifties, Is.EqualTo(50));
+            Assert.That(savedVendor.AmountReturned.Twenties, Is.EqualTo(20));
+            Assert.That(savedVendor.AmountReturned.Tens, Is.EqualTo(10));
+            Assert.That(savedVendor.AmountReturned.Fives, Is.EqualTo(5));
+            Assert.That(savedVendor.AmountReturned.Twos, Is.EqualTo(2));
+            Assert.That(savedVendor.AmountReturned.Ones, Is.EqualTo(1));
+            Assert.That(savedVendor.AmountReturned.FiftyCents, Is.EqualTo(5010));
+            Assert.That(savedVendor.AmountReturned.TwentyCents, Is.EqualTo(2010));
+            Assert.That(savedVendor.AmountReturned.TenCents, Is.EqualTo(1010));
+            Assert.That(savedVendor.AmountReturned.FiveCents, Is.EqualTo(510));
+            Assert.That(savedVendor.AmountReturned.TwoCents, Is.EqualTo(210));
+            Assert.That(savedVendor.AmountReturned.OneCents, Is.EqualTo(110));
+
             _vendorRepository.VerifyAllExpectations();
             _eventAggregator.VerifyAllExpectations();
             returnedEvent.VerifyAllExpectations();

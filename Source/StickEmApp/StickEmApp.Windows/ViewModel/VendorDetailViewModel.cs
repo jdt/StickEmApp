@@ -73,6 +73,24 @@ namespace StickEmApp.Windows.ViewModel
         private void SaveChanges()
         {
             Vendor.Name = Name;
+            Vendor.NumberOfStickersReceived = NumberOfStickersReceived;
+            Vendor.NumberOfStickersReturned = NumberOfStickersReturned;
+            Vendor.ChangeReceived = ChangeReceived;
+            Vendor.AmountReturned.FiveHundreds = FiveHundreds;
+            Vendor.AmountReturned.TwoHundreds = TwoHundreds;
+            Vendor.AmountReturned.Hundreds = Hundreds;
+            Vendor.AmountReturned.Fifties = Fifties;
+            Vendor.AmountReturned.Twenties = Twenties;
+            Vendor.AmountReturned.Tens = Tens;
+            Vendor.AmountReturned.Fives = Fives;
+            Vendor.AmountReturned.Twos = Twos;
+            Vendor.AmountReturned.Ones = Ones;
+            Vendor.AmountReturned.FiftyCents = FiftyCents;
+            Vendor.AmountReturned.TwentyCents = TwentyCents;
+            Vendor.AmountReturned.TenCents = TenCents;
+            Vendor.AmountReturned.FiveCents = FiveCents;
+            Vendor.AmountReturned.TwoCents = TwoCents;
+            Vendor.AmountReturned.OneCents = OneCents;
 
             using (new UnitOfWork())
             {
