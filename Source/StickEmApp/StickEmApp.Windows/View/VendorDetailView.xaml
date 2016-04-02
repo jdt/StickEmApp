@@ -6,13 +6,89 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <Label Content="Name" Grid.Row ="0" Grid.Column="0"/>
-            <TextBox Width="100" Text="{Binding Name}" Grid.Row="0" Grid.Column="1" Name="VendorName" />
+            <Label Grid.Row ="0" Grid.Column="0" Content="Name" />
+            <TextBox Grid.Row="0" Grid.Column="1" Width="100" Text="{Binding Name}" Name="VendorName" />
+
+            <Label Grid.Row="1" Grid.Column="0" Content="Stickers received"/>
+            <TextBox Grid.Row="1" Grid.Column="1"  Width="100" Text="{Binding NumberOfStickersReceived}" />
+
+            <Label Grid.Row="2" Grid.Column="0" Content="Stickers returned"/>
+            <TextBox Grid.Row="2" Grid.Column="1"  Width="100" Text="{Binding NumberOfStickersReturned}" />
+
+            <Label Grid.Row="3" Grid.Column="0" Content="Change received"/>
+            <TextBox Grid.Row="3" Grid.Column="1"  Width="100" Text="{Binding ChangeReceived}" />
+
+            <Label Grid.Row="4" Grid.Column="0" Content="Total amount returned"/>
+            <TextBox Grid.Row="4" Grid.Column="1"  Width="100" Text="{Binding TotalAmountReturned}" />
+
+            <Label Grid.Row="5" Grid.Column="0" Content="Total amount required"/>
+            <TextBox Grid.Row="5" Grid.Column="1"  Width="100" Text="{Binding TotalAmountRequired}" />
+
+            <Label Grid.Row="6" Grid.Column="0" Content="Difference"/>
+            <TextBox Grid.Row="6" Grid.Column="1"  Width="100" Text="{Binding TotalDifference}" />
+
+            <Label Grid.Row="0" Grid.Column="2" Content="Amount returned"/>
+
+            <Label Grid.Row ="0" Grid.Column="3" Content="500" />
+            <TextBox Grid.Row="0" Grid.Column="4" Width="100" Text="{Binding FiveHundreds}" />
+
+            <Label Grid.Row ="1" Grid.Column="3" Content="200" />
+            <TextBox Grid.Row="1" Grid.Column="4" Width="100" Text="{Binding TwoHundreds}" />
+
+            <Label Grid.Row ="2" Grid.Column="3" Content="100" />
+            <TextBox Grid.Row="2" Grid.Column="4" Width="100" Text="{Binding Hundreds}" />
+
+            <Label Grid.Row ="3" Grid.Column="3" Content="50" />
+            <TextBox Grid.Row="3" Grid.Column="4" Width="100" Text="{Binding Fifties}" />
+
+            <Label Grid.Row ="4" Grid.Column="3" Content="20" />
+            <TextBox Grid.Row="4" Grid.Column="4" Width="100" Text="{Binding Twenties}" />
+
+            <Label Grid.Row ="5" Grid.Column="3" Content="10" />
+            <TextBox Grid.Row="5" Grid.Column="4" Width="100" Text="{Binding Tens}" />
+
+            <Label Grid.Row ="6" Grid.Column="3" Content="5" />
+            <TextBox Grid.Row="6" Grid.Column="4" Width="100" Text="{Binding Fives}" />
+
+            <Label Grid.Row ="0" Grid.Column="5" Content="2" />
+            <TextBox Grid.Row="0" Grid.Column="6" Width="100" Text="{Binding Twos}" />
+
+            <Label Grid.Row ="1" Grid.Column="5" Content="1" />
+            <TextBox Grid.Row="1" Grid.Column="6" Width="100" Text="{Binding Ones}" />
+
+            <Label Grid.Row ="2" Grid.Column="5" Content="0.50" />
+            <TextBox Grid.Row="2" Grid.Column="6" Width="100" Text="{Binding FiftyCents}" />
+
+            <Label Grid.Row ="3" Grid.Column="5" Content="0.20" />
+            <TextBox Grid.Row="3" Grid.Column="6" Width="100" Text="{Binding TwentyCents}" />
+
+            <Label Grid.Row ="4" Grid.Column="5" Content="0.10" />
+            <TextBox Grid.Row="4" Grid.Column="6" Width="100" Text="{Binding TenCents}" />
+
+            <Label Grid.Row ="5" Grid.Column="5" Content="0.05" />
+            <TextBox Grid.Row="5" Grid.Column="6" Width="100" Text="{Binding FiveCents}" />
+
+            <Label Grid.Row ="6" Grid.Column="5" Content="0.02" />
+            <TextBox Grid.Row="6" Grid.Column="6" Width="100" Text="{Binding TwoCents}" />
+
+            <Label Grid.Row ="7" Grid.Column="5" Content="0.01" />
+            <TextBox Grid.Row="7" Grid.Column="6" Width="100" Text="{Binding OneCents}" />
         </Grid>
 
         <Button Content="Save" Command="{Binding SaveChangesCommand}"></Button>
