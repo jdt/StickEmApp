@@ -40,5 +40,15 @@ namespace StickEmApp.UnitTest.Entities
             var result = new Money(a) - new Money(b);
             Assert.That(result, Is.EqualTo(new Money(expected)));
         }
+
+        [TestCase(0, 0, 0)]
+        [TestCase(0, 5, 5)]
+        [TestCase(5, 5, 10)]
+        [TestCase(5.5, 5, 10.5)]
+        public void TestAddition(decimal a, decimal b, decimal expected)
+        {
+            var result = new Money(a) + new Money(b);
+            Assert.That(result, Is.EqualTo(new Money(expected)));
+        }
     }
 }

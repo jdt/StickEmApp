@@ -27,6 +27,11 @@
             return new Money(a._amount - b._amount);
         }
 
+        public static Money operator +(Money a, Money b)
+        {
+            return new Money(a._amount + b._amount);
+        }
+
         public override bool Equals(object obj)
         {
             if (obj == null)
