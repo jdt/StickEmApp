@@ -85,6 +85,20 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
             _regionManager.VerifyAllExpectations();
             _eventBus.VerifyAllExpectations();
         }
+
+        [Test]
+        public void EditVendorCommandShouldNavigateToVendorDetailViewWithVendorToEdit()
+        {
+            //arrange
+            var vendorListItem = new VendorListItem(new Guid("511e2f63-1878-44db-866d-ba38e6f08d56"), "foo");
+            _regionManager.Expect(rm => rm.RequestNavigate(RegionNames.EditVendorRegion, new Uri("VendorDetailView?vendorId=511e2f63-1878-44db-866d-ba38e6f08d56", UriKind.Relative)));
+
+            //act
+            _viewModel.EditVendorCommand.Execute(vendorListItem);
+
+            //assert
+            _regionManager.VerifyAllExpectations();
+        }
     }
 
     [TestFixture]

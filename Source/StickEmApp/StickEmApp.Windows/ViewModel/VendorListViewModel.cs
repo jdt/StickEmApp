@@ -3,7 +3,6 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Windows.Input;
 using Prism.Commands;
-using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
 using StickEmApp.Dal;
@@ -78,6 +77,7 @@ namespace StickEmApp.Windows.ViewModel
 
         private void EditVendor(VendorListItem item)
         {
+            _regionManager.RequestNavigate(RegionNames.EditVendorRegion, new Uri(string.Format("VendorDetailView?vendorId={0}", item.Id), UriKind.Relative));
         }
 
         private void RemoveVendor(VendorListItem item)
