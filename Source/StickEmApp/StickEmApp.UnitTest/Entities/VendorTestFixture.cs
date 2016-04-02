@@ -21,5 +21,56 @@ namespace StickEmApp.UnitTest.Entities
 
             Assert.That(vendor.CalculateTotalAmountRequired(), Is.EqualTo(new Money(total)));
         }
+
+        [Test]
+        public void CalculateSalesResultShouldReturnExactIfRequiredAmountEqualsReturnedAmount()
+        {
+            var vendor = new Vendor
+            {
+                NumberOfStickersReceived = 5,
+                AmountReturned = new AmountReturned
+                {
+                    Fives = 5
+                }
+            };
+
+            var result = vendor.CalculateSalesResult();
+            Assert.That(result.Status, Is.EqualTo(ResultType.Exact));
+            Assert.That(result.Difference, Is.EqualTo(new Money(0)));
+        }
+
+        [Test]
+        public void CalculateSalesResultShouldReturnShortageIfRequiredAmountIsMoreThanReturnedAmount()
+        {
+            var vendor = new Vendor
+            {
+                NumberOfStickersReceived = 5,
+                AmountReturned = new AmountReturned
+                {
+                    Fives = 4
+                }
+            };
+
+            var result = vendor.CalculateSalesResult();
+            Assert.That(result.Status, Is.EqualTo(ResultType.Shortage));
+            Assert.That(result.Difference, Is.EqualTo(new Money(5)));
+        }
+
+        [Test]
+        public void CalculateSalesResultShouldReturnSurplusIfRequiredAmountIsLessThanReturnedAmount()
+        {
+            var vendor = new Vendor
+            {
+                NumberOfStickersReceived = 5,
+                AmountReturned = new AmountReturned
+                {
+                    Fives = 6
+                }
+            };
+
+            var result = vendor.CalculateSalesResult();
+            Assert.That(result.Status, Is.EqualTo(ResultType.Surplus));
+            Assert.That(result.Difference, Is.EqualTo(new Money(5)));
+        }
     }
 }

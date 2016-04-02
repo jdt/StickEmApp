@@ -37,5 +37,27 @@ namespace StickEmApp.Entities
         {
             return (NumberOfStickersReceived * StickerPrice) - (NumberOfStickersReturned * StickerPrice);
         }
+
+        public virtual SalesResult CalculateSalesResult()
+        {
+            var result = new SalesResult();
+
+            var difference = AmountReturned.CalculateTotal() - CalculateTotalAmountRequired();
+            if (difference > 0)
+            {
+                result.Status = ResultType.Surplus;
+            }
+            else if (difference < 0)
+            {
+                result.Status = ResultType.Shortage;
+            }
+            else
+            {
+                result.Status = ResultType.Exact;
+            }
+
+            result.Difference = difference.ToAbsolute();
+            return result;
+        }
     }
 }

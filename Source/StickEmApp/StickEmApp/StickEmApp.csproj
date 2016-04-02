@@ -66,6 +66,8 @@
     <Compile Include="Dal\VendorRepository.cs" />
     <Compile Include="Entities\AmountReturned.cs" />
     <Compile Include="Entities\Money.cs" />
+    <Compile Include="Entities\ResultType.cs" />
+    <Compile Include="Entities\SalesResult.cs" />
     <Compile Include="Entities\Vendor.cs" />
     <Compile Include="Entities\VendorStatus.cs" />
     <Compile Include="IUnitOfWork.cs" />
