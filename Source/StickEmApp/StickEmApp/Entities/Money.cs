@@ -1,4 +1,6 @@
-﻿namespace StickEmApp.Entities
+﻿using System;
+
+namespace StickEmApp.Entities
 {
     public class Money
     {
@@ -15,6 +17,11 @@
             {
                 return _amount;
             }
+        }
+
+        public Money ToAbsolute()
+        {
+            return new Money(Math.Abs(_amount));
         }
 
         public static Money operator *(int a, Money b)

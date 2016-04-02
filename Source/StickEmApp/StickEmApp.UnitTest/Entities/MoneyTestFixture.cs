@@ -68,5 +68,13 @@ namespace StickEmApp.UnitTest.Entities
             var greater = new Money(amount) > compare;
             Assert.That(greater, Is.EqualTo(expected));
         }
+
+        [TestCase(0, 0)]
+        [TestCase(-1, 1)]
+        [TestCase(1, 1)]
+        public void TestToAbsolute(decimal input, decimal expected)
+        {
+            Assert.That(new Money(input).ToAbsolute(), Is.EqualTo(new Money(expected)));
+        }
     }
 }
