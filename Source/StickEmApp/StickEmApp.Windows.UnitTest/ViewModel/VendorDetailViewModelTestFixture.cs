@@ -1,6 +1,7 @@
 ﻿using System;
 using NUnit.Framework;
 using Prism.Events;
+using Prism.Regions;
 using Rhino.Mocks;
 using StickEmApp.Dal;
 using StickEmApp.Entities;
@@ -26,7 +27,7 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
         }
 
         [Test]
-        public void SaveChangesShouldCreateVendorAndRaiseVendorUpdatedEvent()
+        public void SaveChangesShouldSaveVendorAndRaiseVendorUpdatedEvent()
         {
             //arrange
             var generatedGuid = Guid.NewGuid();
@@ -48,6 +49,28 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
             _vendorRepository.VerifyAllExpectations();
             _eventAggregator.VerifyAllExpectations();
             returnedEvent.VerifyAllExpectations();
+        }
+
+        [Test]
+        public void NavigatingToViewWithVendorIdShouldDisplayVendor()
+        {
+            //arrange
+            var vendorGuid = Guid.NewGuid();
+
+            var context = new NavigationContext(null, null);
+            context.Parameters.Add("vendorId", vendorGuid);
+
+            var vendorToDisplay = new Vendor
+            {
+                Name = "foo"
+            };
+            _vendorRepository.Expect(repo => repo.Get(vendorGuid)).Return(vendorToDisplay);
+
+            //act
+            _viewModel.OnNavigatedTo(context);
+
+            //assert
+            Assert.That(_viewModel.Name, Is.EqualTo("foo"));
         }
     }
 }
