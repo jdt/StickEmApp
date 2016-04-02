@@ -1,17 +1,15 @@
 ﻿using System;
-using System.Windows;
 using NUnit.Framework;
 using Prism.Events;
 using Rhino.Mocks;
 using StickEmApp.Dal;
 using StickEmApp.Entities;
 using StickEmApp.Windows.Infrastructure.Events;
-using StickEmApp.Windows.ViewModel;
 
 namespace StickEmApp.Windows.UnitTest.ViewModel
 {
     [TestFixture]
-    public class VendorDetailViewModel : UnitOfWorkAwareTestFixture
+    public class VendorDetailViewModelTestFixture : UnitOfWorkAwareTestFixture
     {
         private IVendorRepository _vendorRepository;
         private IEventAggregator _eventAggregator;
