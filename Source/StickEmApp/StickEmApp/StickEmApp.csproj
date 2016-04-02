@@ -62,7 +62,10 @@
     <Compile Include="Dal\IVendorRepository.cs" />
     <Compile Include="Dal\Mapping\VendorMapping.cs" />
     <Compile Include="Dal\UnitOfWorkManager.cs" />
+    <Compile Include="Dal\UserTypes\MoneyUserType.cs" />
     <Compile Include="Dal\VendorRepository.cs" />
+    <Compile Include="Entities\AmountReturned.cs" />
+    <Compile Include="Entities\Money.cs" />
     <Compile Include="Entities\Vendor.cs" />
     <Compile Include="Entities\VendorStatus.cs" />
     <Compile Include="IUnitOfWork.cs" />
