@@ -4,6 +4,8 @@ namespace StickEmApp.Entities
 {
     public class Vendor
     {
+        public static readonly Money StickerPrice = new Money(5);
+
         public Vendor()
         {
             Id = Guid.NewGuid();
@@ -29,6 +31,11 @@ namespace StickEmApp.Entities
         public virtual void Remove()
         {
             Status = VendorStatus.Removed;
+        }
+
+        public virtual Money CalculateTotalAmountRequired()
+        {
+            return (NumberOfStickersReceived * StickerPrice) - (NumberOfStickersReturned * StickerPrice);
         }
     }
 }
