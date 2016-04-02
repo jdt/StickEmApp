@@ -32,6 +32,16 @@
             return new Money(a._amount + b._amount);
         }
 
+        public static bool operator <(Money a, int b)
+        {
+            return a._amount < b;
+        }
+
+        public static bool operator >(Money a, int b)
+        {
+            return a._amount > b;
+        }
+
         public override bool Equals(object obj)
         {
             if (obj == null)

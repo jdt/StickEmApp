@@ -50,5 +50,23 @@ namespace StickEmApp.UnitTest.Entities
             var result = new Money(a) + new Money(b);
             Assert.That(result, Is.EqualTo(new Money(expected)));
         }
+
+        [TestCase(0, 0, false)]
+        [TestCase(1, 0, false)]
+        [TestCase(0, 1, true)]
+        public void TestLessThanOperator(decimal amount, int compare, bool expected)
+        {
+            var less = new Money(amount) < compare;
+            Assert.That(less, Is.EqualTo(expected));
+        }
+
+        [TestCase(0, 0, false)]
+        [TestCase(1, 0, true)]
+        [TestCase(0, 1, false)]
+        public void TestGreaterThanOperator(decimal amount, int compare, bool expected)
+        {
+            var greater = new Money(amount) > compare;
+            Assert.That(greater, Is.EqualTo(expected));
+        }
     }
 }
