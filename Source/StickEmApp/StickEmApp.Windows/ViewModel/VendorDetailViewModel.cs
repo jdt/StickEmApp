@@ -21,7 +21,7 @@ namespace StickEmApp.Windows.ViewModel
         private string _name;
         private int _numberOfStickersReceived;
         private int _numberOfStickersReturned;
-        private Money _changeReceived;
+        private decimal _changeReceived;
         private int  _fiveHundreds;
         private int  _twoHundreds;
         private int  _hundreds;
@@ -52,7 +52,7 @@ namespace StickEmApp.Windows.ViewModel
         public string Name { get { return _name; } set { _name = value; OnPropertyChanged(); } }
         public int NumberOfStickersReceived { get { return _numberOfStickersReceived; } set { _numberOfStickersReceived = value; OnPropertyChanged(); } }
         public int NumberOfStickersReturned { get { return _numberOfStickersReturned; } set { _numberOfStickersReturned = value; OnPropertyChanged(); } }
-        public Money ChangeReceived { get { return _changeReceived; } set { _changeReceived = value; OnPropertyChanged(); } }
+        public decimal ChangeReceived { get { return _changeReceived; } set { _changeReceived = value; OnPropertyChanged(); } }
         public int FiveHundreds { get { return _fiveHundreds; } set { _fiveHundreds = value; OnPropertyChanged(); } }
         public int TwoHundreds { get { return _twoHundreds; } set { _twoHundreds = value; OnPropertyChanged(); } }
         public int Hundreds { get { return _hundreds; } set { _hundreds = value; OnPropertyChanged(); } }
@@ -75,7 +75,7 @@ namespace StickEmApp.Windows.ViewModel
             Vendor.Name = Name;
             Vendor.NumberOfStickersReceived = NumberOfStickersReceived;
             Vendor.NumberOfStickersReturned = NumberOfStickersReturned;
-            Vendor.ChangeReceived = ChangeReceived;
+            Vendor.ChangeReceived = new Money(ChangeReceived);
             Vendor.AmountReturned.FiveHundreds = FiveHundreds;
             Vendor.AmountReturned.TwoHundreds = TwoHundreds;
             Vendor.AmountReturned.Hundreds = Hundreds;
@@ -117,7 +117,7 @@ namespace StickEmApp.Windows.ViewModel
             Name = Vendor.Name;
             NumberOfStickersReceived = Vendor.NumberOfStickersReceived;
             NumberOfStickersReturned = Vendor.NumberOfStickersReturned;
-            ChangeReceived = Vendor.ChangeReceived;
+            ChangeReceived = Vendor.ChangeReceived.Value;
             FiveHundreds = Vendor.AmountReturned.FiveHundreds;
             TwoHundreds = Vendor.AmountReturned.TwoHundreds;
             Hundreds = Vendor.AmountReturned.Hundreds;

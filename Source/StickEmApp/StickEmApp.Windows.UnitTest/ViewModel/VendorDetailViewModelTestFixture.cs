@@ -46,7 +46,7 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
 
             //act
             _viewModel.Name = "foo";
-            _viewModel.ChangeReceived = new Money(55);
+            _viewModel.ChangeReceived = 55.75m;
             _viewModel.NumberOfStickersReceived = 15;
             _viewModel.NumberOfStickersReturned = 10;
             _viewModel.FiveHundreds = 500;
@@ -69,7 +69,7 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
 
             //assert
             Assert.That(savedVendor.Name, Is.EqualTo("foo"));
-            Assert.That(savedVendor.ChangeReceived, Is.EqualTo(new Money(55)));
+            Assert.That(savedVendor.ChangeReceived, Is.EqualTo(new Money(55.75m)));
             Assert.That(savedVendor.NumberOfStickersReceived, Is.EqualTo(15));
             Assert.That(savedVendor.NumberOfStickersReturned, Is.EqualTo(10));
             Assert.That(savedVendor.AmountReturned.FiveHundreds, Is.EqualTo(500));
@@ -105,7 +105,7 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
             var vendorToDisplay = new Vendor
             {
                 Name = "foo",
-                ChangeReceived = new Money(55),
+                ChangeReceived = new Money(55.75m),
                 NumberOfStickersReceived = 15,
                 NumberOfStickersReturned = 10,
                 AmountReturned = new AmountReturned
@@ -134,7 +134,7 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
 
             //assert
             Assert.That(_viewModel.Name, Is.EqualTo("foo"));
-            Assert.That(_viewModel.ChangeReceived, Is.EqualTo(new Money(55)));
+            Assert.That(_viewModel.ChangeReceived, Is.EqualTo(55.75m));
             Assert.That(_viewModel.NumberOfStickersReceived, Is.EqualTo(15));
             Assert.That(_viewModel.NumberOfStickersReturned, Is.EqualTo(10));
             Assert.That(_viewModel.FiveHundreds, Is.EqualTo(500));
