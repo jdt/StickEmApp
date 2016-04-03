@@ -13,6 +13,7 @@ namespace StickEmApp.Entities
             NumberOfStickersReceived = 0;
             NumberOfStickersReturned = 0;
             ChangeReceived = new Money(0);
+
             AmountReturned = new AmountReturned();
 
             Status = VendorStatus.Working;
@@ -35,7 +36,12 @@ namespace StickEmApp.Entities
 
         public virtual Money CalculateTotalAmountRequired()
         {
-            return (NumberOfStickersReceived * StickerPrice) - (NumberOfStickersReturned * StickerPrice);
+            return (NumberOfStickersReceived * StickerPrice) - (NumberOfStickersReturned * StickerPrice) + ChangeReceived;
+        }
+
+        public virtual Money CalculateTotalAmountReturned()
+        {
+            return AmountReturned.CalculateTotal();
         }
 
         public virtual SalesResult CalculateSalesResult()

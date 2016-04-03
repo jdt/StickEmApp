@@ -6,17 +6,20 @@ namespace StickEmApp.UnitTest.Entities
     [TestFixture]
     public class VendorTestFixture
     {
-        [TestCase(0, 0, 0)]
-        [TestCase(1, 0, 5)]
-        [TestCase(5, 0, 25)]
-        [TestCase(5, 1, 20)]
-        [TestCase(5, 5, 0)]
-        public void CalculateTotalAmountRequiredShouldReturnStickerPriceTimesReceivedMinusReturned(int amountReceived, int amountReturned, decimal total)
+        [TestCase(0, 0, 0, 0)]
+        [TestCase(1, 0, 0, 5)]
+        [TestCase(5, 0, 0, 25)]
+        [TestCase(5, 1, 0, 20)]
+        [TestCase(5, 5, 0, 0)]
+        [TestCase(5, 5, 50, 50)]
+        [TestCase(10, 0, 50, 100)]
+        public void CalculateTotalAmountRequiredShouldReturnTotalAmountRequiredToBePaid(int amountReceived, int amountReturned, int changeReceived, decimal total)
         {
             var vendor = new Vendor
             {
                 NumberOfStickersReceived = amountReceived,
-                NumberOfStickersReturned = amountReturned
+                NumberOfStickersReturned = amountReturned,
+                ChangeReceived = new Money(changeReceived)
             };
 
             Assert.That(vendor.CalculateTotalAmountRequired(), Is.EqualTo(new Money(total)));
