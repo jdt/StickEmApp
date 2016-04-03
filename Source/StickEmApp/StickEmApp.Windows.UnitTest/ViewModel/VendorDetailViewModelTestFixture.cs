@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using NUnit.Framework;
 using Prism.Events;
 using Prism.Regions;
@@ -17,9 +16,7 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
     {
         private IVendorRepository _vendorRepository;
         private IEventAggregator _eventAggregator;
-
-        private string _lastChangedPropertyName;
-
+        
         private VendorDetailViewModel _viewModel;
 
         [SetUp]
@@ -29,14 +26,6 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
             _eventAggregator = MockRepository.GenerateMock<IEventAggregator>();
 
             _viewModel = new VendorDetailViewModel(_vendorRepository, _eventAggregator);
-            _viewModel.PropertyChanged += _viewModel_PropertyChanged;
-
-            _lastChangedPropertyName = null;
-        }
-
-        private void _viewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            _lastChangedPropertyName = e.PropertyName;
         }
 
         [Test]
