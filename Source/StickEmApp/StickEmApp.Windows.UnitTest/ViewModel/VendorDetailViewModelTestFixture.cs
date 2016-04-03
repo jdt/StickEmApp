@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using NUnit.Framework;
 using Prism.Events;
 using Prism.Regions;
@@ -6,6 +8,7 @@ using Rhino.Mocks;
 using StickEmApp.Dal;
 using StickEmApp.Entities;
 using StickEmApp.Windows.Infrastructure.Events;
+using StickEmApp.Windows.ViewModel;
 
 namespace StickEmApp.Windows.UnitTest.ViewModel
 {
@@ -15,7 +18,9 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
         private IVendorRepository _vendorRepository;
         private IEventAggregator _eventAggregator;
 
-        private Windows.ViewModel.VendorDetailViewModel _viewModel;
+        private string _lastChangedPropertyName;
+
+        private VendorDetailViewModel _viewModel;
 
         [SetUp]
         public void SetUp()
@@ -23,7 +28,15 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
             _vendorRepository = MockRepository.GenerateMock<IVendorRepository>();
             _eventAggregator = MockRepository.GenerateMock<IEventAggregator>();
 
-            _viewModel = new Windows.ViewModel.VendorDetailViewModel(_vendorRepository, _eventAggregator);
+            _viewModel = new VendorDetailViewModel(_vendorRepository, _eventAggregator);
+            _viewModel.PropertyChanged += _viewModel_PropertyChanged;
+
+            _lastChangedPropertyName = null;
+        }
+
+        private void _viewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            _lastChangedPropertyName = e.PropertyName;
         }
 
         [Test]
@@ -153,5 +166,85 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
             Assert.That(_viewModel.TwoCents, Is.EqualTo(210));
             Assert.That(_viewModel.OneCents, Is.EqualTo(110));
         }
+
+        [TestCaseSource("UpdatingFieldsShouldRecalculateTotalsData")]
+        public void UpdatingFieldsShouldRecalculateTotals(Action<VendorDetailViewModel> action)
+        {
+            //arrange
+            var vendorGuid = Guid.NewGuid();
+
+            var context = new NavigationContext(null, null);
+            context.Parameters.Add("vendorId", vendorGuid);
+
+            var vendorToDisplay = MockRepository.GenerateMock<Vendor>();
+            vendorToDisplay.Expect(p => p.AmountReturned).Return(new AmountReturned()).Repeat.Any();
+            vendorToDisplay.Expect(p => p.ChangeReceived).Return(new Money(0)).Repeat.Any();
+
+            _vendorRepository.Expect(repo => repo.Get(vendorGuid)).Return(vendorToDisplay);
+
+            //initial loading
+            vendorToDisplay.Expect(p => p.CalculateTotalAmountRequired()).Return(new Money(0)).Repeat.Once();
+            vendorToDisplay.Expect(p => p.CalculateTotalAmountReturned()).Return(new Money(0)).Repeat.Once();
+            vendorToDisplay.Expect(p => p.CalculateSalesResult()).Return(new SalesResult()).Repeat.Once();
+            
+            //update
+            vendorToDisplay.Expect(p => p.CalculateTotalAmountRequired()).Return(new Money(50));
+            vendorToDisplay.Expect(p => p.CalculateTotalAmountReturned()).Return(new Money(30));
+            vendorToDisplay.Expect(p => p.CalculateSalesResult()).Return(new SalesResult{Difference = new Money(20)});
+            
+            //act
+            _viewModel.OnNavigatedTo(context);
+            action(_viewModel); 
+
+            //assert
+            Assert.That(_viewModel.TotalAmountRequired, Is.EqualTo(50));
+            Assert.That(_viewModel.TotalAmountReturned, Is.EqualTo(30));
+            Assert.That(_viewModel.TotalDifference, Is.EqualTo(20));
+        }
+
+        public static IEnumerable UpdatingFieldsShouldRecalculateTotalsData
+        {
+
+            get
+            {
+                Action<VendorDetailViewModel> received = b => { b.NumberOfStickersReceived = 5; };
+                Action<VendorDetailViewModel> returned = b => { b.NumberOfStickersReturned = 5; };
+                Action<VendorDetailViewModel> change = b => { b.ChangeReceived = 5; };
+                Action<VendorDetailViewModel> fiveHundreds = b => { b.FiveHundreds = 5; };
+                Action<VendorDetailViewModel> twoHundreds = b => { b.TwoHundreds = 5; };
+                Action<VendorDetailViewModel> hundreds = b => { b.Hundreds = 5; };
+                Action<VendorDetailViewModel> fifties = b => { b.Fifties = 5; };
+                Action<VendorDetailViewModel> twenties = b => { b.Twenties = 5; };
+                Action<VendorDetailViewModel> tens = b => { b.Tens = 5; };
+                Action<VendorDetailViewModel> fives = b => { b.Fives = 5; };
+                Action<VendorDetailViewModel> twos = b => { b.Twos = 5; };
+                Action<VendorDetailViewModel> ones = b => { b.Ones = 5; };
+                Action<VendorDetailViewModel> fiftyCents = b => { b.FiftyCents = 5; };
+                Action<VendorDetailViewModel> twentyCents = b => { b.TwentyCents = 5; };
+                Action<VendorDetailViewModel> tenCents = b => { b.TenCents = 5; };
+                Action<VendorDetailViewModel> fiveCents = b => { b.FiveCents = 5; };
+                Action<VendorDetailViewModel> twoCents = b => { b.TwoCents = 5; };
+                Action<VendorDetailViewModel> oneCents = b => { b.OneCents = 5; };
+
+                yield return received;
+                yield return returned;
+                yield return change;
+                yield return fiveHundreds;
+                yield return twoHundreds;
+                yield return hundreds;
+                yield return fifties;
+                yield return twenties;
+                yield return tens;
+                yield return fives;
+                yield return twos;
+                yield return ones;
+                yield return fiftyCents;
+                yield return twentyCents;
+                yield return tenCents;
+                yield return fiveCents;
+                yield return twoCents;
+                yield return oneCents;
+            }
+        }  
     }
 }
