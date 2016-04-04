@@ -53,19 +53,22 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
         }
         
         [Test]
-        public void AddVendorCommandShouldNavigateToVendorDetailView()
+        public void AddVendorCommandShouldNavigateToVendorDetailViewAndDisallowAddEditRemove()
         {
             _regionManager.Expect(rm => rm.RequestNavigate(RegionNames.EditVendorRegion, new Uri("VendorDetailView", UriKind.Relative)));
 
             //act
-            _viewModel.AddVendorCommand.Execute(null);
+            _viewModel.AddVendorCommand.Execute();
 
             //assert
             _regionManager.VerifyAllExpectations();
+            Assert.That(_viewModel.AddVendorCommand.CanExecute(), Is.False);
+            Assert.That(_viewModel.EditVendorCommand.CanExecute(null), Is.False);
+            Assert.That(_viewModel.RemoveVendorCommand.CanExecute(null), Is.False);
         }
 
         [Test]
-        public void RemoveVendorCommandShouldRemoveVendorAndRaiseVendorRemovedEvent()
+        public void RemoveVendorCommandShouldRemoveVendorRaiseVendorRemovedEvent()
         {
             var removedVendorId = Guid.NewGuid();
             var removedVendor = new Vendor
@@ -87,7 +90,7 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
         }
 
         [Test]
-        public void EditVendorCommandShouldNavigateToVendorDetailViewWithVendorToEdit()
+        public void EditVendorCommandShouldNavigateToVendorDetailViewWithVendorToEditAndDisallowAddEditRemove()
         {
             //arrange
             var vendorListItem = new VendorListItem(new Guid("511e2f63-1878-44db-866d-ba38e6f08d56"), "foo");
@@ -98,6 +101,10 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
 
             //assert
             _regionManager.VerifyAllExpectations();
+
+            Assert.That(_viewModel.AddVendorCommand.CanExecute(), Is.False);
+            Assert.That(_viewModel.EditVendorCommand.CanExecute(null), Is.False);
+            Assert.That(_viewModel.RemoveVendorCommand.CanExecute(null), Is.False);
         }
     }
 
@@ -131,7 +138,7 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
         }
         
         [Test]
-        public void VendorUpdatedEventShouldReloadVendorData()
+        public void VendorUpdatedEventShouldReloadVendorDataAndAllowAddEditRemove()
         {
             //arrange
             Action<Guid> callback = null;
@@ -147,10 +154,14 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
 
             //assert
             AssertDataLoaded();
+
+            Assert.That(_viewModel.AddVendorCommand.CanExecute(), Is.True);
+            Assert.That(_viewModel.EditVendorCommand.CanExecute(null), Is.True);
+            Assert.That(_viewModel.RemoveVendorCommand.CanExecute(null), Is.True);
         }
 
         [Test]
-        public void VendorRemovedEventShouldReloadVendorData()
+        public void VendorRemovedEventShouldReloadVendorDataAndAllowAddEditRemove()
         {
             //arrange
             Action<Guid> callback = null;
@@ -166,6 +177,10 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
 
             //assert
             AssertDataLoaded();
+
+            Assert.That(_viewModel.AddVendorCommand.CanExecute(), Is.True);
+            Assert.That(_viewModel.EditVendorCommand.CanExecute(null), Is.True);
+            Assert.That(_viewModel.RemoveVendorCommand.CanExecute(null), Is.True);
         }
 
         private void AssertDataLoaded()

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
-using System.Windows.Input;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -22,6 +21,12 @@ namespace StickEmApp.Windows.ViewModel
         private readonly IRegionManager _regionManager;
         private readonly IEventBus _eventBus;
 
+        private bool _canVendorBeEdited;
+
+        private DelegateCommand _addCommand;
+        private DelegateCommand<VendorListItem> _editCommand;
+        private DelegateCommand<VendorListItem> _removeCommand;
+
         private ObservableCollection<VendorListItem> _vendorList;
 
         [ImportingConstructor]
@@ -32,13 +37,16 @@ namespace StickEmApp.Windows.ViewModel
             _regionManager = regionManager;
             _eventBus = eventBus;
 
+            _canVendorBeEdited = true;
+
             _eventBus.On<VendorUpdatedEvent, Guid>(VendorChanged);
             _eventBus.On<VendorRemovedEvent, Guid>(VendorChanged);
         }
 
         private void VendorChanged(Guid id)
         {
-            LoadData();
+            LoadData(); 
+            AllowVendorEditing(true);
         }
         
         public ObservableCollection<VendorListItem> VendorList
@@ -66,18 +74,49 @@ namespace StickEmApp.Windows.ViewModel
             }
         }
 
-        public ICommand AddVendorCommand { get { return new DelegateCommand(AddVendor); } }
-        public ICommand EditVendorCommand { get { return new DelegateCommand<VendorListItem>(EditVendor); } }
-        public ICommand RemoveVendorCommand { get { return new DelegateCommand<VendorListItem>(RemoveVendor); } }
+        public DelegateCommand AddVendorCommand
+        {
+            get
+            {
+                if (_addCommand == null)
+                    _addCommand = new DelegateCommand(AddVendor, CanVendorBeEdited);
+
+                return _addCommand;
+            }
+        }
+
+        public DelegateCommand<VendorListItem> EditVendorCommand
+        {
+            get
+            {
+                if(_editCommand == null)
+                    _editCommand = new DelegateCommand<VendorListItem>(EditVendor, CanVendorBeEdited);
+
+                return _editCommand;
+            }
+        }
+        
+        public DelegateCommand<VendorListItem> RemoveVendorCommand
+        {
+            get
+            {
+                if(_removeCommand == null)
+                    _removeCommand = new DelegateCommand<VendorListItem>(RemoveVendor, CanVendorBeEdited);
+
+                return _removeCommand;
+            }
+        }
 
         private void AddVendor()
         {
             _regionManager.RequestNavigate(RegionNames.EditVendorRegion, new Uri("VendorDetailView", UriKind.Relative));
+            AllowVendorEditing(false);
         }
 
         private void EditVendor(VendorListItem item)
         {
             _regionManager.RequestNavigate(RegionNames.EditVendorRegion, new Uri(string.Format("VendorDetailView?vendorId={0}", item.Id), UriKind.Relative));
+            AllowVendorEditing(false);
         }
 
         private void RemoveVendor(VendorListItem item)
@@ -94,5 +133,22 @@ namespace StickEmApp.Windows.ViewModel
             _eventBus.Publish<VendorRemovedEvent, Guid>(vendorToRemove.Id);
         }
 
+        private bool CanVendorBeEdited()
+        {
+            return _canVendorBeEdited;
+        }
+
+        private bool CanVendorBeEdited(VendorListItem item)
+        {
+            return _canVendorBeEdited;
+        }
+
+        private void AllowVendorEditing(bool allowEditing)
+        {
+            _canVendorBeEdited = allowEditing;
+            AddVendorCommand.RaiseCanExecuteChanged();
+            EditVendorCommand.RaiseCanExecuteChanged();
+            RemoveVendorCommand.RaiseCanExecuteChanged();
+        }
     }
 }
