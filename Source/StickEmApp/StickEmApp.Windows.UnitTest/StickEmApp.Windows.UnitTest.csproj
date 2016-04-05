@@ -67,6 +67,7 @@
   <ItemGroup>
     <Compile Include="Builders\VendorListItemBuilderTestFixture.cs" />
     <Compile Include="Infrastructure\Events\EventBusTestFixture.cs" />
+    <Compile Include="Infrastructure\WindowManagerTestFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModel\UnitOfWorkAwareTestFixture.cs" />
     <Compile Include="ViewModel\VendorListViewModelTestFixture.cs" />

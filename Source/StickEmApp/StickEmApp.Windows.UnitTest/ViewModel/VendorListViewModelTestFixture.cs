@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using NUnit.Framework;
-using Prism.Regions;
 using Rhino.Mocks;
 using StickEmApp.Dal;
 using StickEmApp.Entities;
@@ -17,7 +16,7 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
     {
         private IVendorRepository _vendorRepository;
         private IVendorListItemBuilder _vendorListItemBuilder;
-        private IRegionManager _regionManager;
+        private IWindowManager _windowManager;
         private IEventBus _eventBus;
 
         private VendorListViewModel _viewModel;
@@ -27,10 +26,10 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
         {
             _vendorRepository = MockRepository.GenerateMock<IVendorRepository>();
             _vendorListItemBuilder = MockRepository.GenerateMock<IVendorListItemBuilder>();
-            _regionManager = MockRepository.GenerateMock<IRegionManager>();
+            _windowManager = MockRepository.GenerateMock<IWindowManager>();
             _eventBus = MockRepository.GenerateMock<IEventBus>();
 
-            _viewModel = new VendorListViewModel(_vendorRepository, _vendorListItemBuilder, _regionManager, _eventBus);
+            _viewModel = new VendorListViewModel(_vendorRepository, _vendorListItemBuilder, _windowManager, _eventBus);
         }
 
         [Test]
@@ -55,13 +54,13 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
         [Test]
         public void AddVendorCommandShouldNavigateToVendorDetailViewAndDisallowAddEditRemove()
         {
-            _regionManager.Expect(rm => rm.RequestNavigate(RegionNames.EditVendorRegion, new Uri("VendorDetailView", UriKind.Relative)));
+            _windowManager.Expect(wm => wm.DisplayAddVendor());
 
             //act
             _viewModel.AddVendorCommand.Execute();
 
             //assert
-            _regionManager.VerifyAllExpectations();
+            _windowManager.VerifyAllExpectations();
             Assert.That(_viewModel.AddVendorCommand.CanExecute(), Is.False);
             Assert.That(_viewModel.EditVendorCommand.CanExecute(null), Is.False);
             Assert.That(_viewModel.RemoveVendorCommand.CanExecute(null), Is.False);
@@ -85,7 +84,7 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
             _viewModel.RemoveVendorCommand.Execute(removedItem);
 
             //assert
-            _regionManager.VerifyAllExpectations();
+            _windowManager.VerifyAllExpectations();
             _eventBus.VerifyAllExpectations();
         }
 
@@ -93,14 +92,14 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
         public void EditVendorCommandShouldNavigateToVendorDetailViewWithVendorToEditAndDisallowAddEditRemove()
         {
             //arrange
-            var vendorListItem = new VendorListItem(new Guid("511e2f63-1878-44db-866d-ba38e6f08d56"), "foo");
-            _regionManager.Expect(rm => rm.RequestNavigate(RegionNames.EditVendorRegion, new Uri("VendorDetailView?vendorId=511e2f63-1878-44db-866d-ba38e6f08d56", UriKind.Relative)));
+            var vendorListItem = new VendorListItem(Guid.NewGuid(), "foo");
+            _windowManager.Expect(wm => wm.DisplayEditVendor(vendorListItem.Id));
 
             //act
             _viewModel.EditVendorCommand.Execute(vendorListItem);
 
             //assert
-            _regionManager.VerifyAllExpectations();
+            _windowManager.VerifyAllExpectations();
 
             Assert.That(_viewModel.AddVendorCommand.CanExecute(), Is.False);
             Assert.That(_viewModel.EditVendorCommand.CanExecute(null), Is.False);
@@ -113,7 +112,7 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
     {
         private IVendorRepository _vendorRepository;
         private IVendorListItemBuilder _vendorListItemBuilder;
-        private IRegionManager _regionManager;
+        private IWindowManager _windowManager;
         private IEventBus _eventBus;
 
         private VendorListViewModel _viewModel;
@@ -124,10 +123,10 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
         {
             _vendorRepository = MockRepository.GenerateMock<IVendorRepository>();
             _vendorListItemBuilder = MockRepository.GenerateMock<IVendorListItemBuilder>();
-            _regionManager = MockRepository.GenerateMock<IRegionManager>();
+            _windowManager = MockRepository.GenerateMock<IWindowManager>();
             _eventBus = MockRepository.GenerateMock<IEventBus>();
 
-            _viewModel = new VendorListViewModel(_vendorRepository, _vendorListItemBuilder, _regionManager, _eventBus);
+            _viewModel = new VendorListViewModel(_vendorRepository, _vendorListItemBuilder, _windowManager, _eventBus);
 
             var updatedVendorList = new List<Vendor> { new Vendor() };
             _vendorRepository.Expect(p => p.SelectVendors()).Return(updatedVendorList);
@@ -147,7 +146,7 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
                     p.On<VendorUpdatedEvent, Guid>(Arg<Action<Guid>>.Is.Anything))
                 .WhenCalled(cb => callback = (Action<Guid>)cb.Arguments[0]);
 
-            _viewModel = new VendorListViewModel(_vendorRepository, _vendorListItemBuilder, _regionManager, _eventBus);
+            _viewModel = new VendorListViewModel(_vendorRepository, _vendorListItemBuilder, _windowManager, _eventBus);
 
             //act
             callback(Guid.NewGuid());
@@ -170,7 +169,7 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
                     p.On<VendorRemovedEvent, Guid>(Arg<Action<Guid>>.Is.Anything))
                 .WhenCalled(cb => callback = (Action<Guid>)cb.Arguments[0]);
 
-            _viewModel = new VendorListViewModel(_vendorRepository, _vendorListItemBuilder, _regionManager, _eventBus);
+            _viewModel = new VendorListViewModel(_vendorRepository, _vendorListItemBuilder, _windowManager, _eventBus);
 
             //act
             callback(Guid.NewGuid());

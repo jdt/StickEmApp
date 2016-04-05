@@ -3,7 +3,6 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using Prism.Commands;
 using Prism.Mvvm;
-using Prism.Regions;
 using StickEmApp.Dal;
 using StickEmApp.Entities;
 using StickEmApp.Windows.Builders;
@@ -18,7 +17,7 @@ namespace StickEmApp.Windows.ViewModel
     {
         private readonly IVendorRepository _vendorRepository;
         private readonly IVendorListItemBuilder _listItemBuilder;
-        private readonly IRegionManager _regionManager;
+        private readonly IWindowManager _windowManager;
         private readonly IEventBus _eventBus;
 
         private bool _canVendorBeEdited;
@@ -30,11 +29,11 @@ namespace StickEmApp.Windows.ViewModel
         private ObservableCollection<VendorListItem> _vendorList;
 
         [ImportingConstructor]
-        public VendorListViewModel(IVendorRepository vendorRepository, IVendorListItemBuilder listItemBuilder, IRegionManager regionManager, IEventBus eventBus)
+        public VendorListViewModel(IVendorRepository vendorRepository, IVendorListItemBuilder listItemBuilder, IWindowManager windowManager, IEventBus eventBus)
         {
             _vendorRepository = vendorRepository;
             _listItemBuilder = listItemBuilder;
-            _regionManager = regionManager;
+            _windowManager = windowManager;
             _eventBus = eventBus;
 
             _canVendorBeEdited = true;
@@ -109,13 +108,13 @@ namespace StickEmApp.Windows.ViewModel
 
         private void AddVendor()
         {
-            _regionManager.RequestNavigate(RegionNames.EditVendorRegion, new Uri("VendorDetailView", UriKind.Relative));
+            _windowManager.DisplayAddVendor();
             AllowVendorEditing(false);
         }
 
         private void EditVendor(VendorListItem item)
         {
-            _regionManager.RequestNavigate(RegionNames.EditVendorRegion, new Uri(string.Format("VendorDetailView?vendorId={0}", item.Id), UriKind.Relative));
+            _windowManager.DisplayEditVendor(item.Id);
             AllowVendorEditing(false);
         }
 
