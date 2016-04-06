@@ -72,6 +72,7 @@
     <Compile Include="Entities\ResultType.cs" />
     <Compile Include="Entities\SalesPeriodStatus.cs" />
     <Compile Include="Entities\SalesResult.cs" />
+    <Compile Include="Entities\Sticker.cs" />
     <Compile Include="Entities\StickerSalesPeriod.cs" />
     <Compile Include="Entities\Vendor.cs" />
     <Compile Include="Entities\VendorStatus.cs" />
