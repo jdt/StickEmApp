@@ -63,6 +63,7 @@ namespace StickEmApp.Entities
             }
 
             result.Difference = difference.ToAbsolute();
+            result.NumberOfStickersSold = NumberOfStickersReceived - NumberOfStickersReturned;
             return result;
         }
     }

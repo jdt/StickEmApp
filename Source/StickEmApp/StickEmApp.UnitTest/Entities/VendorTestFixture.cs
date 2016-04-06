@@ -75,5 +75,21 @@ namespace StickEmApp.UnitTest.Entities
             Assert.That(result.Status, Is.EqualTo(ResultType.Surplus));
             Assert.That(result.Difference, Is.EqualTo(new Money(5)));
         }
+
+        [TestCase(10, 5, 5)]
+        [TestCase(10, 0, 10)]
+        [TestCase(0, 5, -5)]
+        [TestCase(0, 0, 0)]
+        public void CalculateSalesResultShouldReturnNumberOfStickersReceivedMinusNumberOfStickersReturnedAsNumberOfStickersSold(int received, int returned, int sold)
+        {
+            var vendor = new Vendor
+            {
+                NumberOfStickersReceived = received,
+                NumberOfStickersReturned = returned
+            };
+
+            var result = vendor.CalculateSalesResult();
+            Assert.That(result.NumberOfStickersSold, Is.EqualTo(sold));
+        }
     }
 }
