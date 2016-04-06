@@ -59,6 +59,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dal\Mapping\StickerSalesPeriodTestFixture.cs" />
     <Compile Include="Dal\Mapping\VendorMappingTestFixture.cs" />
     <Compile Include="Entities\AmountReturnedTestFixture.cs" />
     <Compile Include="Entities\MoneyTestFixture.cs" />

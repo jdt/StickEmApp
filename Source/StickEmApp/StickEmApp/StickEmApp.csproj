@@ -60,6 +60,7 @@
   <ItemGroup>
     <Compile Include="Dal\DatabaseFileMode.cs" />
     <Compile Include="Dal\IVendorRepository.cs" />
+    <Compile Include="Dal\Mapping\StickerSalesPeriodMapping.cs" />
     <Compile Include="Dal\Mapping\VendorMapping.cs" />
     <Compile Include="Dal\UnitOfWorkManager.cs" />
     <Compile Include="Dal\UserTypes\MoneyUserType.cs" />
@@ -68,6 +69,7 @@
     <Compile Include="Entities\Money.cs" />
     <Compile Include="Entities\ResultType.cs" />
     <Compile Include="Entities\SalesResult.cs" />
+    <Compile Include="Entities\StickerSalesPeriod.cs" />
     <Compile Include="Entities\Vendor.cs" />
     <Compile Include="Entities\VendorStatus.cs" />
     <Compile Include="IUnitOfWork.cs" />
