@@ -134,10 +134,12 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
             _updatedViewModelItem = new VendorListItem(Guid.NewGuid(), "test2");
             var updatedViewModelList = new List<VendorListItem> { _updatedViewModelItem };
             _vendorListItemBuilder.Expect(p => p.BuildFrom(updatedVendorList)).Return(updatedViewModelList);
+
+            _windowManager.Expect(wm => wm.DisplaySummary());
         }
         
         [Test]
-        public void VendorUpdatedEventShouldReloadVendorDataAndAllowAddEditRemove()
+        public void VendorUpdatedEventShouldReloadVendorDataDisplaySummaryAndAllowAddEditRemove()
         {
             //arrange
             Action<Guid> callback = null;
@@ -152,15 +154,11 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
             callback(Guid.NewGuid());
 
             //assert
-            AssertDataLoaded();
-
-            Assert.That(_viewModel.AddVendorCommand.CanExecute(), Is.True);
-            Assert.That(_viewModel.EditVendorCommand.CanExecute(null), Is.True);
-            Assert.That(_viewModel.RemoveVendorCommand.CanExecute(null), Is.True);
+            DoAssert();
         }
 
         [Test]
-        public void VendorRemovedEventShouldReloadVendorDataAndAllowAddEditRemove()
+        public void VendorRemovedEventShouldReloadVendorDataDisplaySummaryAndAllowAddEditRemove()
         {
             //arrange
             Action<Guid> callback = null;
@@ -175,19 +173,20 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
             callback(Guid.NewGuid());
 
             //assert
-            AssertDataLoaded();
-
-            Assert.That(_viewModel.AddVendorCommand.CanExecute(), Is.True);
-            Assert.That(_viewModel.EditVendorCommand.CanExecute(null), Is.True);
-            Assert.That(_viewModel.RemoveVendorCommand.CanExecute(null), Is.True);
+            DoAssert();
         }
 
-        private void AssertDataLoaded()
+        private void DoAssert()
         {
             var vendors = _viewModel.VendorList;
 
             Assert.That(vendors.Count, Is.EqualTo(1));
             Assert.That(vendors[0], Is.EqualTo(_updatedViewModelItem));
+
+
+            Assert.That(_viewModel.AddVendorCommand.CanExecute(), Is.True);
+            Assert.That(_viewModel.EditVendorCommand.CanExecute(null), Is.True);
+            Assert.That(_viewModel.RemoveVendorCommand.CanExecute(null), Is.True);
         }
     }
 }

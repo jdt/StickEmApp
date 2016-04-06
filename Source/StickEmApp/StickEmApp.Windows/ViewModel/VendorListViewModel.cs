@@ -148,6 +148,11 @@ namespace StickEmApp.Windows.ViewModel
             AddVendorCommand.RaiseCanExecuteChanged();
             EditVendorCommand.RaiseCanExecuteChanged();
             RemoveVendorCommand.RaiseCanExecuteChanged();
+
+            if (allowEditing)
+            {
+                _windowManager.DisplaySummary();
+            }
         }
     }
 }
