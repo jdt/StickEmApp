@@ -10,5 +10,6 @@
 
         public ResultType Status { get; set; }
         public Money Difference { get; set; }
+        public int NumberOfStickersSold { get; set; }
     }
 }
