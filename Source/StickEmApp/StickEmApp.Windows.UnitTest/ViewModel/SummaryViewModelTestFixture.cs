@@ -28,7 +28,8 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
             _status = new SalesPeriodStatus
             {
                 NumberOfStickersToSell = 500,
-                NumberOfStickersSold = 30
+                NumberOfStickersSold = 30,
+                SalesTotal = new Money(150)
             };
 
             _period = MockRepository.GenerateMock<StickerSalesPeriod>();
@@ -45,6 +46,7 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
         {
             Assert.That(_viewModel.NumberOfStickersToSell, Is.EqualTo(500));
             Assert.That(_viewModel.NumberOfStickersSold, Is.EqualTo(30));
+            Assert.That(_viewModel.SalesTotal, Is.EqualTo(150));
         }
     }
 }
