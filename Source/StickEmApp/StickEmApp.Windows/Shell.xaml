@@ -5,7 +5,7 @@
         xmlns:infrastructure="clr-namespace:StickEmApp.Windows.Infrastructure"
         Title="MainWindow">
     <StackPanel>
-    <ItemsControl prism:RegionManager.RegionName="{x:Static infrastructure:RegionNames.MainRegion}" />
-    <ItemsControl prism:RegionManager.RegionName="{x:Static infrastructure:RegionNames.EditVendorRegion}" />
+        <ContentControl prism:RegionManager.RegionName="{x:Static infrastructure:RegionNames.MainRegion}" />
+        <ContentControl prism:RegionManager.RegionName="{x:Static infrastructure:RegionNames.EditVendorRegion}" />
     </StackPanel>
 </Window>
