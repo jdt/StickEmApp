@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace StickEmApp.Entities
 {
@@ -16,12 +17,12 @@ namespace StickEmApp.Entities
                 NumberOfStickersSold = 0
             };
             
-            foreach (var vendor in vendors)
+            foreach (var vendorResult in vendors.Select(vendor => vendor.CalculateSalesResult()))
             {
-                var vendorResult = vendor.CalculateSalesResult();
-
                 status.NumberOfStickersSold += vendorResult.NumberOfStickersSold;
             }
+
+            status.SalesTotal = status.NumberOfStickersSold * Sticker.Price;
 
             return status;
         }

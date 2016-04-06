@@ -45,5 +45,19 @@ namespace StickEmApp.UnitTest.Entities
             //assert
             Assert.That(result.NumberOfStickersSold, Is.EqualTo(12));
         }
+
+        [Test]
+        public void SalesTotalShouldBeStickerPriceTimesTotalNumberOfStickersSold()
+        {
+            //arrange
+            var vendor = MockRepository.GenerateMock<Vendor>();
+            vendor.Expect(v => v.CalculateSalesResult()).Return(new SalesResult { NumberOfStickersSold = 3 });
+
+            //act
+            var result = _period.CalculateStatus(new[] { vendor });
+
+            //assert
+            Assert.That(result.SalesTotal, Is.EqualTo(new Money(15)));
+        }
     }
 }
