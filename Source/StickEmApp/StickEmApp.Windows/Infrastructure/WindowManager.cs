@@ -28,5 +28,10 @@ namespace StickEmApp.Windows.Infrastructure
             };
             _regionManager.RequestNavigate(RegionNames.EditVendorRegion, new Uri("VendorDetailView", UriKind.Relative), parameters);
         }
+
+        public void DisplaySummary()
+        {
+            _regionManager.RequestNavigate(RegionNames.EditVendorRegion, new Uri("SummaryView", UriKind.Relative));
+        }
     }
 }

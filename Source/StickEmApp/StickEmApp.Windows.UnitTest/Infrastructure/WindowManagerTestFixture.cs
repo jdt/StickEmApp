@@ -58,6 +58,19 @@ namespace StickEmApp.Windows.UnitTest.Infrastructure
             _regionManager.VerifyAllExpectations();
         }
 
+        [Test]
+        public void DisplaySummaryShouldShowSummaryInEditVendorRegion()
+        {
+            //arrange
+            _regionManager.Expect(p => p.RequestNavigate(RegionNames.EditVendorRegion, new Uri("SummaryView", UriKind.Relative)));
+
+            //act
+            _windowManager.DisplaySummary();
+
+            //assert
+            _regionManager.VerifyAllExpectations();
+        }
+
         private static bool IsParametersEqual(NavigationParameters a, NavigationParameters b)
         {
             var listA = a.ToList().OrderBy(x => x.Key);

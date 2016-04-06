@@ -6,5 +6,6 @@ namespace StickEmApp.Windows.Infrastructure
     {
         void DisplayAddVendor();
         void DisplayEditVendor(Guid vendorId);
+        void DisplaySummary();
     }
 }
