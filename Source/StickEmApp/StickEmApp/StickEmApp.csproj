@@ -59,9 +59,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Dal\DatabaseFileMode.cs" />
+    <Compile Include="Dal\IStickerSalesPeriodRepository.cs" />
     <Compile Include="Dal\IVendorRepository.cs" />
     <Compile Include="Dal\Mapping\StickerSalesPeriodMapping.cs" />
     <Compile Include="Dal\Mapping\VendorMapping.cs" />
+    <Compile Include="Dal\StickerSalesPeriodRepository.cs" />
     <Compile Include="Dal\UnitOfWorkManager.cs" />
     <Compile Include="Dal\UserTypes\MoneyUserType.cs" />
     <Compile Include="Dal\VendorRepository.cs" />
