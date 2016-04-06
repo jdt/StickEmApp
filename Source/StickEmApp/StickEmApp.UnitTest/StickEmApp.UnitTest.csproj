@@ -47,6 +47,9 @@
     <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.3.2.0\lib\net45\nunit.framework.dll</HintPath>
     </Reference>
+    <Reference Include="Rhino.Mocks">
+      <HintPath>..\packages\RhinoMocks.3.6.1\lib\net\Rhino.Mocks.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.SQLite">
@@ -64,6 +67,7 @@
     <Compile Include="Dal\StickerSalesPeriodRepositoryTestFixture.cs" />
     <Compile Include="Entities\AmountReturnedTestFixture.cs" />
     <Compile Include="Entities\MoneyTestFixture.cs" />
+    <Compile Include="Entities\StickerSalesPeriodTestFixture.cs" />
     <Compile Include="Entities\VendorTestFixture.cs" />
     <Compile Include="UnitOfWorkAwareTestFixture.cs" />
     <Compile Include="Dal\VendorRepositoryTestFixture.cs" />
