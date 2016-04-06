@@ -8,13 +8,20 @@ namespace StickEmApp.Windows.ViewModel
     public class SummaryViewModel : BindableBase
     {
         private int _numberOfStickersToSell;
+        private int _numberOfStickersSold;
 
         [ImportingConstructor]
-        public SummaryViewModel(IStickerSalesPeriodRepository stickerSalesPeriodRepository)
+        public SummaryViewModel(IStickerSalesPeriodRepository stickerSalesPeriodRepository, IVendorRepository vendorRepository)
         {
             using (new UnitOfWork())
             {
-                NumberOfStickersToSell = stickerSalesPeriodRepository.Get().NumberOfStickersToSell;
+                var period = stickerSalesPeriodRepository.Get();
+
+                var vendors = vendorRepository.SelectVendors();
+                var salesStatus = period.CalculateStatus(vendors);
+
+                NumberOfStickersToSell = salesStatus.NumberOfStickersToSell;
+                NumberOfStickersSold = salesStatus.NumberOfStickersSold;
             }
         }
 
@@ -27,6 +34,19 @@ namespace StickEmApp.Windows.ViewModel
             set
             {
                 _numberOfStickersToSell = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public int NumberOfStickersSold
+        {
+            get
+            {
+                return _numberOfStickersSold;
+            }
+            set
+            {
+                _numberOfStickersSold = value;
                 OnPropertyChanged();
             }
         }

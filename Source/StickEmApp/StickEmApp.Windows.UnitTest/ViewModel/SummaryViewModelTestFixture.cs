@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.Collections.Generic;
+using NUnit.Framework;
 using Rhino.Mocks;
 using StickEmApp.Dal;
 using StickEmApp.Entities;
@@ -10,28 +11,40 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
     public class SummaryViewModelTestFixture : UnitOfWorkAwareTestFixture
     {
         private IStickerSalesPeriodRepository _stickerSalesPeriodRepository;
+        private IVendorRepository _vendorRepository;
+
         private StickerSalesPeriod _period;
+        private SalesPeriodStatus _status;
 
         private SummaryViewModel _viewModel;
 
         [SetUp]
         public void SetUp()
         {
-            _stickerSalesPeriodRepository = MockRepository.GenerateMock<IStickerSalesPeriodRepository>();
+            var vendorList = new List<Vendor>();
+            _vendorRepository = MockRepository.GenerateMock<IVendorRepository>();
+            _vendorRepository.Expect(p => p.SelectVendors()).Return(vendorList);
 
-            _period = new StickerSalesPeriod
+            _status = new SalesPeriodStatus
             {
-                NumberOfStickersToSell = 55
+                NumberOfStickersToSell = 500,
+                NumberOfStickersSold = 30
             };
+
+            _period = MockRepository.GenerateMock<StickerSalesPeriod>();
+            _period.Expect(p => p.CalculateStatus(vendorList)).Return(_status);
+
+            _stickerSalesPeriodRepository = MockRepository.GenerateMock<IStickerSalesPeriodRepository>();
             _stickerSalesPeriodRepository.Expect(repo => repo.Get()).Return(_period);
 
-            _viewModel = new SummaryViewModel(_stickerSalesPeriodRepository);
+            _viewModel = new SummaryViewModel(_stickerSalesPeriodRepository, _vendorRepository);
         }
 
         [Test]
-        public void LoadShouldSetNumberOfStickersToSell()
+        public void LoadShouldSetViewModelPropertiesFromSalesPeriodResult()
         {
-            Assert.That(_viewModel.NumberOfStickersToSell, Is.EqualTo(55));
+            Assert.That(_viewModel.NumberOfStickersToSell, Is.EqualTo(500));
+            Assert.That(_viewModel.NumberOfStickersSold, Is.EqualTo(30));
         }
     }
 }
