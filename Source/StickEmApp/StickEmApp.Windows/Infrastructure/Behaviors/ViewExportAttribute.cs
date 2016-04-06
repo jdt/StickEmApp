@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel.Composition;
-using StickEmApp.Windows.View;
 
 namespace StickEmApp.Windows.Infrastructure.Behaviors
 {
