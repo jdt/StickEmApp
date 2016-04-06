@@ -18,12 +18,10 @@ namespace StickEmApp.UnitTest.Dal
         [Test]
         public void TestGet()
         {
-            var period = new StickerSalesPeriod
-            {
-                NumberOfStickersToSell = 55
-            };
-
-            Session.Save(period);
+            //there is a single period in the database, as created by the application on database setup
+            var salesPeriod = Session.QueryOver<StickerSalesPeriod>().SingleOrDefault();
+            salesPeriod.NumberOfStickersToSell = 55;
+            Session.Save(salesPeriod);
 
             RenewSession();
 
