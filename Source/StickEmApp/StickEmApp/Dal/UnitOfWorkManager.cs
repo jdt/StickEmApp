@@ -4,6 +4,7 @@ using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
 using NHibernate;
 using NHibernate.Tool.hbm2ddl;
+using StickEmApp.Entities;
 
 namespace StickEmApp.Dal
 {
@@ -11,6 +12,8 @@ namespace StickEmApp.Dal
     {
         public static void Initialize(string databaseFile, DatabaseFileMode mode)
         {
+            var wasDatabaseCreated = false;
+
             _sessionFactory = Fluently.Configure()
                     .Database(
                         SQLiteConfiguration.Standard
@@ -29,9 +32,19 @@ namespace StickEmApp.Dal
                             // this NHibernate tool takes a configuration (with mapping info in)
                             // and exports a database schema from it
                             new SchemaExport(configuration).Create(false, true);
+                            wasDatabaseCreated = true;
                         }
                     }))
                     .BuildSessionFactory();
+
+            if (wasDatabaseCreated)
+            {
+                using (var session = _sessionFactory.OpenSession())
+                {
+                    session.Save(new StickerSalesPeriod());
+                    session.Flush();
+                }
+            }
         }
 
         public static void Initialize(ISessionFactory sessionFactory)
