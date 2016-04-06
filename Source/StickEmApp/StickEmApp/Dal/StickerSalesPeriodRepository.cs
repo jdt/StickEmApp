@@ -10,5 +10,10 @@ namespace StickEmApp.Dal
         {
             return UnitOfWorkManager.Session.QueryOver<StickerSalesPeriod>().SingleOrDefault();
         }
+
+        public void Save(StickerSalesPeriod period)
+        {
+            UnitOfWorkManager.Session.Save(period);
+        }
     }
 }

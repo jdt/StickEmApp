@@ -31,5 +31,22 @@ namespace StickEmApp.UnitTest.Dal
 
             Assert.That(savedVendor.NumberOfStickersToSell, Is.EqualTo(55));
         }
+
+        [Test]
+        public void TestSave()
+        {
+            var period = new StickerSalesPeriod
+            {
+                NumberOfStickersToSell = 55
+            };
+
+            _repo.Save(period);
+
+            RenewSession();
+
+            var savedPeriod = Session.QueryOver<StickerSalesPeriod>().Where(x => x.NumberOfStickersToSell == 55).SingleOrDefault();
+
+            Assert.IsNotNull(savedPeriod);
+        }
     }
 }
