@@ -4,6 +4,20 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008">
     <Grid>
-            <Label Content="Foo" />
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Label Grid.Row="0" Grid.Column="0" Content="Total number of stickers to sell" />
+        <Label Grid.Row="0" Grid.Column="1" Content="{Binding NumberOfStickersToSell}" />
+        <Label Grid.Row="1" Grid.Column="0" Content="Total number of stickers sold" />
+        <Label Grid.Row="1" Grid.Column="1" Content="{Binding NumberOfStickersSold}" />
+        <Label Grid.Row="2" Grid.Column="0" Content="Total revenue from sales" />
+        <Label Grid.Row="2" Grid.Column="1" Content="{Binding SalesTotal}" />
     </Grid>
 </UserControl>
