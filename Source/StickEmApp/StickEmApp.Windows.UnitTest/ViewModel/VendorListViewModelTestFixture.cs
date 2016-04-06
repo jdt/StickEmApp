@@ -67,7 +67,7 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
         }
 
         [Test]
-        public void RemoveVendorCommandShouldRemoveVendorRaiseVendorRemovedEvent()
+        public void RemoveVendorCommandShouldRemoveVendorAndRaiseVendorChangedEvent()
         {
             var removedVendorId = Guid.NewGuid();
             var removedVendor = new Vendor
@@ -76,7 +76,7 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
             };
             
             _vendorRepository.Expect(p => p.Get(removedVendorId)).Return(removedVendor);
-            _eventBus.Expect(ea => ea.Publish<VendorRemovedEvent, Guid>(removedVendorId));
+            _eventBus.Expect(ea => ea.Publish<VendorChangedEvent, Guid>(removedVendorId));
             
             var removedItem = new VendorListItem(removedVendorId, "test");
             
@@ -139,13 +139,13 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
         }
         
         [Test]
-        public void VendorUpdatedEventShouldReloadVendorDataDisplaySummaryAndAllowAddEditRemove()
+        public void VendorChangedEventShouldReloadVendorDataDisplaySummaryAndAllowAddEditRemove()
         {
             //arrange
             Action<Guid> callback = null;
             _eventBus.Expect(
                 p =>
-                    p.On<VendorUpdatedEvent, Guid>(Arg<Action<Guid>>.Is.Anything))
+                    p.On<VendorChangedEvent, Guid>(Arg<Action<Guid>>.Is.Anything))
                 .WhenCalled(cb => callback = (Action<Guid>)cb.Arguments[0]);
 
             _viewModel = new VendorListViewModel(_vendorRepository, _vendorListItemBuilder, _windowManager, _eventBus);
@@ -156,26 +156,7 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
             //assert
             DoAssert();
         }
-
-        [Test]
-        public void VendorRemovedEventShouldReloadVendorDataDisplaySummaryAndAllowAddEditRemove()
-        {
-            //arrange
-            Action<Guid> callback = null;
-            _eventBus.Expect(
-                p =>
-                    p.On<VendorRemovedEvent, Guid>(Arg<Action<Guid>>.Is.Anything))
-                .WhenCalled(cb => callback = (Action<Guid>)cb.Arguments[0]);
-
-            _viewModel = new VendorListViewModel(_vendorRepository, _vendorListItemBuilder, _windowManager, _eventBus);
-
-            //act
-            callback(Guid.NewGuid());
-
-            //assert
-            DoAssert();
-        }
-
+        
         private void DoAssert()
         {
             var vendors = _viewModel.VendorList;

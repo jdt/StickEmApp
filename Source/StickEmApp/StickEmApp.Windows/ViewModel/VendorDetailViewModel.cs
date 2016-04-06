@@ -92,7 +92,7 @@ namespace StickEmApp.Windows.ViewModel
                 _vendorRepository.Save(Vendor);
             }
 
-            _eventAggregator.GetEvent<VendorUpdatedEvent>().Publish(Vendor.Id);
+            _eventAggregator.GetEvent<VendorChangedEvent>().Publish(Vendor.Id);
         }
 
         public void OnNavigatedTo(NavigationContext navigationContext)

@@ -41,10 +41,10 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
                 savedVendor.Id = generatedGuid;
             });
 
-            var returnedEvent = MockRepository.GenerateMock<VendorUpdatedEvent>();
+            var returnedEvent = MockRepository.GenerateMock<VendorChangedEvent>();
             returnedEvent.Expect(p => p.Publish(generatedGuid));
 
-            _eventAggregator.Expect(ea => ea.GetEvent<VendorUpdatedEvent>()).Return(returnedEvent);
+            _eventAggregator.Expect(ea => ea.GetEvent<VendorChangedEvent>()).Return(returnedEvent);
 
             //act
             _viewModel.Name = "foo";

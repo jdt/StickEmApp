@@ -3,7 +3,7 @@ using Prism.Events;
 
 namespace StickEmApp.Windows.Infrastructure.Events
 {
-    public class VendorUpdatedEvent : PubSubEvent<Guid>
+    public class VendorChangedEvent : PubSubEvent<Guid>
     {
     }
 }

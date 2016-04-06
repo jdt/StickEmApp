@@ -38,8 +38,7 @@ namespace StickEmApp.Windows.ViewModel
 
             _canVendorBeEdited = true;
 
-            _eventBus.On<VendorUpdatedEvent, Guid>(VendorChanged);
-            _eventBus.On<VendorRemovedEvent, Guid>(VendorChanged);
+            _eventBus.On<VendorChangedEvent, Guid>(VendorChanged);
         }
 
         private void VendorChanged(Guid id)
@@ -129,7 +128,7 @@ namespace StickEmApp.Windows.ViewModel
                 _vendorRepository.Save(vendorToRemove);
             }
 
-            _eventBus.Publish<VendorRemovedEvent, Guid>(vendorToRemove.Id);
+            _eventBus.Publish<VendorChangedEvent, Guid>(vendorToRemove.Id);
         }
 
         private bool CanVendorBeEdited()

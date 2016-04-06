@@ -27,13 +27,13 @@ namespace StickEmApp.Windows.UnitTest.Infrastructure.Events
             //arrange
             var callbackAction = MockRepository.GenerateMock<Action<Guid>>();
 
-            var targetEvent = MockRepository.GenerateMock<VendorRemovedEvent>();
+            var targetEvent = MockRepository.GenerateMock<VendorChangedEvent>();
             targetEvent.Expect(p => p.Subscribe(callbackAction)).Return(null);
 
-            _eventAggregator.Expect(p => p.GetEvent<VendorRemovedEvent>()).Return(targetEvent);
+            _eventAggregator.Expect(p => p.GetEvent<VendorChangedEvent>()).Return(targetEvent);
 
             //act
-            _eventBus.On<VendorRemovedEvent, Guid>(callbackAction);
+            _eventBus.On<VendorChangedEvent, Guid>(callbackAction);
 
             //assert
             targetEvent.VerifyAllExpectations();
@@ -45,13 +45,13 @@ namespace StickEmApp.Windows.UnitTest.Infrastructure.Events
             //arrange
             var parameter = Guid.NewGuid();
 
-            var targetEvent = MockRepository.GenerateMock<VendorRemovedEvent>();
+            var targetEvent = MockRepository.GenerateMock<VendorChangedEvent>();
             targetEvent.Expect(p => p.Publish(parameter));
 
-            _eventAggregator.Expect(p => p.GetEvent<VendorRemovedEvent>()).Return(targetEvent);
+            _eventAggregator.Expect(p => p.GetEvent<VendorChangedEvent>()).Return(targetEvent);
 
             //act
-            _eventBus.Publish<VendorRemovedEvent, Guid>(parameter);
+            _eventBus.Publish<VendorChangedEvent, Guid>(parameter);
 
             //assert
             targetEvent.VerifyAllExpectations();
