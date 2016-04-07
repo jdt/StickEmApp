@@ -88,10 +88,12 @@
     <Compile Include="Builders\VendorListItemBuilder.cs" />
     <Compile Include="Infrastructure\Events\EventBus.cs" />
     <Compile Include="Infrastructure\Events\IEventBus.cs" />
+    <Compile Include="Infrastructure\Events\StickerSalesPeriodChangedEvent.cs" />
     <Compile Include="Infrastructure\Events\VendorChangedEvent.cs" />
     <Compile Include="Infrastructure\IWindowManager.cs" />
     <Compile Include="Infrastructure\WindowManager.cs" />
     <Compile Include="StickEmAppBootStrapper.cs" />
+    <Compile Include="ViewModel\StickerSalesPeriodDetailViewModel.cs" />
     <Compile Include="ViewModel\SummaryViewModel.cs" />
     <Compile Include="ViewModel\VendorListViewModel.cs" />
     <Compile Include="ViewModel\VendorListItem.cs" />
@@ -101,6 +103,9 @@
     <Compile Include="Infrastructure\RegionNames.cs" />
     <Compile Include="View\SummaryView.xaml.cs">
       <DependentUpon>SummaryView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\StickerSalesPeriodDetailView.xaml.cs">
+      <DependentUpon>StickerSalesPeriodDetailView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\VendorDetailView.xaml.cs">
       <DependentUpon>VendorDetailView.xaml</DependentUpon>
@@ -122,6 +127,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="View\SummaryView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\StickerSalesPeriodDetailView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

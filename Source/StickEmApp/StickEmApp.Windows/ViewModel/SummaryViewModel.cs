@@ -1,24 +1,45 @@
-﻿using System.ComponentModel.Composition;
+﻿using System;
+using System.ComponentModel.Composition;
 using Prism.Mvvm;
 using StickEmApp.Dal;
+using StickEmApp.Windows.Infrastructure.Events;
 
 namespace StickEmApp.Windows.ViewModel
 {
     [Export(typeof(SummaryViewModel))]
     public class SummaryViewModel : BindableBase
     {
+        private readonly IStickerSalesPeriodRepository _stickerSalesPeriodRepository;
+        private readonly IVendorRepository _vendorRepository;
+
         private int _numberOfStickersToSell;
         private int _numberOfStickersSold;
         private decimal _salesTotal;
 
         [ImportingConstructor]
-        public SummaryViewModel(IStickerSalesPeriodRepository stickerSalesPeriodRepository, IVendorRepository vendorRepository)
+        public SummaryViewModel(IStickerSalesPeriodRepository stickerSalesPeriodRepository, IVendorRepository vendorRepository, IEventBus eventBus)
+        {
+            _stickerSalesPeriodRepository = stickerSalesPeriodRepository;
+            _vendorRepository = vendorRepository;
+
+            eventBus.On<VendorChangedEvent, Guid>(VendorChanged);
+            eventBus.On<StickerSalesPeriodChangedEvent, Guid>(VendorChanged);
+
+            LoadData();
+        }
+
+        public void VendorChanged(Guid vendorId)
+        {
+            LoadData();
+        }
+
+        private void LoadData()
         {
             using (new UnitOfWork())
             {
-                var period = stickerSalesPeriodRepository.Get();
+                var period = _stickerSalesPeriodRepository.Get();
 
-                var vendors = vendorRepository.SelectVendors();
+                var vendors = _vendorRepository.SelectVendors();
                 var salesStatus = period.CalculateStatus(vendors);
 
                 NumberOfStickersToSell = salesStatus.NumberOfStickersToSell;

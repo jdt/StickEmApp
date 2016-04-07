@@ -64,6 +64,7 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
             Assert.That(_viewModel.AddVendorCommand.CanExecute(), Is.False);
             Assert.That(_viewModel.EditVendorCommand.CanExecute(null), Is.False);
             Assert.That(_viewModel.RemoveVendorCommand.CanExecute(null), Is.False);
+            Assert.That(_viewModel.EditStickerSalesPeriodCommand.CanExecute(), Is.False);
         }
 
         [Test]
@@ -103,7 +104,26 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
 
             Assert.That(_viewModel.AddVendorCommand.CanExecute(), Is.False);
             Assert.That(_viewModel.EditVendorCommand.CanExecute(null), Is.False);
+            Assert.That(_viewModel.RemoveVendorCommand.CanExecute(null), Is.False); 
+            Assert.That(_viewModel.EditStickerSalesPeriodCommand.CanExecute(), Is.False);
+        }
+
+        [Test]
+        public void EditStickerSalesPeriodCommandShouldNavigateToStickerSalesPeriodDetailViewAndDisallowAddEditRemove()
+        {
+            //arrange
+            _windowManager.Expect(wm => wm.DisplayEditStickerSalesPeriod());
+
+            //act
+            _viewModel.EditStickerSalesPeriodCommand.Execute();
+
+            //assert
+            _windowManager.VerifyAllExpectations();
+
+            Assert.That(_viewModel.AddVendorCommand.CanExecute(), Is.False);
+            Assert.That(_viewModel.EditVendorCommand.CanExecute(null), Is.False);
             Assert.That(_viewModel.RemoveVendorCommand.CanExecute(null), Is.False);
+            Assert.That(_viewModel.EditStickerSalesPeriodCommand.CanExecute(), Is.False);
         }
     }
 
@@ -139,13 +159,32 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
         }
         
         [Test]
-        public void VendorChangedEventShouldReloadVendorDataDisplaySummaryAndAllowAddEditRemove()
+        public void VendorChangedEventShouldReloadVendorDataDisplaySummaryAndAllowAddEditRemoveEditSalesPeriod()
         {
             //arrange
             Action<Guid> callback = null;
             _eventBus.Expect(
                 p =>
                     p.On<VendorChangedEvent, Guid>(Arg<Action<Guid>>.Is.Anything))
+                .WhenCalled(cb => callback = (Action<Guid>)cb.Arguments[0]);
+
+            _viewModel = new VendorListViewModel(_vendorRepository, _vendorListItemBuilder, _windowManager, _eventBus);
+
+            //act
+            callback(Guid.NewGuid());
+
+            //assert
+            DoAssert();
+        }
+
+        [Test]
+        public void SalesPeriodChangedEventShouldReloadVendorDataDisplaySummaryAndAllowAddEditRemoveEditSalesPeriod()
+        {
+            //arrange
+            Action<Guid> callback = null;
+            _eventBus.Expect(
+                p =>
+                    p.On<StickerSalesPeriodChangedEvent, Guid>(Arg<Action<Guid>>.Is.Anything))
                 .WhenCalled(cb => callback = (Action<Guid>)cb.Arguments[0]);
 
             _viewModel = new VendorListViewModel(_vendorRepository, _vendorListItemBuilder, _windowManager, _eventBus);
@@ -163,11 +202,11 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
 
             Assert.That(vendors.Count, Is.EqualTo(1));
             Assert.That(vendors[0], Is.EqualTo(_updatedViewModelItem));
-
-
+            
             Assert.That(_viewModel.AddVendorCommand.CanExecute(), Is.True);
             Assert.That(_viewModel.EditVendorCommand.CanExecute(null), Is.True);
-            Assert.That(_viewModel.RemoveVendorCommand.CanExecute(null), Is.True);
+            Assert.That(_viewModel.RemoveVendorCommand.CanExecute(null), Is.True); 
+            Assert.That(_viewModel.EditStickerSalesPeriodCommand.CanExecute(), Is.True);
         }
     }
 }

@@ -1,0 +1,18 @@
+﻿<UserControl x:Class="StickEmApp.Windows.View.StickerSalesPeriodDetailView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <StackPanel>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Label Grid.Row ="0" Grid.Column="0" Content="Number of stickers to sell" />
+            <TextBox Grid.Row="0" Grid.Column="1" Width="100" Text="{Binding NumberOfStickersToSell}" />
+        </Grid>
+        <Button Content="Save" Command="{Binding SaveChangesCommand}"></Button>
+    </StackPanel>
+</UserControl>

@@ -33,5 +33,10 @@ namespace StickEmApp.Windows.Infrastructure
         {
             _regionManager.RequestNavigate(RegionNames.EditVendorRegion, new Uri("SummaryView", UriKind.Relative));
         }
+
+        public void DisplayEditStickerSalesPeriod()
+        {
+            _regionManager.RequestNavigate(RegionNames.EditVendorRegion, new Uri("StickerSalesPeriodDetailView", UriKind.Relative));
+        }
     }
 }

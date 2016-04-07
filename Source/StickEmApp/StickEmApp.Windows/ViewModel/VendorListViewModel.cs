@@ -23,6 +23,7 @@ namespace StickEmApp.Windows.ViewModel
         private bool _canVendorBeEdited;
 
         private DelegateCommand _addCommand;
+        private DelegateCommand _editStickerSalesPeriod;
         private DelegateCommand<VendorListItem> _editCommand;
         private DelegateCommand<VendorListItem> _removeCommand;
 
@@ -39,6 +40,7 @@ namespace StickEmApp.Windows.ViewModel
             _canVendorBeEdited = true;
 
             _eventBus.On<VendorChangedEvent, Guid>(VendorChanged);
+            _eventBus.On<StickerSalesPeriodChangedEvent, Guid>(VendorChanged);
         }
 
         private void VendorChanged(Guid id)
@@ -83,6 +85,17 @@ namespace StickEmApp.Windows.ViewModel
             }
         }
 
+        public DelegateCommand EditStickerSalesPeriodCommand
+        {
+            get
+            {
+                if(_editStickerSalesPeriod == null)
+                    _editStickerSalesPeriod = new DelegateCommand(EditStickerSalesPeriod, CanVendorBeEdited);
+
+                return _editStickerSalesPeriod;
+            }
+        }
+
         public DelegateCommand<VendorListItem> EditVendorCommand
         {
             get
@@ -108,6 +121,12 @@ namespace StickEmApp.Windows.ViewModel
         private void AddVendor()
         {
             _windowManager.DisplayAddVendor();
+            AllowVendorEditing(false);
+        }
+
+        private void EditStickerSalesPeriod()
+        {
+            _windowManager.DisplayEditStickerSalesPeriod();
             AllowVendorEditing(false);
         }
 
@@ -147,6 +166,7 @@ namespace StickEmApp.Windows.ViewModel
             AddVendorCommand.RaiseCanExecuteChanged();
             EditVendorCommand.RaiseCanExecuteChanged();
             RemoveVendorCommand.RaiseCanExecuteChanged();
+            EditStickerSalesPeriodCommand.RaiseCanExecuteChanged();
 
             if (allowEditing)
             {

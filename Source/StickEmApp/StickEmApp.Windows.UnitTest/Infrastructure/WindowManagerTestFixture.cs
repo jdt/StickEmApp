@@ -71,6 +71,19 @@ namespace StickEmApp.Windows.UnitTest.Infrastructure
             _regionManager.VerifyAllExpectations();
         }
 
+        [Test]
+        public void DisplayEditStickerSalesPeriodShouldShowStickerSalesPeriodDetailViewInEditVendorRegion()
+        {
+            //arrange
+            _regionManager.Expect(p => p.RequestNavigate(RegionNames.EditVendorRegion, new Uri("StickerSalesPeriodDetailView", UriKind.Relative)));
+
+            //act
+            _windowManager.DisplayEditStickerSalesPeriod();
+
+            //assert
+            _regionManager.VerifyAllExpectations();
+        }
+
         private static bool IsParametersEqual(NavigationParameters a, NavigationParameters b)
         {
             var listA = a.ToList().OrderBy(x => x.Key);
