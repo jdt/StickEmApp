@@ -14,12 +14,20 @@
         </DataTemplate>
 
     </UserControl.Resources>
-    <StackPanel>
-        <StackPanel Orientation="Horizontal">
-            <Button Content="Add" Width="75" HorizontalAlignment="Right" Margin="5,5,5,5" Command="{Binding AddVendorCommand}" />
-            <Button Content="Edit sticker sales period settings" HorizontalAlignment="Right" Margin="5,5,5,5" Command="{Binding EditStickerSalesPeriodCommand}"  />
-        </StackPanel>
-        <ListView ItemsSource="{Binding VendorList}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"></ColumnDefinition>
+            <ColumnDefinition Width="auto"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        
+        <Button Content="Add" Width="75" HorizontalAlignment="Right" Margin="5,5,5,5" Command="{Binding AddVendorCommand}" Grid.Row="0" Grid.Column="0" />
+        <Button Content="Edit sticker sales period settings" HorizontalAlignment="Right" Margin="5,5,5,5" Command="{Binding EditStickerSalesPeriodCommand}" Grid.Row="0" Grid.Column="1" />
+        <ListView ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Visible" ItemsSource="{Binding VendorList}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="100"/>
@@ -27,5 +35,5 @@
                 </GridView>
             </ListView.View>
         </ListView>
-    </StackPanel>
+    </Grid>
 </UserControl>
