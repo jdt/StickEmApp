@@ -43,6 +43,9 @@
             <Label Grid.Row="6" Grid.Column="0" Content="Difference"/>
             <TextBox Grid.Row="6" Grid.Column="1"  Width="100" Text="{Binding TotalDifference}" />
 
+            <Label Grid.Row="7" Grid.Column="0" Content="Sales finished?"/>
+            <CheckBox Grid.Row="7" Grid.Column="1"  Width="100" IsChecked="{Binding HasFinished}" />
+
             <Label Grid.Row="0" Grid.Column="2" Content="Amount returned"/>
 
             <Label Grid.Row ="0" Grid.Column="3" Content="500" />

@@ -44,6 +44,8 @@ namespace StickEmApp.Windows.ViewModel
         private decimal _totalAmountRequired;
         private decimal _totalDifference;
 
+        private bool _hasFinished;
+
         [ImportingConstructor]
         public VendorDetailViewModel(IVendorRepository vendorRepository, IEventAggregator eventAggregator)
         {
@@ -82,6 +84,8 @@ namespace StickEmApp.Windows.ViewModel
         public int FiveCents { get { return _fiveCents; } set { _fiveCents = value; OnPropertyChanged(); RecalculateTotals(); } }
         public int TwoCents { get { return _twoCents; } set { _twoCents = value; OnPropertyChanged(); RecalculateTotals(); } }
         public int OneCents { get { return _oneCents; } set { _oneCents = value; OnPropertyChanged(); RecalculateTotals(); } }
+
+        public bool HasFinished { get { return _hasFinished; } set { _hasFinished = value; OnPropertyChanged(); } }
 
         public ICommand SaveChangesCommand { get { return new DelegateCommand(SaveChanges); } }
         private void SaveChanges()
@@ -130,6 +134,7 @@ namespace StickEmApp.Windows.ViewModel
             FiveCents = Vendor.AmountReturned.FiveCents;
             TwoCents = Vendor.AmountReturned.TwoCents;
             OneCents = Vendor.AmountReturned.OneCents;
+            HasFinished = Vendor.Status == VendorStatus.Finished;
 
             _suspendUpdatesToCalculated = false;
 
@@ -179,6 +184,7 @@ namespace StickEmApp.Windows.ViewModel
             Vendor.AmountReturned.FiveCents = FiveCents;
             Vendor.AmountReturned.TwoCents = TwoCents;
             Vendor.AmountReturned.OneCents = OneCents;
+            Vendor.Status = HasFinished ? VendorStatus.Finished : VendorStatus.Working;
         }
     }
 }

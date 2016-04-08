@@ -66,6 +66,7 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
             _viewModel.FiveCents = 510;
             _viewModel.TwoCents = 210;
             _viewModel.OneCents = 110;
+            _viewModel.HasFinished = true;
 
             _viewModel.SaveChangesCommand.Execute(null);
 
@@ -89,6 +90,7 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
             Assert.That(savedVendor.AmountReturned.FiveCents, Is.EqualTo(510));
             Assert.That(savedVendor.AmountReturned.TwoCents, Is.EqualTo(210));
             Assert.That(savedVendor.AmountReturned.OneCents, Is.EqualTo(110));
+            Assert.That(savedVendor.Status, Is.EqualTo(VendorStatus.Finished));
 
             _vendorRepository.VerifyAllExpectations();
             _eventAggregator.VerifyAllExpectations();
@@ -110,6 +112,7 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
                 ChangeReceived = new Money(55.75m),
                 NumberOfStickersReceived = 15,
                 NumberOfStickersReturned = 10,
+                Status = VendorStatus.Finished,
                 AmountReturned = new AmountReturned
                 {
                     FiveHundreds = 500,
@@ -154,6 +157,7 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
             Assert.That(_viewModel.FiveCents, Is.EqualTo(510));
             Assert.That(_viewModel.TwoCents, Is.EqualTo(210));
             Assert.That(_viewModel.OneCents, Is.EqualTo(110));
+            Assert.That(_viewModel.HasFinished, Is.True);
         }
 
         [TestCaseSource("UpdatingFieldsShouldRecalculateTotalsData")]
