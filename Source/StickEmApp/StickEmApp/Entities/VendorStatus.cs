@@ -3,6 +3,7 @@
     public enum VendorStatus
     {
         Working,
+        Finished,
         Removed
     }
 }
