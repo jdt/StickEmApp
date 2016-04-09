@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Reflection;
 using StickEmApp.Dal;
 using StickEmApp.Entities;
@@ -22,6 +23,9 @@ namespace StickEmApp.Sandbox
                 vendorRepository.Save(vendor1);
                 vendorRepository.Save(vendor2);
             }
+            
+            Console.WriteLine("Completed. Press any key to continue.");
+            Console.ReadKey();
         }
     }
 }
