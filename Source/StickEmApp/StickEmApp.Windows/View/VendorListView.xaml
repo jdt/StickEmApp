@@ -22,12 +22,16 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"></ColumnDefinition>
             <ColumnDefinition Width="auto"></ColumnDefinition>
+            <ColumnDefinition Width="auto"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         
         <Button Content="Add" Width="75" HorizontalAlignment="Right" Margin="5,5,5,5" Command="{Binding AddVendorCommand}" Grid.Row="0" Grid.Column="0" />
         <Button Content="Edit sticker sales period settings" HorizontalAlignment="Right" Margin="5,5,5,5" Command="{Binding EditStickerSalesPeriodCommand}" Grid.Row="0" Grid.Column="1" />
-        <ListView ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Visible" ItemsSource="{Binding VendorList}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3">
+        <CheckBox Grid.Row="0" Grid.Column="2" IsChecked="{Binding ShowFinishedVendors}">
+            <Label Content="Show finished vendors"></Label>
+        </CheckBox>
+        <ListView ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Visible" ItemsSource="{Binding VendorList}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="100"/>

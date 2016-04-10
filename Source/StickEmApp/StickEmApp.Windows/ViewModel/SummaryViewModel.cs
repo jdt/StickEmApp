@@ -39,7 +39,7 @@ namespace StickEmApp.Windows.ViewModel
             {
                 var period = _stickerSalesPeriodRepository.Get();
 
-                var vendors = _vendorRepository.SelectVendors();
+                var vendors = _vendorRepository.SelectVendors(true);
                 var salesStatus = period.CalculateStatus(vendors);
 
                 NumberOfStickersToSell = salesStatus.NumberOfStickersToSell;

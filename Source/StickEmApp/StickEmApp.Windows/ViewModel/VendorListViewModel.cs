@@ -28,6 +28,7 @@ namespace StickEmApp.Windows.ViewModel
         private DelegateCommand<VendorListItem> _removeCommand;
 
         private ObservableCollection<VendorListItem> _vendorList;
+        private bool _showFinishedVendors;
 
         [ImportingConstructor]
         public VendorListViewModel(IVendorRepository vendorRepository, IVendorListItemBuilder listItemBuilder, IWindowManager windowManager, IEventBus eventBus)
@@ -38,6 +39,8 @@ namespace StickEmApp.Windows.ViewModel
             _eventBus = eventBus;
 
             _canVendorBeEdited = true;
+
+            ShowFinishedVendors = false;
 
             _eventBus.On<VendorChangedEvent, Guid>(VendorChanged);
             _eventBus.On<StickerSalesPeriodChangedEvent, Guid>(VendorChanged);
@@ -65,11 +68,25 @@ namespace StickEmApp.Windows.ViewModel
             }
         }
 
+        public bool ShowFinishedVendors
+        {
+            get
+            {
+                return _showFinishedVendors;
+            }
+            set
+            {
+                _showFinishedVendors = value;
+                OnPropertyChanged();
+                LoadData();
+            }
+        }
+
         private void LoadData()
         {
             using (new UnitOfWork())
             {
-                var items = _listItemBuilder.BuildFrom(_vendorRepository.SelectVendors());
+                var items = _listItemBuilder.BuildFrom(_vendorRepository.SelectVendors(ShowFinishedVendors));
                 VendorList = new ObservableCollection<VendorListItem>(items);
             }
         }

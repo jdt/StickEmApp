@@ -30,7 +30,7 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
         {
             var vendorList = new List<Vendor>();
             _vendorRepository = MockRepository.GenerateMock<IVendorRepository>();
-            _vendorRepository.Expect(p => p.SelectVendors()).Return(vendorList);
+            _vendorRepository.Expect(p => p.SelectVendors(true)).Return(vendorList);
 
             _status = new SalesPeriodStatus
             {
@@ -68,7 +68,7 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
         public void VendorChangeEventShouldUpdateViewModelProperties()
         {
             var updatedVendorList = new List<Vendor>();
-            _vendorRepository.Expect(p => p.SelectVendors()).Return(updatedVendorList);
+            _vendorRepository.Expect(p => p.SelectVendors(false)).Return(updatedVendorList);
 
             var updatedStatus = new SalesPeriodStatus
             {
@@ -94,7 +94,7 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
         public void SalesPeriodChangeEventShouldUpdateViewModelProperties()
         {
             var updatedVendorList = new List<Vendor>();
-            _vendorRepository.Expect(p => p.SelectVendors()).Return(updatedVendorList);
+            _vendorRepository.Expect(p => p.SelectVendors(false)).Return(updatedVendorList);
 
             var updatedStatus = new SalesPeriodStatus
             {

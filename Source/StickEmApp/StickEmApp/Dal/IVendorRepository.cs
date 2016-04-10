@@ -6,7 +6,7 @@ namespace StickEmApp.Dal
 {
     public interface IVendorRepository
     {
-        IReadOnlyCollection<Vendor> SelectVendors();
+        IReadOnlyCollection<Vendor> SelectVendors(bool includeFinished);
         Vendor Get(Guid id);
         void Save(Vendor obj);
     }

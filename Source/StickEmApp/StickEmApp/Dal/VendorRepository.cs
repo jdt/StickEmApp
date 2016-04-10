@@ -19,9 +19,15 @@ namespace StickEmApp.Dal
             UnitOfWorkManager.Session.SaveOrUpdate(obj);
         }
 
-        public IReadOnlyCollection<Vendor> SelectVendors()
+        public IReadOnlyCollection<Vendor> SelectVendors(bool includeFinished)
         {
-            return UnitOfWorkManager.Session.QueryOver<Vendor>().Where(x => x.Status != VendorStatus.Removed).List().ToArray();
+            var query = UnitOfWorkManager.Session.QueryOver<Vendor>().Where(x => x.Status != VendorStatus.Removed);
+            if (includeFinished == false)
+            {
+                query.And(x => x.Status != VendorStatus.Finished);
+            }
+
+            return query.List().ToArray();
         }
     }
 }

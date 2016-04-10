@@ -32,6 +32,11 @@ namespace StickEmApp.Entities
             Status = VendorStatus.Removed;
         }
 
+        public virtual void Finish()
+        {
+            Status = VendorStatus.Finished;
+        }
+
         public virtual Money CalculateTotalAmountRequired()
         {
             return (NumberOfStickersReceived * Sticker.Price) - (NumberOfStickersReturned * Sticker.Price) + ChangeReceived;

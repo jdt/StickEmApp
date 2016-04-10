@@ -19,6 +19,8 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
         private IWindowManager _windowManager;
         private IEventBus _eventBus;
 
+        private VendorListItem _viewModelItem;
+
         private VendorListViewModel _viewModel;
 
         [SetUp]
@@ -29,26 +31,30 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
             _windowManager = MockRepository.GenerateMock<IWindowManager>();
             _eventBus = MockRepository.GenerateMock<IEventBus>();
 
+            var vendorList = new List<Vendor> { new Vendor() };
+            _vendorRepository.Expect(p => p.SelectVendors(false)).Return(vendorList);
+
+            _viewModelItem = new VendorListItem(Guid.NewGuid(), "test1");
+            var viewModelList = new List<VendorListItem> { _viewModelItem };
+            _vendorListItemBuilder.Expect(p => p.BuildFrom(vendorList)).Return(viewModelList);
+
             _viewModel = new VendorListViewModel(_vendorRepository, _vendorListItemBuilder, _windowManager, _eventBus);
+        }
+
+        [Test]
+        public void FinishedVendorsShouldNotbeShown()
+        {
+            Assert.That(_viewModel.ShowFinishedVendors, Is.False);
         }
 
         [Test]
         public void VendorListViewModelShouldLoadVendorsInVendorList()
         {
-            //arrange
-            var vendorList = new List<Vendor> { new Vendor() };
-            _vendorRepository.Expect(p => p.SelectVendors()).Return(vendorList);
-
-            var viewModelItem = new VendorListItem(Guid.NewGuid(), "test1");
-            var viewModelList = new List<VendorListItem> { viewModelItem };
-            _vendorListItemBuilder.Expect(p => p.BuildFrom(vendorList)).Return(viewModelList);
-
             //act
             var vendors = _viewModel.VendorList;
             
             //assert
             Assert.That(vendors.Count, Is.EqualTo(1));
-            Assert.That(vendors[0], Is.EqualTo(viewModelItem));
         }
         
         [Test]
@@ -145,17 +151,17 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
             _vendorListItemBuilder = MockRepository.GenerateMock<IVendorListItemBuilder>();
             _windowManager = MockRepository.GenerateMock<IWindowManager>();
             _eventBus = MockRepository.GenerateMock<IEventBus>();
-
-            _viewModel = new VendorListViewModel(_vendorRepository, _vendorListItemBuilder, _windowManager, _eventBus);
-
+            
             var updatedVendorList = new List<Vendor> { new Vendor() };
-            _vendorRepository.Expect(p => p.SelectVendors()).Return(updatedVendorList);
+            _vendorRepository.Expect(p => p.SelectVendors(false)).Return(updatedVendorList);
 
             _updatedViewModelItem = new VendorListItem(Guid.NewGuid(), "test2");
             var updatedViewModelList = new List<VendorListItem> { _updatedViewModelItem };
             _vendorListItemBuilder.Expect(p => p.BuildFrom(updatedVendorList)).Return(updatedViewModelList);
 
             _windowManager.Expect(wm => wm.DisplaySummary());
+
+            _viewModel = new VendorListViewModel(_vendorRepository, _vendorListItemBuilder, _windowManager, _eventBus);
         }
         
         [Test]
