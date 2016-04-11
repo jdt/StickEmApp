@@ -39,7 +39,7 @@
                     <GridViewColumn Header="Amount required" DisplayMemberBinding="{Binding AmountRequired }"/>
                     <GridViewColumn Header="Amount returned" DisplayMemberBinding="{Binding AmountReturned }"/>
                     <GridViewColumn Header="Difference" DisplayMemberBinding="{Binding Difference }"/>
-                    <GridViewColumn Header="Status" DisplayMemberBinding="{Binding Status }"/>
+                    <GridViewColumn Header="Status" DisplayMemberBinding="{Binding Status, Converter ={StaticResource VendorStatusConverter} }"/>
                     <GridViewColumn CellTemplate="{StaticResource RowButtons}"/>
                 </GridView>
             </ListView.View>
