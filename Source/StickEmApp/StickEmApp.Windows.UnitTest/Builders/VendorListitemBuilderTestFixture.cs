@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
+using Rhino.Mocks;
 using StickEmApp.Entities;
 using StickEmApp.Windows.Builders;
 
@@ -27,8 +28,8 @@ namespace StickEmApp.Windows.UnitTest.Builders
 
             var input = new List<Vendor>
             {
-                new Vendor {Id = id1, Name = "foo"}, 
-                new Vendor {Id = id2, Name = "bar"}
+                new TestableVendor {Id = id1, Name = "foo", Required = new Money(105), Returned = new Money(99), Result = new SalesResult{NumberOfStickersReceived = 21, Difference = new Money(6) }, Status = VendorStatus.Working}, 
+                new TestableVendor {Id = id2, Name = "bar", Required = new Money(55), Returned = new Money(55), Result = new SalesResult{NumberOfStickersReceived = 11, Difference = new Money(0) }, Status = VendorStatus.Finished}, 
             };
 
             //act
@@ -40,10 +41,56 @@ namespace StickEmApp.Windows.UnitTest.Builders
             var resultItem = result.ElementAt(0);
             Assert.That(resultItem.Id, Is.EqualTo(id1));
             Assert.That(resultItem.Name, Is.EqualTo("foo"));
+            Assert.That(resultItem.NumberOfStickersReceived, Is.EqualTo(21));
+            Assert.That(resultItem.AmountRequired, Is.EqualTo(105));
+            Assert.That(resultItem.AmountReturned, Is.EqualTo(99));
+            Assert.That(resultItem.Difference, Is.EqualTo(6));
+            Assert.That(resultItem.Status, Is.EqualTo(VendorStatus.Working));
 
             resultItem = result.ElementAt(1);
             Assert.That(resultItem.Id, Is.EqualTo(id2));
             Assert.That(resultItem.Name, Is.EqualTo("bar"));
+            Assert.That(resultItem.NumberOfStickersReceived, Is.EqualTo(11));
+            Assert.That(resultItem.AmountRequired, Is.EqualTo(55));
+            Assert.That(resultItem.AmountReturned, Is.EqualTo(55));
+            Assert.That(resultItem.Difference, Is.EqualTo(0));
+            Assert.That(resultItem.Status, Is.EqualTo(VendorStatus.Finished));
+        }
+
+        private class TestableVendor : Vendor
+        {
+            private SalesResult _result;
+            public SalesResult Result
+            {
+                set { _result = value; }
+            }
+
+            private Money _required;
+            public Money Required
+            {
+                set { _required = value; }
+            }
+
+            private Money _returned;
+            public Money Returned
+            {
+                set { _returned = value; }
+            }
+
+            public override Money CalculateTotalAmountRequired()
+            {
+                return _required;
+            }
+
+            public override Money CalculateTotalAmountReturned()
+            {
+                return _returned;
+            }
+
+            public override SalesResult CalculateSalesResult()
+            {
+                return _result;
+            }
         }
     }
 }

@@ -34,7 +34,12 @@
         <ListView ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Visible" ItemsSource="{Binding VendorList}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="100"/>
+                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="150" />
+                    <GridViewColumn Header="Stickers received" DisplayMemberBinding="{Binding NumberOfStickersReceived }"/>
+                    <GridViewColumn Header="Amount required" DisplayMemberBinding="{Binding AmountRequired }"/>
+                    <GridViewColumn Header="Amount returned" DisplayMemberBinding="{Binding AmountReturned }"/>
+                    <GridViewColumn Header="Difference" DisplayMemberBinding="{Binding Difference }"/>
+                    <GridViewColumn Header="Status" DisplayMemberBinding="{Binding Status }"/>
                     <GridViewColumn CellTemplate="{StaticResource RowButtons}"/>
                 </GridView>
             </ListView.View>
