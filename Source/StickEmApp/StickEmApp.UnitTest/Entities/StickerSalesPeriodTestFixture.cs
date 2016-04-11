@@ -95,5 +95,35 @@ namespace StickEmApp.UnitTest.Entities
             //assert
             Assert.That(result.NumberOfStickersWithVendors, Is.EqualTo(12));
         }
+
+        [Test]
+        public void NumberOfStickersRemainingShouldBeTotalNumberOfStickersMinusStickersSoldByFinishedVendorsAndStickersWithWorkingVendors()
+        {
+            //arrange
+            var workingVendor1 = MockRepository.GenerateMock<Vendor>();
+            var workingVendor2 = MockRepository.GenerateMock<Vendor>();
+            var finishedVendor1 = MockRepository.GenerateMock<Vendor>();
+            var finishedVendor2 = MockRepository.GenerateMock<Vendor>();
+
+            workingVendor1.Expect(v => v.CalculateSalesResult()).Return(new SalesResult { NumberOfStickersReceived = 5 });
+            workingVendor1.Expect(v => v.Status).Return(VendorStatus.Working);
+
+            workingVendor2.Expect(v => v.CalculateSalesResult()).Return(new SalesResult { NumberOfStickersReceived = 7 });
+            workingVendor2.Expect(v => v.Status).Return(VendorStatus.Working);
+
+            finishedVendor1.Expect(v => v.CalculateSalesResult()).Return(new SalesResult { NumberOfStickersSold = 13 });
+            finishedVendor1.Expect(v => v.Status).Return(VendorStatus.Finished);
+
+            finishedVendor2.Expect(v => v.CalculateSalesResult()).Return(new SalesResult { NumberOfStickersSold = 17 });
+            finishedVendor2.Expect(v => v.Status).Return(VendorStatus.Finished);
+
+            _period.NumberOfStickersToSell = 100;
+
+            //act
+            var result = _period.CalculateStatus(new[] { workingVendor1, workingVendor2, finishedVendor1, finishedVendor2 });
+
+            //assert
+            Assert.That(result.NumberOfStickersRemaining, Is.EqualTo(58));
+        }
     }
 }

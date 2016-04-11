@@ -13,7 +13,8 @@ namespace StickEmApp.Entities
             var status = new SalesPeriodStatus
             {
                 NumberOfStickersToSell = NumberOfStickersToSell,
-                NumberOfStickersSold = 0
+                NumberOfStickersSold = 0,
+                NumberOfStickersRemaining = NumberOfStickersToSell
             };
             
             foreach (var vendor in vendors)
@@ -23,10 +24,12 @@ namespace StickEmApp.Entities
                 if (vendor.Status == VendorStatus.Finished)
                 {
                     status.NumberOfStickersSold += vendorResult.NumberOfStickersSold;
+                    status.NumberOfStickersRemaining -= vendorResult.NumberOfStickersSold;
                 }
                 else
                 {
                     status.NumberOfStickersWithVendors += vendorResult.NumberOfStickersReceived;
+                    status.NumberOfStickersRemaining -= vendorResult.NumberOfStickersReceived;
                 }
             }
 
