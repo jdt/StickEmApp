@@ -14,6 +14,7 @@ namespace StickEmApp.Windows.ViewModel
 
         private int _numberOfStickersToSell;
         private int _numberOfStickersSold;
+        private int _numberOfStickersWithVendors;
         private decimal _salesTotal;
 
         [ImportingConstructor]
@@ -44,6 +45,7 @@ namespace StickEmApp.Windows.ViewModel
 
                 NumberOfStickersToSell = salesStatus.NumberOfStickersToSell;
                 NumberOfStickersSold = salesStatus.NumberOfStickersSold;
+                NumberOfStickersWithVendors = salesStatus.NumberOfStickersWithVendors;
                 SalesTotal = salesStatus.SalesTotal.Value;
             }
         }
@@ -70,6 +72,19 @@ namespace StickEmApp.Windows.ViewModel
             set
             {
                 _numberOfStickersSold = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public int NumberOfStickersWithVendors
+        {
+            get
+            {
+                return _numberOfStickersWithVendors;
+            }
+            set
+            {
+                _numberOfStickersWithVendors = value;
                 OnPropertyChanged();
             }
         }

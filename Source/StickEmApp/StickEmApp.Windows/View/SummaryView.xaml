@@ -12,12 +12,15 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Label Grid.Row="0" Grid.Column="0" Content="Total number of stickers to sell" />
         <Label Grid.Row="0" Grid.Column="1" Content="{Binding NumberOfStickersToSell}" />
-        <Label Grid.Row="1" Grid.Column="0" Content="Total number of stickers sold" />
-        <Label Grid.Row="1" Grid.Column="1" Content="{Binding NumberOfStickersSold}" />
-        <Label Grid.Row="2" Grid.Column="0" Content="Total revenue from sales" />
-        <Label Grid.Row="2" Grid.Column="1" Content="{Binding SalesTotal}" />
+        <Label Grid.Row="1" Grid.Column="0" Content="Total number of stickers with vendors" />
+        <Label Grid.Row="1" Grid.Column="1" Content="{Binding NumberOfStickersWithVendors}" />
+        <Label Grid.Row="2" Grid.Column="0" Content="Total number of stickers sold" />
+        <Label Grid.Row="2" Grid.Column="1" Content="{Binding NumberOfStickersSold}" />
+        <Label Grid.Row="3" Grid.Column="0" Content="Total revenue from sales" />
+        <Label Grid.Row="3" Grid.Column="1" Content="{Binding SalesTotal}" />
     </Grid>
 </UserControl>

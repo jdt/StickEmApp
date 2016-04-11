@@ -74,6 +74,7 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
             {
                 NumberOfStickersToSell = 42,
                 NumberOfStickersSold = 37,
+                NumberOfStickersWithVendors = 23,
                 SalesTotal = new Money(35)
             };
 
@@ -87,6 +88,7 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
 
             Assert.That(_viewModel.NumberOfStickersToSell, Is.EqualTo(42));
             Assert.That(_viewModel.NumberOfStickersSold, Is.EqualTo(37));
+            Assert.That(_viewModel.NumberOfStickersWithVendors, Is.EqualTo(23));
             Assert.That(_viewModel.SalesTotal, Is.EqualTo(35));
         }
 
@@ -100,6 +102,7 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
             {
                 NumberOfStickersToSell = 42,
                 NumberOfStickersSold = 37,
+                NumberOfStickersWithVendors = 72,
                 SalesTotal = new Money(35)
             };
 
@@ -114,6 +117,7 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
             Assert.That(_viewModel.NumberOfStickersToSell, Is.EqualTo(42));
             Assert.That(_viewModel.NumberOfStickersSold, Is.EqualTo(37));
             Assert.That(_viewModel.SalesTotal, Is.EqualTo(35));
+            Assert.That(_viewModel.NumberOfStickersWithVendors, Is.EqualTo(72));
         }
     }
 }
