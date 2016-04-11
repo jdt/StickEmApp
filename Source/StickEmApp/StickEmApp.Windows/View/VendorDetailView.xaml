@@ -22,31 +22,31 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <Label Grid.Row ="0" Grid.Column="0" Content="Name" />
+            <Label Grid.Row ="0" Grid.Column="0" Content="{StaticResource Name}" />
             <TextBox Grid.Row="0" Grid.Column="1" Width="100" Text="{Binding Name}" Name="VendorName" />
 
-            <Label Grid.Row="1" Grid.Column="0" Content="Stickers received"/>
+            <Label Grid.Row="1" Grid.Column="0" Content="{StaticResource StickersReceived}"/>
             <TextBox Grid.Row="1" Grid.Column="1"  Width="100" Text="{Binding NumberOfStickersReceived}" />
 
-            <Label Grid.Row="2" Grid.Column="0" Content="Stickers returned"/>
+            <Label Grid.Row="2" Grid.Column="0" Content="{StaticResource StickersReturned}"/>
             <TextBox Grid.Row="2" Grid.Column="1"  Width="100" Text="{Binding NumberOfStickersReturned}" />
 
-            <Label Grid.Row="3" Grid.Column="0" Content="Change received"/>
+            <Label Grid.Row="3" Grid.Column="0" Content="{StaticResource ChangeReceived}"/>
             <TextBox Grid.Row="3" Grid.Column="1"  Width="100" Text="{Binding ChangeReceived}" />
 
-            <Label Grid.Row="4" Grid.Column="0" Content="Total amount returned"/>
+            <Label Grid.Row="4" Grid.Column="0" Content="{StaticResource AmountReturned}"/>
             <TextBox Grid.Row="4" Grid.Column="1"  Width="100" Text="{Binding TotalAmountReturned}" />
 
-            <Label Grid.Row="5" Grid.Column="0" Content="Total amount required"/>
+            <Label Grid.Row="5" Grid.Column="0" Content="{StaticResource AmountRequired}"/>
             <TextBox Grid.Row="5" Grid.Column="1"  Width="100" Text="{Binding TotalAmountRequired}" />
 
-            <Label Grid.Row="6" Grid.Column="0" Content="Difference"/>
+            <Label Grid.Row="6" Grid.Column="0" Content="{StaticResource Difference}"/>
             <TextBox Grid.Row="6" Grid.Column="1"  Width="100" Text="{Binding TotalDifference}" />
 
-            <Label Grid.Row="7" Grid.Column="0" Content="Sales finished?"/>
+            <Label Grid.Row="7" Grid.Column="0" Content="{StaticResource HasFinishedSelling}"/>
             <CheckBox Grid.Row="7" Grid.Column="1"  Width="100" IsChecked="{Binding HasFinished}" />
 
-            <Label Grid.Row="0" Grid.Column="2" Content="Amount returned"/>
+            <Label Grid.Row="0" Grid.Column="2" Content="{StaticResource MoneyReturned}"/>
 
             <Label Grid.Row ="0" Grid.Column="3" Content="500" />
             <TextBox Grid.Row="0" Grid.Column="4" Width="100" Text="{Binding FiveHundreds}" />
@@ -94,6 +94,6 @@
             <TextBox Grid.Row="7" Grid.Column="6" Width="100" Text="{Binding OneCents}" />
         </Grid>
 
-        <Button Content="Save" Command="{Binding SaveChangesCommand}"></Button>
+        <Button Content="{StaticResource Save}" Command="{Binding SaveChangesCommand}"></Button>
     </StackPanel>
 </UserControl>

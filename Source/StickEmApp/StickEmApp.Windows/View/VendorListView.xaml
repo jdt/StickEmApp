@@ -8,8 +8,8 @@
     <UserControl.Resources>
         <DataTemplate x:Key="RowButtons">
             <StackPanel Orientation="Horizontal">
-                <Button Content="Edit" Command="{Binding RelativeSource={RelativeSource AncestorType=ListView}, Path=DataContext.EditVendorCommand }" CommandParameter="{Binding}"/>
-                <Button Content="Delete" Command="{Binding RelativeSource={RelativeSource AncestorType=ListView}, Path=DataContext.RemoveVendorCommand }" CommandParameter="{Binding}"/>
+                <Button Content="{StaticResource Edit}" Command="{Binding RelativeSource={RelativeSource AncestorType=ListView}, Path=DataContext.EditVendorCommand }" CommandParameter="{Binding}"/>
+                <Button Content="{StaticResource Delete}" Command="{Binding RelativeSource={RelativeSource AncestorType=ListView}, Path=DataContext.RemoveVendorCommand }" CommandParameter="{Binding}"/>
             </StackPanel>
         </DataTemplate>
 
@@ -26,20 +26,20 @@
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         
-        <Button Content="Add" Width="75" HorizontalAlignment="Right" Margin="5,5,5,5" Command="{Binding AddVendorCommand}" Grid.Row="0" Grid.Column="0" />
-        <Button Content="Edit sticker sales period settings" HorizontalAlignment="Right" Margin="5,5,5,5" Command="{Binding EditStickerSalesPeriodCommand}" Grid.Row="0" Grid.Column="1" />
+        <Button Content="{StaticResource Add}" Width="75" HorizontalAlignment="Right" Margin="5,5,5,5" Command="{Binding AddVendorCommand}" Grid.Row="0" Grid.Column="0" />
+        <Button Content="{StaticResource EditStickerSalesPeriodSettings}" HorizontalAlignment="Right" Margin="5,5,5,5" Command="{Binding EditStickerSalesPeriodCommand}" Grid.Row="0" Grid.Column="1" />
         <CheckBox Grid.Row="0" Grid.Column="2" IsChecked="{Binding ShowFinishedVendors}">
-            <Label Content="Show finished vendors"></Label>
+            <Label Content="{StaticResource ShowFinishedVendors}"></Label>
         </CheckBox>
         <ListView ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Visible" ItemsSource="{Binding VendorList}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="150" />
-                    <GridViewColumn Header="Stickers received" DisplayMemberBinding="{Binding NumberOfStickersReceived }"/>
-                    <GridViewColumn Header="Amount required" DisplayMemberBinding="{Binding AmountRequired }"/>
-                    <GridViewColumn Header="Amount returned" DisplayMemberBinding="{Binding AmountReturned }"/>
-                    <GridViewColumn Header="Difference" DisplayMemberBinding="{Binding Difference }"/>
-                    <GridViewColumn Header="Status" DisplayMemberBinding="{Binding Status, Converter ={StaticResource VendorStatusConverter} }"/>
+                    <GridViewColumn Header="{StaticResource Name}" DisplayMemberBinding="{Binding Name}" Width="150" />
+                    <GridViewColumn Header="{StaticResource StickersReceived}" DisplayMemberBinding="{Binding NumberOfStickersReceived }"/>
+                    <GridViewColumn Header="{StaticResource AmountRequired}" DisplayMemberBinding="{Binding AmountRequired }"/>
+                    <GridViewColumn Header="{StaticResource AmountReturned}" DisplayMemberBinding="{Binding AmountReturned }"/>
+                    <GridViewColumn Header="{StaticResource Difference}" DisplayMemberBinding="{Binding Difference }"/>
+                    <GridViewColumn Header="{StaticResource Status}" DisplayMemberBinding="{Binding Status, Converter ={StaticResource VendorStatusConverter} }" Width="75"/>
                     <GridViewColumn CellTemplate="{StaticResource RowButtons}"/>
                 </GridView>
             </ListView.View>

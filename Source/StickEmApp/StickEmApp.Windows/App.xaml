@@ -7,6 +7,27 @@
     <Application.Resources>
         <system:String x:Key="VendorStatusFinished">Afgewerkt</system:String>
         <system:String x:Key="VendorStatusWorking">Bezig</system:String>
+        <system:String x:Key="Edit">Bewerken</system:String>
+        <system:String x:Key="Delete">Verwijderen</system:String>
+        <system:String x:Key="Add">Toevoegen</system:String>
+        <system:String x:Key="EditStickerSalesPeriodSettings">Instellingen stickerverkoop</system:String>
+        <system:String x:Key="ShowFinishedVendors">Afgewerkte verkopers weergeven</system:String>
+        <system:String x:Key="Name">Naam</system:String>
+        <system:String x:Key="StickersReceived">Stickers ontvangen</system:String>
+        <system:String x:Key="AmountRequired">Bedrag nodig</system:String>
+        <system:String x:Key="AmountReturned">Bedrag afgegeven</system:String>
+        <system:String x:Key="Difference">Verschil</system:String>
+        <system:String x:Key="Status">Status</system:String>
+        <system:String x:Key="StickersReturned">Stickers teruggegeven</system:String>
+        <system:String x:Key="ChangeReceived">Wisselgeld ontvangen</system:String>
+        <system:String x:Key="HasFinishedSelling">Klaar met verkopen</system:String>
+        <system:String x:Key="MoneyReturned">Geld afgegeven</system:String>
+        <system:String x:Key="Save">Bewaren</system:String>
+        <system:String x:Key="TotalNumberToSell">Totaal aantal stickers te verkopen</system:String>
+        <system:String x:Key="TotalNumberOfStickersWithVendors">Totaal aantal stickers bij verkopers</system:String>
+        <system:String x:Key="TotalNumberOfStickersSold">Total aantal stickers verkocht</system:String>
+        <system:String x:Key="TotalNumberOfStickersRemaining">Totaal aantal stickers resterend</system:String>
+        <system:String x:Key="TotalRevenueFromSales">Totale opbrengst van verkoop</system:String>
         
         <converters:VendorStatusConverter x:Key="VendorStatusConverter"/>
     </Application.Resources>

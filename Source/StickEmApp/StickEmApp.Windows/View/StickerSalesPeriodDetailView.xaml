@@ -10,9 +10,9 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <Label Grid.Row ="0" Grid.Column="0" Content="Number of stickers to sell" />
+            <Label Grid.Row ="0" Grid.Column="0" Content="{StaticResource TotalNumberToSell}" />
             <TextBox Grid.Row="0" Grid.Column="1" Width="100" Text="{Binding NumberOfStickersToSell}" />
         </Grid>
-        <Button Content="Save" Command="{Binding SaveChangesCommand}"></Button>
+        <Button Content="{StaticResource Save}" Command="{Binding SaveChangesCommand}"></Button>
     </StackPanel>
 </UserControl>
