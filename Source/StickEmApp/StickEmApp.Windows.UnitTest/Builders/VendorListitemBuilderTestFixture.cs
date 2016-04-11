@@ -51,9 +51,9 @@ namespace StickEmApp.Windows.UnitTest.Builders
             Assert.That(resultItem.Id, Is.EqualTo(id2));
             Assert.That(resultItem.Name, Is.EqualTo("bar"));
             Assert.That(resultItem.NumberOfStickersReceived, Is.EqualTo(11));
-            Assert.That(resultItem.AmountRequired, Is.EqualTo(55));
-            Assert.That(resultItem.AmountReturned, Is.EqualTo(55));
-            Assert.That(resultItem.Difference, Is.EqualTo(0));
+            Assert.That(resultItem.AmountRequired, Is.EqualTo(new Money(55)));
+            Assert.That(resultItem.AmountReturned, Is.EqualTo(new Money(55)));
+            Assert.That(resultItem.Difference, Is.EqualTo(new Money(0)));
             Assert.That(resultItem.Status, Is.EqualTo(VendorStatus.Finished));
         }
 
