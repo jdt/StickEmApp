@@ -30,34 +30,70 @@ namespace StickEmApp.UnitTest.Entities
         }
 
         [Test]
-        public void NumberOfStickersSoldInPeriodShouldBeTotalOfSoldByAllVendorsInThePeriod()
+        public void NumberOfStickersSoldInPeriodShouldBeTotalOfSoldByAllFinishedVendorsInThePeriod()
         {
             //arrange
             var vendor1 = MockRepository.GenerateMock<Vendor>();
             var vendor2 = MockRepository.GenerateMock<Vendor>();
+            var workingVendor = MockRepository.GenerateMock<Vendor>();
 
             vendor1.Expect(v => v.CalculateSalesResult()).Return(new SalesResult {NumberOfStickersSold = 5});
-            vendor2.Expect(v => v.CalculateSalesResult()).Return(new SalesResult {NumberOfStickersSold = 7});
+            vendor1.Expect(v => v.Status).Return(VendorStatus.Finished);
+
+            vendor2.Expect(v => v.CalculateSalesResult()).Return(new SalesResult { NumberOfStickersSold = 7 });
+            vendor2.Expect(v => v.Status).Return(VendorStatus.Finished);
+
+            workingVendor.Expect(v => v.CalculateSalesResult()).Return(new SalesResult { NumberOfStickersSold = 7 });
+            workingVendor.Expect(v => v.Status).Return(VendorStatus.Working);
 
             //act
-            var result = _period.CalculateStatus(new[] {vendor1, vendor2});
+            var result = _period.CalculateStatus(new[] {vendor1, vendor2, workingVendor});
 
             //assert
             Assert.That(result.NumberOfStickersSold, Is.EqualTo(12));
         }
 
         [Test]
-        public void SalesTotalShouldBeStickerPriceTimesTotalNumberOfStickersSold()
+        public void SalesTotalShouldBeStickerPriceTimesTotalNumberOfStickersSoldByFinishedVendors()
         {
             //arrange
-            var vendor = MockRepository.GenerateMock<Vendor>();
-            vendor.Expect(v => v.CalculateSalesResult()).Return(new SalesResult { NumberOfStickersSold = 3 });
+            var finished = MockRepository.GenerateMock<Vendor>();
+            finished.Expect(v => v.Status).Return(VendorStatus.Finished);
+            finished.Expect(v => v.CalculateSalesResult()).Return(new SalesResult { NumberOfStickersSold = 3 });
+
+            var working = MockRepository.GenerateMock<Vendor>();
+            working.Expect(v => v.Status).Return(VendorStatus.Working);
+            working.Expect(v => v.CalculateSalesResult()).Return(new SalesResult {NumberOfStickersSold = 5});
 
             //act
-            var result = _period.CalculateStatus(new[] { vendor });
+            var result = _period.CalculateStatus(new[] { finished, working });
 
             //assert
             Assert.That(result.SalesTotal, Is.EqualTo(new Money(15)));
+        }
+
+        [Test]
+        public void NumberOfStickersWithVendorsShouldBeTotalOfStickersWithAllWorkingVendorsInThePeriod()
+        {
+            //arrange
+            var vendor1 = MockRepository.GenerateMock<Vendor>();
+            var vendor2 = MockRepository.GenerateMock<Vendor>();
+            var finishedVendor = MockRepository.GenerateMock<Vendor>();
+
+            vendor1.Expect(v => v.CalculateSalesResult()).Return(new SalesResult { NumberOfStickersReceived = 5 });
+            vendor1.Expect(v => v.Status).Return(VendorStatus.Working);
+
+            vendor2.Expect(v => v.CalculateSalesResult()).Return(new SalesResult { NumberOfStickersReceived = 7 });
+            vendor2.Expect(v => v.Status).Return(VendorStatus.Working);
+
+            finishedVendor.Expect(v => v.CalculateSalesResult()).Return(new SalesResult { NumberOfStickersSold = 7 });
+            finishedVendor.Expect(v => v.Status).Return(VendorStatus.Finished);
+
+            //act
+            var result = _period.CalculateStatus(new[] { vendor1, vendor2, finishedVendor });
+
+            //assert
+            Assert.That(result.NumberOfStickersWithVendors, Is.EqualTo(12));
         }
     }
 }
