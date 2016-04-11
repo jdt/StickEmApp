@@ -93,6 +93,7 @@
     <Compile Include="Infrastructure\IWindowManager.cs" />
     <Compile Include="Infrastructure\WindowManager.cs" />
     <Compile Include="StickEmAppBootStrapper.cs" />
+    <Compile Include="ViewModel\Converters\MoneyConverter.cs" />
     <Compile Include="ViewModel\Converters\VendorStatusConverter.cs" />
     <Compile Include="ViewModel\StickerSalesPeriodDetailViewModel.cs" />
     <Compile Include="ViewModel\SummaryViewModel.cs" />

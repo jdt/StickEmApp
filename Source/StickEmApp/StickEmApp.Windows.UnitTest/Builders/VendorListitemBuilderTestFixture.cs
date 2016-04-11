@@ -42,9 +42,9 @@ namespace StickEmApp.Windows.UnitTest.Builders
             Assert.That(resultItem.Id, Is.EqualTo(id1));
             Assert.That(resultItem.Name, Is.EqualTo("foo"));
             Assert.That(resultItem.NumberOfStickersReceived, Is.EqualTo(21));
-            Assert.That(resultItem.AmountRequired, Is.EqualTo(105));
-            Assert.That(resultItem.AmountReturned, Is.EqualTo(99));
-            Assert.That(resultItem.Difference, Is.EqualTo(6));
+            Assert.That(resultItem.AmountRequired, Is.EqualTo(new Money(105)));
+            Assert.That(resultItem.AmountReturned, Is.EqualTo(new Money(99)));
+            Assert.That(resultItem.Difference, Is.EqualTo(new Money(6)));
             Assert.That(resultItem.Status, Is.EqualTo(VendorStatus.Working));
 
             resultItem = result.ElementAt(1);

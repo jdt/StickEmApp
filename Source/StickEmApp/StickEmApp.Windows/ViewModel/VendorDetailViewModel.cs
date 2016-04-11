@@ -40,9 +40,9 @@ namespace StickEmApp.Windows.ViewModel
         private int _twoCents;
         private int _oneCents;
 
-        private decimal _totalAmountReturned;
-        private decimal _totalAmountRequired;
-        private decimal _totalDifference;
+        private Money _totalAmountReturned;
+        private Money _totalAmountRequired;
+        private Money _totalDifference;
 
         private bool _hasFinished;
 
@@ -61,9 +61,9 @@ namespace StickEmApp.Windows.ViewModel
 
         public string Name { get { return _name; } set { _name = value; OnPropertyChanged(); } }
 
-        public decimal TotalAmountReturned { get { return _totalAmountReturned; } set { _totalAmountReturned = value; OnPropertyChanged(); } }
-        public decimal TotalAmountRequired { get { return _totalAmountRequired; } set { _totalAmountRequired = value; OnPropertyChanged(); } }
-        public decimal TotalDifference { get { return _totalDifference; } set { _totalDifference = value; OnPropertyChanged(); } }
+        public Money TotalAmountReturned { get { return _totalAmountReturned; } set { _totalAmountReturned = value; OnPropertyChanged(); } }
+        public Money TotalAmountRequired { get { return _totalAmountRequired; } set { _totalAmountRequired = value; OnPropertyChanged(); } }
+        public Money TotalDifference { get { return _totalDifference; } set { _totalDifference = value; OnPropertyChanged(); } }
 
         public int NumberOfStickersReceived { get { return _numberOfStickersReceived; } set { _numberOfStickersReceived = value; OnPropertyChanged(); RecalculateTotals(); } }
         public int NumberOfStickersReturned { get { return _numberOfStickersReturned; } set { _numberOfStickersReturned = value; OnPropertyChanged(); RecalculateTotals(); } }
@@ -158,9 +158,9 @@ namespace StickEmApp.Windows.ViewModel
 
             UpdateVendor();
 
-            TotalAmountRequired = Vendor.CalculateTotalAmountRequired().Value;
-            TotalAmountReturned = Vendor.CalculateTotalAmountReturned().Value;
-            TotalDifference = Vendor.CalculateSalesResult().Difference.Value;
+            TotalAmountRequired = Vendor.CalculateTotalAmountRequired();
+            TotalAmountReturned = Vendor.CalculateTotalAmountReturned();
+            TotalDifference = Vendor.CalculateSalesResult().Difference;
         }
 
         private void UpdateVendor()

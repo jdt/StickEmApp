@@ -16,9 +16,9 @@ namespace StickEmApp.Windows.Builders
                 result.Add(new VendorListItem(vendor.Id, vendor.Name)
                 {
                     NumberOfStickersReceived = vendor.CalculateSalesResult().NumberOfStickersReceived,
-                    AmountReturned = vendor.CalculateTotalAmountReturned().Value,
-                    AmountRequired = vendor.CalculateTotalAmountRequired().Value,
-                    Difference = vendor.CalculateSalesResult().Difference.Value,
+                    AmountReturned = vendor.CalculateTotalAmountReturned(),
+                    AmountRequired = vendor.CalculateTotalAmountRequired(),
+                    Difference = vendor.CalculateSalesResult().Difference,
                     Status = vendor.Status
                 });
             }

@@ -2,6 +2,7 @@
 using System.ComponentModel.Composition;
 using Prism.Mvvm;
 using StickEmApp.Dal;
+using StickEmApp.Entities;
 using StickEmApp.Windows.Infrastructure.Events;
 
 namespace StickEmApp.Windows.ViewModel
@@ -16,7 +17,7 @@ namespace StickEmApp.Windows.ViewModel
         private int _numberOfStickersSold;
         private int _numberOfStickersWithVendors;
         private int _numberOfStickersRemaining;
-        private decimal _salesTotal;
+        private Money _salesTotal;
         
         [ImportingConstructor]
         public SummaryViewModel(IStickerSalesPeriodRepository stickerSalesPeriodRepository, IVendorRepository vendorRepository, IEventBus eventBus)
@@ -48,7 +49,7 @@ namespace StickEmApp.Windows.ViewModel
                 NumberOfStickersSold = salesStatus.NumberOfStickersSold;
                 NumberOfStickersWithVendors = salesStatus.NumberOfStickersWithVendors;
                 NumberOfStickersRemaining = salesStatus.NumberOfStickersRemaining;
-                SalesTotal = salesStatus.SalesTotal.Value;
+                SalesTotal = salesStatus.SalesTotal;
             }
         }
 
@@ -104,7 +105,7 @@ namespace StickEmApp.Windows.ViewModel
             }
         }
 
-        public decimal SalesTotal
+        public Money SalesTotal
         {
             get
             {

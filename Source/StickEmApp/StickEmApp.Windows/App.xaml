@@ -30,5 +30,6 @@
         <system:String x:Key="TotalRevenueFromSales">Totale opbrengst van verkoop</system:String>
         
         <converters:VendorStatusConverter x:Key="VendorStatusConverter"/>
+        <converters:MoneyConverter x:Key="MoneyConverter"/>
     </Application.Resources>
 </Application>

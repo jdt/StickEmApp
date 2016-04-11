@@ -13,6 +13,6 @@
             <Label Grid.Row ="0" Grid.Column="0" Content="{StaticResource TotalNumberToSell}" />
             <TextBox Grid.Row="0" Grid.Column="1" Width="100" Text="{Binding NumberOfStickersToSell}" />
         </Grid>
-        <Button Content="{StaticResource Save}" Command="{Binding SaveChangesCommand}"></Button>
+        <Button Margin="5,5,5,5" Padding="5,5,5,5" Content="{StaticResource Save}" Command="{Binding SaveChangesCommand}"></Button>
     </StackPanel>
 </UserControl>

@@ -61,7 +61,7 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
         {
             Assert.That(_viewModel.NumberOfStickersToSell, Is.EqualTo(500));
             Assert.That(_viewModel.NumberOfStickersSold, Is.EqualTo(30));
-            Assert.That(_viewModel.SalesTotal, Is.EqualTo(150));
+            Assert.That(_viewModel.SalesTotal, Is.EqualTo(new Money(150)));
         }
 
         [Test]
@@ -91,7 +91,7 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
             Assert.That(_viewModel.NumberOfStickersSold, Is.EqualTo(37));
             Assert.That(_viewModel.NumberOfStickersWithVendors, Is.EqualTo(23));
             Assert.That(_viewModel.NumberOfStickersRemaining, Is.EqualTo(11));
-            Assert.That(_viewModel.SalesTotal, Is.EqualTo(35));
+            Assert.That(_viewModel.SalesTotal, Is.EqualTo(new Money(35)));
         }
 
         [Test]
@@ -119,7 +119,7 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
 
             Assert.That(_viewModel.NumberOfStickersToSell, Is.EqualTo(42));
             Assert.That(_viewModel.NumberOfStickersSold, Is.EqualTo(37));
-            Assert.That(_viewModel.SalesTotal, Is.EqualTo(35));
+            Assert.That(_viewModel.SalesTotal, Is.EqualTo(new Money(35)));
             Assert.That(_viewModel.NumberOfStickersRemaining, Is.EqualTo(13));
             Assert.That(_viewModel.NumberOfStickersWithVendors, Is.EqualTo(72));
         }

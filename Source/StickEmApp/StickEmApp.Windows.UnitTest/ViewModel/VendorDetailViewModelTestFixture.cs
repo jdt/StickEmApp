@@ -190,9 +190,9 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
             action(_viewModel); 
 
             //assert
-            Assert.That(_viewModel.TotalAmountRequired, Is.EqualTo(50));
-            Assert.That(_viewModel.TotalAmountReturned, Is.EqualTo(30));
-            Assert.That(_viewModel.TotalDifference, Is.EqualTo(20));
+            Assert.That(_viewModel.TotalAmountRequired, Is.EqualTo(new Money(50)));
+            Assert.That(_viewModel.TotalAmountReturned, Is.EqualTo(new Money(30)));
+            Assert.That(_viewModel.TotalDifference, Is.EqualTo(new Money(20)));
         }
 
         public static IEnumerable UpdatingFieldsShouldRecalculateTotalsData

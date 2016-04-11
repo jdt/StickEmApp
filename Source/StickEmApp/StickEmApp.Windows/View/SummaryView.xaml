@@ -24,6 +24,6 @@
         <Label Grid.Row="3" Grid.Column="0" Content="{StaticResource TotalNumberOfStickersRemaining}" />
         <Label Grid.Row="3" Grid.Column="1" Content="{Binding NumberOfStickersRemaining}" />
         <Label Grid.Row="4" Grid.Column="0" Content="{StaticResource TotalRevenueFromSales}" />
-        <Label Grid.Row="4" Grid.Column="1" Content="{Binding SalesTotal}" />
+        <Label Grid.Row="4" Grid.Column="1" Content="{Binding SalesTotal, Converter={StaticResource MoneyConverter}}" />
     </Grid>
 </UserControl>

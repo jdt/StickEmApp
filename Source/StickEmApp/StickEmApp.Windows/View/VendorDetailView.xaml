@@ -1,7 +1,7 @@
 ﻿<UserControl x:Class="StickEmApp.Windows.View.VendorDetailView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <StackPanel FocusManager.FocusedElement="{Binding ElementName=VendorName}">
+    <StackPanel>
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
@@ -23,7 +23,7 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Label Grid.Row ="0" Grid.Column="0" Content="{StaticResource Name}" />
-            <TextBox Grid.Row="0" Grid.Column="1" Width="100" Text="{Binding Name}" Name="VendorName" />
+            <TextBox Grid.Row="0" Grid.Column="1" Width="100" Text="{Binding Name}" />
 
             <Label Grid.Row="1" Grid.Column="0" Content="{StaticResource StickersReceived}"/>
             <TextBox Grid.Row="1" Grid.Column="1"  Width="100" Text="{Binding NumberOfStickersReceived}" />
@@ -35,13 +35,13 @@
             <TextBox Grid.Row="3" Grid.Column="1"  Width="100" Text="{Binding ChangeReceived}" />
 
             <Label Grid.Row="4" Grid.Column="0" Content="{StaticResource AmountReturned}"/>
-            <TextBox Grid.Row="4" Grid.Column="1"  Width="100" Text="{Binding TotalAmountReturned}" />
+            <Label Grid.Row="4" Grid.Column="1"  Width="100" Content="{Binding TotalAmountReturned, Converter={StaticResource MoneyConverter} }" />
 
             <Label Grid.Row="5" Grid.Column="0" Content="{StaticResource AmountRequired}"/>
-            <TextBox Grid.Row="5" Grid.Column="1"  Width="100" Text="{Binding TotalAmountRequired}" />
+            <Label Grid.Row="5" Grid.Column="1"  Width="100" Content="{Binding TotalAmountRequired, Converter={StaticResource MoneyConverter}}" />
 
             <Label Grid.Row="6" Grid.Column="0" Content="{StaticResource Difference}"/>
-            <TextBox Grid.Row="6" Grid.Column="1"  Width="100" Text="{Binding TotalDifference}" />
+            <Label Grid.Row="6" Grid.Column="1"  Width="100" Content="{Binding TotalDifference, Converter={StaticResource MoneyConverter}}" />
 
             <Label Grid.Row="7" Grid.Column="0" Content="{StaticResource HasFinishedSelling}"/>
             <CheckBox Grid.Row="7" Grid.Column="1"  Width="100" IsChecked="{Binding HasFinished}" />
@@ -94,6 +94,6 @@
             <TextBox Grid.Row="7" Grid.Column="6" Width="100" Text="{Binding OneCents}" />
         </Grid>
 
-        <Button Content="{StaticResource Save}" Command="{Binding SaveChangesCommand}"></Button>
+        <Button Margin="5,5,5,5" Padding="5,5,5,5" Content="{StaticResource Save}" Command="{Binding SaveChangesCommand}"></Button>
     </StackPanel>
 </UserControl>
