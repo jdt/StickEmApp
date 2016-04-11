@@ -91,5 +91,17 @@ namespace StickEmApp.UnitTest.Entities
             var result = vendor.CalculateSalesResult();
             Assert.That(result.NumberOfStickersSold, Is.EqualTo(sold));
         }
+
+        [Test]
+        public void CalculateSalesResultShouldReturnNumberOfStickersRceivedAsNumberOfStickersReceived()
+        {
+            var vendor = new Vendor
+            {
+                NumberOfStickersReceived = 42
+            };
+
+            var result = vendor.CalculateSalesResult();
+            Assert.That(result.NumberOfStickersReceived, Is.EqualTo(42));
+        }
     }
 }
