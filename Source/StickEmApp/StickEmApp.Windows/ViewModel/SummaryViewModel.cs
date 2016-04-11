@@ -15,8 +15,9 @@ namespace StickEmApp.Windows.ViewModel
         private int _numberOfStickersToSell;
         private int _numberOfStickersSold;
         private int _numberOfStickersWithVendors;
+        private int _numberOfStickersRemaining;
         private decimal _salesTotal;
-
+        
         [ImportingConstructor]
         public SummaryViewModel(IStickerSalesPeriodRepository stickerSalesPeriodRepository, IVendorRepository vendorRepository, IEventBus eventBus)
         {
@@ -46,6 +47,7 @@ namespace StickEmApp.Windows.ViewModel
                 NumberOfStickersToSell = salesStatus.NumberOfStickersToSell;
                 NumberOfStickersSold = salesStatus.NumberOfStickersSold;
                 NumberOfStickersWithVendors = salesStatus.NumberOfStickersWithVendors;
+                NumberOfStickersRemaining = salesStatus.NumberOfStickersRemaining;
                 SalesTotal = salesStatus.SalesTotal.Value;
             }
         }
@@ -85,6 +87,19 @@ namespace StickEmApp.Windows.ViewModel
             set
             {
                 _numberOfStickersWithVendors = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public int NumberOfStickersRemaining
+        {            
+            get
+            {
+                return _numberOfStickersRemaining;
+            }
+            set
+            {
+                _numberOfStickersRemaining = value;
                 OnPropertyChanged();
             }
         }
