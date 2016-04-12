@@ -1,4 +1,5 @@
-﻿using FluentNHibernate.Testing;
+﻿using System;
+using FluentNHibernate.Testing;
 using NUnit.Framework;
 using StickEmApp.Dal;
 using StickEmApp.Entities;
@@ -13,6 +14,8 @@ namespace StickEmApp.UnitTest.Dal.Mapping
         {
             new PersistenceSpecification<Vendor>(UnitOfWorkManager.Session)
             .CheckProperty(c => c.Name, "foo")
+            .CheckProperty(c => c.StartedAt, new DateTime(2016, 4, 12, 10, 30, 0))
+            .CheckProperty(c => c.FinishedAt, new DateTime(2016, 4, 12, 15, 00, 0))
             .CheckProperty(c => c.ChangeReceived, new Money(55))
             .CheckProperty(c => c.NumberOfStickersReceived, 10)
             .CheckProperty(c => c.NumberOfStickersReturned, 5)

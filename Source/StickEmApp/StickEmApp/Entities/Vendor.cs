@@ -12,6 +12,9 @@ namespace StickEmApp.Entities
             NumberOfStickersReturned = 0;
             ChangeReceived = new Money(0);
 
+            StartedAt = DateTime.Now;
+            FinishedAt = null;
+
             AmountReturned = new AmountReturned();
 
             Status = VendorStatus.Working;
@@ -20,6 +23,9 @@ namespace StickEmApp.Entities
         public virtual Guid Id { get; set; }
 
         public virtual string Name { get; set; }
+        public virtual DateTime StartedAt { get; set; }
+        public virtual DateTime? FinishedAt { get; set; }
+
         public virtual int NumberOfStickersReceived { get; set; }
         public virtual int NumberOfStickersReturned { get; set; }
         public virtual Money ChangeReceived { get; set; }

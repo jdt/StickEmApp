@@ -11,6 +11,8 @@ namespace StickEmApp.Dal.Mapping
             Id(x => x.Id).GeneratedBy.Assigned();
 
             Map(x => x.Name);
+            Map(x => x.StartedAt);
+            Map(x => x.FinishedAt);
             Map(x => x.Status);
             Map(x => x.ChangeReceived).CustomType<MoneyUserType>();
             Map(x => x.NumberOfStickersReceived);
