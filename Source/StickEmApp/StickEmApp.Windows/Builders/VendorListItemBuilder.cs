@@ -19,7 +19,9 @@ namespace StickEmApp.Windows.Builders
                     AmountReturned = vendor.CalculateTotalAmountReturned(),
                     AmountRequired = vendor.CalculateTotalAmountRequired(),
                     Difference = vendor.CalculateSalesResult().Difference,
-                    Status = vendor.Status
+                    Status = vendor.Status,
+                    StartedAt = vendor.StartedAt,
+                    FinishedAt = vendor.FinishedAt
                 });
             }
             return result;

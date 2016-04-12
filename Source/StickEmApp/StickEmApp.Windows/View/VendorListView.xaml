@@ -35,6 +35,8 @@
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="{StaticResource Name}" DisplayMemberBinding="{Binding Name}" Width="150" />
+                    <GridViewColumn Header="{StaticResource StartedAt}" DisplayMemberBinding="{Binding StartedAt, StringFormat='dd/MM/yyyy'}" Width="80" />
+                    <GridViewColumn Header="{StaticResource FinishedAt}" DisplayMemberBinding="{Binding FinishedAt, StringFormat='dd/MM/yyyy'}" Width="80"  />
                     <GridViewColumn Header="{StaticResource StickersReceived}" DisplayMemberBinding="{Binding NumberOfStickersReceived }"/>
                     <GridViewColumn Header="{StaticResource AmountRequired}" DisplayMemberBinding="{Binding AmountRequired, Converter={StaticResource MoneyConverter}}"/>
                     <GridViewColumn Header="{StaticResource AmountReturned}" DisplayMemberBinding="{Binding AmountReturned, Converter={StaticResource MoneyConverter}}"/>

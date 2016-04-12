@@ -24,6 +24,8 @@ namespace StickEmApp.Windows.ViewModel
         public Money AmountRequired { get; set; }
         public Money AmountReturned { get; set; }
         public Money Difference { get; set; }
+        public DateTime StartedAt { get; set; }
+        public DateTime? FinishedAt { get; set; }
         public VendorStatus Status { get; set; }
     }
 }

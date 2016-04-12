@@ -32,7 +32,8 @@ namespace StickEmApp.Windows.UnitTest.Builders
                 Name = "foo",
                 Required = new Money(105),
                 Returned = new Money(99),
-                Result = new SalesResult {NumberOfStickersReceived = 21, Difference = new Money(6)}
+                Result = new SalesResult {NumberOfStickersReceived = 21, Difference = new Money(6)},
+                StartedAt = new DateTime(2016, 4, 12, 10, 30, 0)
             };
 
             var finished = new TestableVendor
@@ -41,9 +42,10 @@ namespace StickEmApp.Windows.UnitTest.Builders
                 Name = "bar",
                 Required = new Money(55),
                 Returned = new Money(55),
-                Result = new SalesResult {NumberOfStickersReceived = 11, Difference = new Money(0)}
+                Result = new SalesResult {NumberOfStickersReceived = 11, Difference = new Money(0)},
+                StartedAt = new DateTime(2016, 4, 12, 11, 30, 0)
             };
-            finished.Finish(DateTime.Now);
+            finished.Finish(new DateTime(2016, 4, 12, 21, 30, 0));
 
             var input = new List<Vendor> { working, finished };
 
@@ -61,6 +63,8 @@ namespace StickEmApp.Windows.UnitTest.Builders
             Assert.That(resultItem.AmountReturned, Is.EqualTo(new Money(99)));
             Assert.That(resultItem.Difference, Is.EqualTo(new Money(6)));
             Assert.That(resultItem.Status, Is.EqualTo(VendorStatus.Working));
+            Assert.That(resultItem.StartedAt, Is.EqualTo(new DateTime(2016, 4, 12, 10, 30, 0)));
+            Assert.That(resultItem.FinishedAt, Is.Null);
 
             resultItem = result.ElementAt(1);
             Assert.That(resultItem.Id, Is.EqualTo(id2));
@@ -70,6 +74,8 @@ namespace StickEmApp.Windows.UnitTest.Builders
             Assert.That(resultItem.AmountReturned, Is.EqualTo(new Money(55)));
             Assert.That(resultItem.Difference, Is.EqualTo(new Money(0)));
             Assert.That(resultItem.Status, Is.EqualTo(VendorStatus.Finished));
+            Assert.That(resultItem.StartedAt, Is.EqualTo(new DateTime(2016, 4, 12, 11, 30, 0)));
+            Assert.That(resultItem.FinishedAt, Is.EqualTo(new DateTime(2016, 4, 12, 21, 30, 0)));
         }
 
         private class TestableVendor : Vendor
