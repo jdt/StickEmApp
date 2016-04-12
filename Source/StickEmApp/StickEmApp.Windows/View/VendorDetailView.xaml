@@ -26,13 +26,13 @@
             <TextBox Grid.Row="0" Grid.Column="1" Width="100" Text="{Binding Name}" />
 
             <Label Grid.Row="1" Grid.Column="0" Content="{StaticResource StickersReceived}"/>
-            <TextBox Grid.Row="1" Grid.Column="1"  Width="100" Text="{Binding NumberOfStickersReceived}" />
+            <TextBox Grid.Row="1" Grid.Column="1"  Width="100" Text="{Binding NumberOfStickersReceived}" GotKeyboardFocus="NumericTextBoxKeyboardFocus" GotMouseCapture="NumericTextBoxMouseFocus" />
 
             <Label Grid.Row="2" Grid.Column="0" Content="{StaticResource StickersReturned}"/>
-            <TextBox Grid.Row="2" Grid.Column="1"  Width="100" Text="{Binding NumberOfStickersReturned}" />
+            <TextBox Grid.Row="2" Grid.Column="1"  Width="100" Text="{Binding NumberOfStickersReturned}" GotKeyboardFocus="NumericTextBoxKeyboardFocus" GotMouseCapture="NumericTextBoxMouseFocus" />
 
             <Label Grid.Row="3" Grid.Column="0" Content="{StaticResource ChangeReceived}"/>
-            <TextBox Grid.Row="3" Grid.Column="1"  Width="100" Text="{Binding ChangeReceived}" />
+            <TextBox Grid.Row="3" Grid.Column="1"  Width="100" Text="{Binding ChangeReceived}" GotKeyboardFocus="NumericTextBoxKeyboardFocus" GotMouseCapture="NumericTextBoxMouseFocus" />
 
             <Label Grid.Row="4" Grid.Column="0" Content="{StaticResource AmountReturned}"/>
             <Label Grid.Row="4" Grid.Column="1"  Width="100" Content="{Binding TotalAmountReturned, Converter={StaticResource MoneyConverter} }" />
@@ -49,49 +49,49 @@
             <Label Grid.Row="0" Grid.Column="2" Content="{StaticResource MoneyReturned}"/>
 
             <Label Grid.Row ="0" Grid.Column="3" Content="500" />
-            <TextBox Grid.Row="0" Grid.Column="4" Width="100" Text="{Binding FiveHundreds}" />
+            <TextBox Grid.Row="0" Grid.Column="4" Width="100" Text="{Binding FiveHundreds}" GotKeyboardFocus="NumericTextBoxKeyboardFocus" GotMouseCapture="NumericTextBoxMouseFocus" />
 
             <Label Grid.Row ="1" Grid.Column="3" Content="200" />
-            <TextBox Grid.Row="1" Grid.Column="4" Width="100" Text="{Binding TwoHundreds}" />
+            <TextBox Grid.Row="1" Grid.Column="4" Width="100" Text="{Binding TwoHundreds}" GotKeyboardFocus="NumericTextBoxKeyboardFocus" GotMouseCapture="NumericTextBoxMouseFocus" />
 
             <Label Grid.Row ="2" Grid.Column="3" Content="100" />
-            <TextBox Grid.Row="2" Grid.Column="4" Width="100" Text="{Binding Hundreds}" />
+            <TextBox Grid.Row="2" Grid.Column="4" Width="100" Text="{Binding Hundreds}" GotKeyboardFocus="NumericTextBoxKeyboardFocus" GotMouseCapture="NumericTextBoxMouseFocus" />
 
             <Label Grid.Row ="3" Grid.Column="3" Content="50" />
-            <TextBox Grid.Row="3" Grid.Column="4" Width="100" Text="{Binding Fifties}" />
+            <TextBox Grid.Row="3" Grid.Column="4" Width="100" Text="{Binding Fifties}" GotKeyboardFocus="NumericTextBoxKeyboardFocus" GotMouseCapture="NumericTextBoxMouseFocus" />
 
             <Label Grid.Row ="4" Grid.Column="3" Content="20" />
-            <TextBox Grid.Row="4" Grid.Column="4" Width="100" Text="{Binding Twenties}" />
+            <TextBox Grid.Row="4" Grid.Column="4" Width="100" Text="{Binding Twenties}" GotKeyboardFocus="NumericTextBoxKeyboardFocus" GotMouseCapture="NumericTextBoxMouseFocus" />
 
             <Label Grid.Row ="5" Grid.Column="3" Content="10" />
-            <TextBox Grid.Row="5" Grid.Column="4" Width="100" Text="{Binding Tens}" />
+            <TextBox Grid.Row="5" Grid.Column="4" Width="100" Text="{Binding Tens}" GotKeyboardFocus="NumericTextBoxKeyboardFocus" GotMouseCapture="NumericTextBoxMouseFocus" />
 
             <Label Grid.Row ="6" Grid.Column="3" Content="5" />
-            <TextBox Grid.Row="6" Grid.Column="4" Width="100" Text="{Binding Fives}" />
+            <TextBox Grid.Row="6" Grid.Column="4" Width="100" Text="{Binding Fives}" GotKeyboardFocus="NumericTextBoxKeyboardFocus" GotMouseCapture="NumericTextBoxMouseFocus" />
 
             <Label Grid.Row ="0" Grid.Column="5" Content="2" />
-            <TextBox Grid.Row="0" Grid.Column="6" Width="100" Text="{Binding Twos}" />
+            <TextBox Grid.Row="0" Grid.Column="6" Width="100" Text="{Binding Twos}" GotKeyboardFocus="NumericTextBoxKeyboardFocus" GotMouseCapture="NumericTextBoxMouseFocus" />
 
             <Label Grid.Row ="1" Grid.Column="5" Content="1" />
-            <TextBox Grid.Row="1" Grid.Column="6" Width="100" Text="{Binding Ones}" />
+            <TextBox Grid.Row="1" Grid.Column="6" Width="100" Text="{Binding Ones}" GotKeyboardFocus="NumericTextBoxKeyboardFocus" GotMouseCapture="NumericTextBoxMouseFocus" />
 
             <Label Grid.Row ="2" Grid.Column="5" Content="0.50" />
-            <TextBox Grid.Row="2" Grid.Column="6" Width="100" Text="{Binding FiftyCents}" />
+            <TextBox Grid.Row="2" Grid.Column="6" Width="100" Text="{Binding FiftyCents}" GotKeyboardFocus="NumericTextBoxKeyboardFocus" GotMouseCapture="NumericTextBoxMouseFocus" />
 
             <Label Grid.Row ="3" Grid.Column="5" Content="0.20" />
-            <TextBox Grid.Row="3" Grid.Column="6" Width="100" Text="{Binding TwentyCents}" />
+            <TextBox Grid.Row="3" Grid.Column="6" Width="100" Text="{Binding TwentyCents}" GotKeyboardFocus="NumericTextBoxKeyboardFocus" GotMouseCapture="NumericTextBoxMouseFocus" />
 
             <Label Grid.Row ="4" Grid.Column="5" Content="0.10" />
-            <TextBox Grid.Row="4" Grid.Column="6" Width="100" Text="{Binding TenCents}" />
+            <TextBox Grid.Row="4" Grid.Column="6" Width="100" Text="{Binding TenCents}" GotKeyboardFocus="NumericTextBoxKeyboardFocus" GotMouseCapture="NumericTextBoxMouseFocus" />
 
             <Label Grid.Row ="5" Grid.Column="5" Content="0.05" />
-            <TextBox Grid.Row="5" Grid.Column="6" Width="100" Text="{Binding FiveCents}" />
+            <TextBox Grid.Row="5" Grid.Column="6" Width="100" Text="{Binding FiveCents}" GotKeyboardFocus="NumericTextBoxKeyboardFocus" GotMouseCapture="NumericTextBoxMouseFocus" />
 
             <Label Grid.Row ="6" Grid.Column="5" Content="0.02" />
-            <TextBox Grid.Row="6" Grid.Column="6" Width="100" Text="{Binding TwoCents}" />
+            <TextBox Grid.Row="6" Grid.Column="6" Width="100" Text="{Binding TwoCents}" GotKeyboardFocus="NumericTextBoxKeyboardFocus" GotMouseCapture="NumericTextBoxMouseFocus" />
 
             <Label Grid.Row ="7" Grid.Column="5" Content="0.01" />
-            <TextBox Grid.Row="7" Grid.Column="6" Width="100" Text="{Binding OneCents}" />
+            <TextBox Grid.Row="7" Grid.Column="6" Width="100" Text="{Binding OneCents}" GotKeyboardFocus="NumericTextBoxKeyboardFocus" GotMouseCapture="NumericTextBoxMouseFocus" />
         </Grid>
 
         <Button Margin="5,5,5,5" Padding="5,5,5,5" Content="{StaticResource Save}" Command="{Binding SaveChangesCommand}"></Button>
