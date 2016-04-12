@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.Composition;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using StickEmApp.Windows.Infrastructure;
 using StickEmApp.Windows.Infrastructure.Behaviors;
 using StickEmApp.Windows.ViewModel;

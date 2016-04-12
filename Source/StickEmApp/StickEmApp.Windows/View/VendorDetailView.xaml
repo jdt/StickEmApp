@@ -23,7 +23,7 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Label Grid.Row ="0" Grid.Column="0" Content="{StaticResource Name}" />
-            <TextBox Grid.Row="0" Grid.Column="1" Width="100" Text="{Binding Name}" />
+            <TextBox Grid.Row="0" Grid.Column="1" Width="100" Text="{Binding VendorName}" Name="VendorName" />
 
             <Label Grid.Row="1" Grid.Column="0" Content="{StaticResource StickersReceived}"/>
             <TextBox Grid.Row="1" Grid.Column="1"  Width="100" Text="{Binding NumberOfStickersReceived}" GotKeyboardFocus="NumericTextBoxKeyboardFocus" GotMouseCapture="NumericTextBoxMouseFocus" />

@@ -47,7 +47,7 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
             _eventAggregator.Expect(ea => ea.GetEvent<VendorChangedEvent>()).Return(returnedEvent);
 
             //act
-            _viewModel.Name = "foo";
+            _viewModel.VendorName = "foo";
             _viewModel.ChangeReceived = 55.75m;
             _viewModel.NumberOfStickersReceived = 15;
             _viewModel.NumberOfStickersReturned = 10;
@@ -138,7 +138,7 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
             _viewModel.OnNavigatedTo(context);
 
             //assert
-            Assert.That(_viewModel.Name, Is.EqualTo("foo"));
+            Assert.That(_viewModel.VendorName, Is.EqualTo("foo"));
             Assert.That(_viewModel.ChangeReceived, Is.EqualTo(55.75m));
             Assert.That(_viewModel.NumberOfStickersReceived, Is.EqualTo(15));
             Assert.That(_viewModel.NumberOfStickersReturned, Is.EqualTo(10));

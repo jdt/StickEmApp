@@ -20,7 +20,7 @@ namespace StickEmApp.Windows.ViewModel
 
         private bool _suspendUpdatesToCalculated;
 
-        private string _name;
+        private string _vendorName;
         private int _numberOfStickersReceived;
         private int _numberOfStickersReturned;
         private decimal _changeReceived;
@@ -59,7 +59,7 @@ namespace StickEmApp.Windows.ViewModel
 
         private Vendor Vendor { get; set; }
 
-        public string Name { get { return _name; } set { _name = value; OnPropertyChanged(); } }
+        public string VendorName { get { return _vendorName; } set { _vendorName = value; OnPropertyChanged(); } }
 
         public Money TotalAmountReturned { get { return _totalAmountReturned; } set { _totalAmountReturned = value; OnPropertyChanged(); } }
         public Money TotalAmountRequired { get { return _totalAmountRequired; } set { _totalAmountRequired = value; OnPropertyChanged(); } }
@@ -115,7 +115,7 @@ namespace StickEmApp.Windows.ViewModel
 
             _suspendUpdatesToCalculated = true;
 
-            Name = Vendor.Name;
+            VendorName = Vendor.Name;
             NumberOfStickersReceived = Vendor.NumberOfStickersReceived;
             NumberOfStickersReturned = Vendor.NumberOfStickersReturned;
             ChangeReceived = Vendor.ChangeReceived.Value;
@@ -165,7 +165,7 @@ namespace StickEmApp.Windows.ViewModel
 
         private void UpdateVendor()
         {
-            Vendor.Name = Name;
+            Vendor.Name = VendorName;
             Vendor.NumberOfStickersReceived = NumberOfStickersReceived;
             Vendor.NumberOfStickersReturned = NumberOfStickersReturned;
             Vendor.ChangeReceived = new Money(ChangeReceived);
