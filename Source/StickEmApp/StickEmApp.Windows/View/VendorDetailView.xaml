@@ -1,6 +1,7 @@
 ﻿<UserControl x:Class="StickEmApp.Windows.View.VendorDetailView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:gl="clr-namespace:System.Globalization;assembly=mscorlib">
     <StackPanel>
         <Grid>
             <Grid.ColumnDefinitions>
@@ -21,30 +22,34 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Label Grid.Row ="0" Grid.Column="0" Content="{StaticResource Name}" />
             <TextBox Grid.Row="0" Grid.Column="1" Width="100" Text="{Binding VendorName}" Name="VendorName" />
+            
+            <Label Grid.Row ="1" Grid.Column="0" Content="{StaticResource StartedAt}" />
+            <DatePicker Grid.Row="1" Grid.Column="1" Width="100" SelectedDate="{Binding Path=StartedAt, StringFormat=dd-MM-yyyy, ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}}" />
 
-            <Label Grid.Row="1" Grid.Column="0" Content="{StaticResource StickersReceived}"/>
-            <TextBox Grid.Row="1" Grid.Column="1"  Width="100" Text="{Binding NumberOfStickersReceived}" GotKeyboardFocus="NumericTextBoxKeyboardFocus" GotMouseCapture="NumericTextBoxMouseFocus" />
+            <Label Grid.Row="2" Grid.Column="0" Content="{StaticResource StickersReceived}"/>
+            <TextBox Grid.Row="2" Grid.Column="1"  Width="100" Text="{Binding NumberOfStickersReceived}" GotKeyboardFocus="NumericTextBoxKeyboardFocus" GotMouseCapture="NumericTextBoxMouseFocus" />
 
-            <Label Grid.Row="2" Grid.Column="0" Content="{StaticResource StickersReturned}"/>
-            <TextBox Grid.Row="2" Grid.Column="1"  Width="100" Text="{Binding NumberOfStickersReturned}" GotKeyboardFocus="NumericTextBoxKeyboardFocus" GotMouseCapture="NumericTextBoxMouseFocus" />
+            <Label Grid.Row="3" Grid.Column="0" Content="{StaticResource StickersReturned}"/>
+            <TextBox Grid.Row="3" Grid.Column="1"  Width="100" Text="{Binding NumberOfStickersReturned}" GotKeyboardFocus="NumericTextBoxKeyboardFocus" GotMouseCapture="NumericTextBoxMouseFocus" />
 
-            <Label Grid.Row="3" Grid.Column="0" Content="{StaticResource ChangeReceived}"/>
-            <TextBox Grid.Row="3" Grid.Column="1"  Width="100" Text="{Binding ChangeReceived}" GotKeyboardFocus="NumericTextBoxKeyboardFocus" GotMouseCapture="NumericTextBoxMouseFocus" />
+            <Label Grid.Row="4" Grid.Column="0" Content="{StaticResource ChangeReceived}"/>
+            <TextBox Grid.Row="4" Grid.Column="1"  Width="100" Text="{Binding ChangeReceived}" GotKeyboardFocus="NumericTextBoxKeyboardFocus" GotMouseCapture="NumericTextBoxMouseFocus" />
 
-            <Label Grid.Row="4" Grid.Column="0" Content="{StaticResource AmountReturned}"/>
-            <Label Grid.Row="4" Grid.Column="1"  Width="100" Content="{Binding TotalAmountReturned, Converter={StaticResource MoneyConverter} }" />
+            <Label Grid.Row="5" Grid.Column="0" Content="{StaticResource AmountReturned}"/>
+            <Label Grid.Row="5" Grid.Column="1"  Width="100" Content="{Binding TotalAmountReturned, Converter={StaticResource MoneyConverter} }" />
 
-            <Label Grid.Row="5" Grid.Column="0" Content="{StaticResource AmountRequired}"/>
-            <Label Grid.Row="5" Grid.Column="1"  Width="100" Content="{Binding TotalAmountRequired, Converter={StaticResource MoneyConverter}}" />
+            <Label Grid.Row="6" Grid.Column="0" Content="{StaticResource AmountRequired}"/>
+            <Label Grid.Row="6" Grid.Column="1"  Width="100" Content="{Binding TotalAmountRequired, Converter={StaticResource MoneyConverter}}" />
 
-            <Label Grid.Row="6" Grid.Column="0" Content="{StaticResource Difference}"/>
-            <Label Grid.Row="6" Grid.Column="1"  Width="100" Content="{Binding TotalDifference, Converter={StaticResource MoneyConverter}}" />
+            <Label Grid.Row="7" Grid.Column="0" Content="{StaticResource Difference}"/>
+            <Label Grid.Row="7" Grid.Column="1"  Width="100" Content="{Binding TotalDifference, Converter={StaticResource MoneyConverter}}" />
 
-            <Label Grid.Row="7" Grid.Column="0" Content="{StaticResource HasFinishedSelling}"/>
-            <CheckBox Grid.Row="7" Grid.Column="1"  Width="100" IsChecked="{Binding HasFinished}" />
+            <Label Grid.Row="8" Grid.Column="0" Content="{StaticResource HasFinishedSelling}"/>
+            <CheckBox Grid.Row="8" Grid.Column="1"  Width="100" IsChecked="{Binding HasFinished}" />
 
             <Label Grid.Row="0" Grid.Column="2" Content="{StaticResource MoneyReturned}"/>
 

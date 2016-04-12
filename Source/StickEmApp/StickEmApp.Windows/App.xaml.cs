@@ -1,5 +1,7 @@
-﻿using System.Windows;
-using Prism;
+﻿using System.Globalization;
+using System.Threading;
+using System.Windows;
+using System.Windows.Markup;
 
 namespace StickEmApp.Windows
 {
@@ -12,6 +14,10 @@ namespace StickEmApp.Windows
         {
             base.OnStartup(e);
 
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("nl-BE");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("nl-BE");
+            FrameworkElement.LanguageProperty.OverrideMetadata(typeof(FrameworkElement), new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
+            
             var bootstrapper = new StickEmAppBootStrapper();
             bootstrapper.Run();
         }

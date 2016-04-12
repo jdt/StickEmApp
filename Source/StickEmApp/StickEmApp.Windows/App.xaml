@@ -28,6 +28,7 @@
         <system:String x:Key="TotalNumberOfStickersSold">Total aantal stickers verkocht</system:String>
         <system:String x:Key="TotalNumberOfStickersRemaining">Totaal aantal stickers resterend</system:String>
         <system:String x:Key="TotalRevenueFromSales">Totale opbrengst van verkoop</system:String>
+        <system:String x:Key="StartedAt">Begonnen op</system:String>
         
         <converters:VendorStatusConverter x:Key="VendorStatusConverter"/>
         <converters:MoneyConverter x:Key="MoneyConverter"/>

@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
 using StickEmApp.Entities;
 
 namespace StickEmApp.UnitTest.Entities
@@ -102,6 +103,30 @@ namespace StickEmApp.UnitTest.Entities
 
             var result = vendor.CalculateSalesResult();
             Assert.That(result.NumberOfStickersReceived, Is.EqualTo(42));
+        }
+
+        [Test]
+        public void FinishShouldSetFinishedStatusAndDate()
+        {
+            var now = new DateTime(2016, 4, 12, 13, 0, 0);
+            var vendor = new Vendor();
+
+            vendor.Finish(now);
+
+            Assert.That(vendor.Status, Is.EqualTo(VendorStatus.Finished));
+            Assert.That(vendor.FinishedAt, Is.EqualTo(new DateTime(2016, 4, 12, 13, 0, 0)));
+        }
+
+        [Test]
+        public void KeepWorkingShouldRemovedFinishedStatusAndDate()
+        {
+            var vendor = new Vendor();
+            vendor.Finish(new DateTime(2016, 4, 12, 13, 0, 0));
+
+            vendor.KeepWorking();
+
+            Assert.That(vendor.Status, Is.EqualTo(VendorStatus.Working));
+            Assert.That(vendor.FinishedAt, Is.Null);
         }
     }
 }

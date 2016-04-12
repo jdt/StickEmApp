@@ -6,6 +6,7 @@ using Prism.Regions;
 using Rhino.Mocks;
 using StickEmApp.Dal;
 using StickEmApp.Entities;
+using StickEmApp.Service;
 using StickEmApp.Windows.Infrastructure.Events;
 using StickEmApp.Windows.ViewModel;
 
@@ -16,6 +17,7 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
     {
         private IVendorRepository _vendorRepository;
         private IEventAggregator _eventAggregator;
+        private ICalendar _calendar;
         
         private VendorDetailViewModel _viewModel;
 
@@ -24,14 +26,17 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
         {
             _vendorRepository = MockRepository.GenerateMock<IVendorRepository>();
             _eventAggregator = MockRepository.GenerateMock<IEventAggregator>();
+            _calendar = MockRepository.GenerateMock<ICalendar>();
 
-            _viewModel = new VendorDetailViewModel(_vendorRepository, _eventAggregator);
+            _viewModel = new VendorDetailViewModel(_vendorRepository, _eventAggregator, _calendar);
         }
 
         [Test]
         public void SaveChangesShouldSaveVendorAndRaiseVendorUpdatedEvent()
         {
             //arrange
+            var now = new DateTime(2016, 4, 12, 16, 0, 0);
+
             var generatedGuid = Guid.NewGuid();
             Vendor savedVendor = null;
 
@@ -45,6 +50,8 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
             returnedEvent.Expect(p => p.Publish(generatedGuid));
 
             _eventAggregator.Expect(ea => ea.GetEvent<VendorChangedEvent>()).Return(returnedEvent);
+
+            _calendar.Expect(c => c.Now).Return(now);
 
             //act
             _viewModel.VendorName = "foo";
@@ -67,11 +74,13 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
             _viewModel.TwoCents = 210;
             _viewModel.OneCents = 110;
             _viewModel.HasFinished = true;
+            _viewModel.StartedAt = new DateTime(2016, 4, 12, 10, 30, 0);
 
             _viewModel.SaveChangesCommand.Execute(null);
 
             //assert
             Assert.That(savedVendor.Name, Is.EqualTo("foo"));
+            Assert.That(savedVendor.StartedAt, Is.EqualTo(new DateTime(2016, 4, 12, 10, 30, 0)));
             Assert.That(savedVendor.ChangeReceived, Is.EqualTo(new Money(55.75m)));
             Assert.That(savedVendor.NumberOfStickersReceived, Is.EqualTo(15));
             Assert.That(savedVendor.NumberOfStickersReturned, Is.EqualTo(10));
@@ -90,7 +99,6 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
             Assert.That(savedVendor.AmountReturned.FiveCents, Is.EqualTo(510));
             Assert.That(savedVendor.AmountReturned.TwoCents, Is.EqualTo(210));
             Assert.That(savedVendor.AmountReturned.OneCents, Is.EqualTo(110));
-            Assert.That(savedVendor.Status, Is.EqualTo(VendorStatus.Finished));
 
             _vendorRepository.VerifyAllExpectations();
             _eventAggregator.VerifyAllExpectations();
@@ -109,10 +117,10 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
             var vendorToDisplay = new Vendor
             {
                 Name = "foo",
+                StartedAt = new DateTime(2016, 4, 12, 9, 30, 0),
                 ChangeReceived = new Money(55.75m),
                 NumberOfStickersReceived = 15,
                 NumberOfStickersReturned = 10,
-                Status = VendorStatus.Finished,
                 AmountReturned = new AmountReturned
                 {
                     FiveHundreds = 500,
@@ -132,6 +140,8 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
                     OneCents = 110
                 }
             };
+            vendorToDisplay.Finish(new DateTime(2016, 4, 12, 10, 30, 0));
+
             _vendorRepository.Expect(repo => repo.Get(vendorGuid)).Return(vendorToDisplay);
 
             //act
@@ -158,6 +168,7 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
             Assert.That(_viewModel.TwoCents, Is.EqualTo(210));
             Assert.That(_viewModel.OneCents, Is.EqualTo(110));
             Assert.That(_viewModel.HasFinished, Is.True);
+            Assert.That(_viewModel.StartedAt, Is.EqualTo(new DateTime(2016, 4, 12, 9, 30, 0)));
         }
 
         [TestCaseSource("UpdatingFieldsShouldRecalculateTotalsData")]

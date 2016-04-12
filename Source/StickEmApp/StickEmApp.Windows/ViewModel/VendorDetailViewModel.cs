@@ -8,6 +8,7 @@ using Prism.Mvvm;
 using Prism.Regions;
 using StickEmApp.Dal;
 using StickEmApp.Entities;
+using StickEmApp.Service;
 using StickEmApp.Windows.Infrastructure.Events;
 
 namespace StickEmApp.Windows.ViewModel
@@ -17,10 +18,12 @@ namespace StickEmApp.Windows.ViewModel
     {
         private readonly IVendorRepository _vendorRepository;
         private readonly IEventAggregator _eventAggregator;
+        private readonly ICalendar _calendar;
 
         private bool _suspendUpdatesToCalculated;
 
         private string _vendorName;
+        private DateTime _startedAt;
         private int _numberOfStickersReceived;
         private int _numberOfStickersReturned;
         private decimal _changeReceived;
@@ -47,10 +50,11 @@ namespace StickEmApp.Windows.ViewModel
         private bool _hasFinished;
 
         [ImportingConstructor]
-        public VendorDetailViewModel(IVendorRepository vendorRepository, IEventAggregator eventAggregator)
+        public VendorDetailViewModel(IVendorRepository vendorRepository, IEventAggregator eventAggregator, ICalendar calendar)
         {
             _vendorRepository = vendorRepository;
             _eventAggregator = eventAggregator;
+            _calendar = calendar;
 
             _suspendUpdatesToCalculated = false;
 
@@ -60,6 +64,7 @@ namespace StickEmApp.Windows.ViewModel
         private Vendor Vendor { get; set; }
 
         public string VendorName { get { return _vendorName; } set { _vendorName = value; OnPropertyChanged(); } }
+        public DateTime StartedAt { get { return _startedAt; } set { _startedAt = value; OnPropertyChanged(); } }
 
         public Money TotalAmountReturned { get { return _totalAmountReturned; } set { _totalAmountReturned = value; OnPropertyChanged(); } }
         public Money TotalAmountRequired { get { return _totalAmountRequired; } set { _totalAmountRequired = value; OnPropertyChanged(); } }
@@ -116,6 +121,7 @@ namespace StickEmApp.Windows.ViewModel
             _suspendUpdatesToCalculated = true;
 
             VendorName = Vendor.Name;
+            StartedAt = Vendor.StartedAt;
             NumberOfStickersReceived = Vendor.NumberOfStickersReceived;
             NumberOfStickersReturned = Vendor.NumberOfStickersReturned;
             ChangeReceived = Vendor.ChangeReceived.Value;
@@ -166,6 +172,7 @@ namespace StickEmApp.Windows.ViewModel
         private void UpdateVendor()
         {
             Vendor.Name = VendorName;
+            Vendor.StartedAt = StartedAt;
             Vendor.NumberOfStickersReceived = NumberOfStickersReceived;
             Vendor.NumberOfStickersReturned = NumberOfStickersReturned;
             Vendor.ChangeReceived = new Money(ChangeReceived);
@@ -184,7 +191,11 @@ namespace StickEmApp.Windows.ViewModel
             Vendor.AmountReturned.FiveCents = FiveCents;
             Vendor.AmountReturned.TwoCents = TwoCents;
             Vendor.AmountReturned.OneCents = OneCents;
-            Vendor.Status = HasFinished ? VendorStatus.Finished : VendorStatus.Working;
+
+            if (HasFinished)
+                Vendor.Finish(_calendar.Now);
+            else
+                Vendor.KeepWorking();
         }
     }
 }

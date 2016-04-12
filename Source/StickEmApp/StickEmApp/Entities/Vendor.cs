@@ -24,23 +24,30 @@ namespace StickEmApp.Entities
 
         public virtual string Name { get; set; }
         public virtual DateTime StartedAt { get; set; }
-        public virtual DateTime? FinishedAt { get; set; }
 
         public virtual int NumberOfStickersReceived { get; set; }
         public virtual int NumberOfStickersReturned { get; set; }
         public virtual Money ChangeReceived { get; set; }
         public virtual AmountReturned AmountReturned { get; set; }
-        
-        public virtual VendorStatus Status { get; set; }
+
+        public virtual VendorStatus Status { get; protected set; }
+        public virtual DateTime? FinishedAt { get; protected set; }
 
         public virtual void Remove()
         {
             Status = VendorStatus.Removed;
         }
 
-        public virtual void Finish()
+        public virtual void Finish(DateTime finishDateTime)
         {
             Status = VendorStatus.Finished;
+            FinishedAt = finishDateTime;
+        }
+
+        public virtual void KeepWorking()
+        {
+            Status = VendorStatus.Working;
+            FinishedAt = null;
         }
 
         public virtual Money CalculateTotalAmountRequired()

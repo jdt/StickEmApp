@@ -26,11 +26,26 @@ namespace StickEmApp.Windows.UnitTest.Builders
             var id1 = Guid.NewGuid();
             var id2 = Guid.NewGuid();
 
-            var input = new List<Vendor>
+            var working = new TestableVendor
             {
-                new TestableVendor {Id = id1, Name = "foo", Required = new Money(105), Returned = new Money(99), Result = new SalesResult{NumberOfStickersReceived = 21, Difference = new Money(6) }, Status = VendorStatus.Working}, 
-                new TestableVendor {Id = id2, Name = "bar", Required = new Money(55), Returned = new Money(55), Result = new SalesResult{NumberOfStickersReceived = 11, Difference = new Money(0) }, Status = VendorStatus.Finished}, 
+                Id = id1,
+                Name = "foo",
+                Required = new Money(105),
+                Returned = new Money(99),
+                Result = new SalesResult {NumberOfStickersReceived = 21, Difference = new Money(6)}
             };
+
+            var finished = new TestableVendor
+            {
+                Id = id2,
+                Name = "bar",
+                Required = new Money(55),
+                Returned = new Money(55),
+                Result = new SalesResult {NumberOfStickersReceived = 11, Difference = new Money(0)}
+            };
+            finished.Finish(DateTime.Now);
+
+            var input = new List<Vendor> { working, finished };
 
             //act
             var result = _builder.BuildFrom(input);

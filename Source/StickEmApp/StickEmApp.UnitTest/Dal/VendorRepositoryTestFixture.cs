@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using NUnit.Framework;
 using StickEmApp.Dal;
 using StickEmApp.Entities;
@@ -57,7 +58,7 @@ namespace StickEmApp.UnitTest.Dal
             var vendor2 = new Vendor {Name = "test 2"};
 
             var finishedVendor = new Vendor{Name = "test finished"};
-            finishedVendor.Finish();
+            finishedVendor.Finish(DateTime.Now);
 
             var removedTest = new Vendor {Name = "test removed"};
             removedTest.Remove();
