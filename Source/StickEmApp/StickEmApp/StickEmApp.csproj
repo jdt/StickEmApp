@@ -79,6 +79,7 @@
     <Compile Include="IUnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\Calendar.cs" />
+    <Compile Include="Service\ExcelExporter.cs" />
     <Compile Include="Service\ICalendar.cs" />
     <Compile Include="Service\IExcelExporter.cs" />
     <Compile Include="UnitOfWork.cs" />
