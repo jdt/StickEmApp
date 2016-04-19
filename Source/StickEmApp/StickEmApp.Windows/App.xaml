@@ -32,6 +32,9 @@
         <system:String x:Key="FinishedAt">Afgewerkt op</system:String>
         <system:String x:Key="ExportToExcel">Exporteren naar Excel</system:String>
         <system:String x:Key="StickerSales">Stickerverkoop</system:String>
+        <system:String x:Key="ExcelWorkbook">Excel Workbook</system:String>
+        <system:String x:Key="Message">Melding</system:String>
+        <system:String x:Key="DataExportedToExcelFileAt">Gegevens weggeschreven naar Excel-bestand in {0}</system:String>
         
         <converters:VendorStatusConverter x:Key="VendorStatusConverter"/>
         <converters:MoneyConverter x:Key="MoneyConverter"/>
