@@ -31,6 +31,7 @@
         <system:String x:Key="StartedAt">Begonnen op</system:String>
         <system:String x:Key="FinishedAt">Afgewerkt op</system:String>
         <system:String x:Key="ExportToExcel">Exporteren naar Excel</system:String>
+        <system:String x:Key="StickerSales">Stickerverkoop</system:String>
         
         <converters:VendorStatusConverter x:Key="VendorStatusConverter"/>
         <converters:MoneyConverter x:Key="MoneyConverter"/>
