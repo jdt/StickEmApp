@@ -8,5 +8,8 @@ namespace StickEmApp.Windows.Infrastructure
         void DisplayEditVendor(Guid vendorId);
         void DisplaySummary();
         void DisplayEditStickerSalesPeriod();
+
+        string DisplayFileSelection();
+        void DisplayConfirmation(string message);
     }
 }
