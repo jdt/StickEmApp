@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
+using System.Linq;
 using Prism.Commands;
 using Prism.Mvvm;
 using StickEmApp.Dal;
 using StickEmApp.Entities;
+using StickEmApp.Service;
 using StickEmApp.Windows.Builders;
 using StickEmApp.Windows.Infrastructure;
 using StickEmApp.Windows.Infrastructure.Events;
@@ -19,6 +21,8 @@ namespace StickEmApp.Windows.ViewModel
         private readonly IVendorListItemBuilder _listItemBuilder;
         private readonly IWindowManager _windowManager;
         private readonly IEventBus _eventBus;
+        private readonly IExcelExporter _exporter;
+        private readonly IResourceManager _resourceManager;
 
         private bool _canVendorBeEdited;
 
@@ -26,17 +30,20 @@ namespace StickEmApp.Windows.ViewModel
         private DelegateCommand _editStickerSalesPeriod;
         private DelegateCommand<VendorListItem> _editCommand;
         private DelegateCommand<VendorListItem> _removeCommand;
+        private DelegateCommand _exportToExcelCommand;
 
         private ObservableCollection<VendorListItem> _vendorList;
         private bool _showFinishedVendors;
 
         [ImportingConstructor]
-        public VendorListViewModel(IVendorRepository vendorRepository, IVendorListItemBuilder listItemBuilder, IWindowManager windowManager, IEventBus eventBus)
+        public VendorListViewModel(IVendorRepository vendorRepository, IVendorListItemBuilder listItemBuilder, IWindowManager windowManager, IEventBus eventBus, IExcelExporter exporter, IResourceManager resourceManager)
         {
             _vendorRepository = vendorRepository;
             _listItemBuilder = listItemBuilder;
             _windowManager = windowManager;
             _eventBus = eventBus;
+            _exporter = exporter;
+            _resourceManager = resourceManager;
 
             _canVendorBeEdited = true;
 
@@ -135,6 +142,17 @@ namespace StickEmApp.Windows.ViewModel
             }
         }
 
+        public DelegateCommand ExportToExcelCommand
+        {
+            get
+            {
+                if(_exportToExcelCommand == null)
+                    _exportToExcelCommand = new DelegateCommand(ExportToExcel, CanVendorBeEdited);
+
+                return _exportToExcelCommand;
+            }
+        }
+
         private void AddVendor()
         {
             _windowManager.DisplayAddVendor();
@@ -165,6 +183,21 @@ namespace StickEmApp.Windows.ViewModel
             }
 
             _eventBus.Publish<VendorChangedEvent, Guid>(vendorToRemove.Id);
+        }
+
+        private void ExportToExcel()
+        {
+            var target = _windowManager.DisplayFileSelection();
+            if (target == null)
+                return;
+
+            using (new UnitOfWork())
+            {
+                var vendors = _vendorRepository.SelectVendors(ShowFinishedVendors);
+                _exporter.Export(vendors, target);
+
+                _windowManager.DisplayConfirmation(string.Format(_resourceManager.GetString("DataExportedToExcelFileAt"), target));
+            }
         }
 
         private bool CanVendorBeEdited()

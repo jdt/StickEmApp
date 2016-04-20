@@ -3,6 +3,7 @@ using System.Linq;
 using NUnit.Framework;
 using Prism.Regions;
 using Rhino.Mocks;
+using StickEmApp.Service;
 using StickEmApp.Windows.Infrastructure;
 
 namespace StickEmApp.Windows.UnitTest.Infrastructure
@@ -11,6 +12,7 @@ namespace StickEmApp.Windows.UnitTest.Infrastructure
     public class WindowManagerTestFixture
     {
         private IRegionManager _regionManager;
+        private IResourceManager _resourceManager;
 
         private WindowManager _windowManager;
 
@@ -18,8 +20,9 @@ namespace StickEmApp.Windows.UnitTest.Infrastructure
         public void SetUp()
         {
             _regionManager = MockRepository.GenerateMock<IRegionManager>();
-            
-            _windowManager = new WindowManager(_regionManager);
+            _resourceManager = MockRepository.GenerateMock<IResourceManager>();
+
+            _windowManager = new WindowManager(_regionManager, _resourceManager);
         }
 
         [Test]

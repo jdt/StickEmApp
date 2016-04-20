@@ -4,6 +4,7 @@ using NUnit.Framework;
 using Rhino.Mocks;
 using StickEmApp.Dal;
 using StickEmApp.Entities;
+using StickEmApp.Service;
 using StickEmApp.Windows.Builders;
 using StickEmApp.Windows.Infrastructure;
 using StickEmApp.Windows.Infrastructure.Events;
@@ -18,10 +19,13 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
         private IVendorListItemBuilder _vendorListItemBuilder;
         private IWindowManager _windowManager;
         private IEventBus _eventBus;
+        private IExcelExporter _excelExporter;
+        private IResourceManager _resourceManager;
 
         private VendorListItem _viewModelItem;
 
         private VendorListViewModel _viewModel;
+        private List<Vendor> _vendorList;
 
         [SetUp]
         public void SetUp()
@@ -30,15 +34,17 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
             _vendorListItemBuilder = MockRepository.GenerateMock<IVendorListItemBuilder>();
             _windowManager = MockRepository.GenerateMock<IWindowManager>();
             _eventBus = MockRepository.GenerateMock<IEventBus>();
+            _excelExporter = MockRepository.GenerateMock<IExcelExporter>();
+            _resourceManager = MockRepository.GenerateMock<IResourceManager>();
 
-            var vendorList = new List<Vendor> { new Vendor() };
-            _vendorRepository.Expect(p => p.SelectVendors(false)).Return(vendorList);
+            _vendorList = new List<Vendor> { new Vendor() };
+            _vendorRepository.Expect(p => p.SelectVendors(false)).Return(_vendorList);
 
             _viewModelItem = new VendorListItem(Guid.NewGuid(), "test1");
             var viewModelList = new List<VendorListItem> { _viewModelItem };
-            _vendorListItemBuilder.Expect(p => p.BuildFrom(vendorList)).Return(viewModelList);
+            _vendorListItemBuilder.Expect(p => p.BuildFrom(_vendorList)).Return(viewModelList);
 
-            _viewModel = new VendorListViewModel(_vendorRepository, _vendorListItemBuilder, _windowManager, _eventBus);
+            _viewModel = new VendorListViewModel(_vendorRepository, _vendorListItemBuilder, _windowManager, _eventBus, _excelExporter, _resourceManager);
         }
 
         [Test]
@@ -131,6 +137,27 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
             Assert.That(_viewModel.RemoveVendorCommand.CanExecute(null), Is.False);
             Assert.That(_viewModel.EditStickerSalesPeriodCommand.CanExecute(), Is.False);
         }
+
+        [Test]
+        public void ExportToExcelCommandShouldExportToChosenLocationAndDisplayConfirmation()
+        {
+            //arrange
+            const string exportLocation = "EXPORT_LOCATION";
+
+            _windowManager.Expect(wm => wm.DisplayFileSelection()).Return(exportLocation);
+
+            const string confirmationMessage = "CONFIRM_MESSAGE '{0}'";
+            _resourceManager.Expect(rm => rm.GetString("DataExportedToExcelFileAt")).Return(confirmationMessage);
+
+            _windowManager.Expect(wm => wm.DisplayConfirmation("CONFIRM_MESSAGE 'EXPORT_LOCATION'"));
+
+            //act
+            _viewModel.ExportToExcelCommand.Execute();
+
+            //assert
+            _windowManager.VerifyAllExpectations();
+            _excelExporter.AssertWasCalled(e => e.Export(_vendorList, exportLocation));
+        }
     }
 
     [TestFixture]
@@ -140,6 +167,8 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
         private IVendorListItemBuilder _vendorListItemBuilder;
         private IWindowManager _windowManager;
         private IEventBus _eventBus;
+        private IExcelExporter _excelExporter;
+        private IResourceManager _resourceManager;
 
         private VendorListViewModel _viewModel;
         private VendorListItem _updatedViewModelItem;
@@ -151,6 +180,8 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
             _vendorListItemBuilder = MockRepository.GenerateMock<IVendorListItemBuilder>();
             _windowManager = MockRepository.GenerateMock<IWindowManager>();
             _eventBus = MockRepository.GenerateMock<IEventBus>();
+            _excelExporter = MockRepository.GenerateMock<IExcelExporter>();
+            _resourceManager = MockRepository.GenerateMock<IResourceManager>();
             
             var updatedVendorList = new List<Vendor> { new Vendor() };
             _vendorRepository.Expect(p => p.SelectVendors(false)).Return(updatedVendorList);
@@ -161,7 +192,7 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
 
             _windowManager.Expect(wm => wm.DisplaySummary());
 
-            _viewModel = new VendorListViewModel(_vendorRepository, _vendorListItemBuilder, _windowManager, _eventBus);
+            _viewModel = new VendorListViewModel(_vendorRepository, _vendorListItemBuilder, _windowManager, _eventBus, _excelExporter, _resourceManager);
         }
         
         [Test]
@@ -174,7 +205,7 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
                     p.On<VendorChangedEvent, Guid>(Arg<Action<Guid>>.Is.Anything))
                 .WhenCalled(cb => callback = (Action<Guid>)cb.Arguments[0]);
 
-            _viewModel = new VendorListViewModel(_vendorRepository, _vendorListItemBuilder, _windowManager, _eventBus);
+            _viewModel = new VendorListViewModel(_vendorRepository, _vendorListItemBuilder, _windowManager, _eventBus, _excelExporter, _resourceManager);
 
             //act
             callback(Guid.NewGuid());
@@ -193,7 +224,7 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
                     p.On<StickerSalesPeriodChangedEvent, Guid>(Arg<Action<Guid>>.Is.Anything))
                 .WhenCalled(cb => callback = (Action<Guid>)cb.Arguments[0]);
 
-            _viewModel = new VendorListViewModel(_vendorRepository, _vendorListItemBuilder, _windowManager, _eventBus);
+            _viewModel = new VendorListViewModel(_vendorRepository, _vendorListItemBuilder, _windowManager, _eventBus, _excelExporter, _resourceManager);
 
             //act
             callback(Guid.NewGuid());
