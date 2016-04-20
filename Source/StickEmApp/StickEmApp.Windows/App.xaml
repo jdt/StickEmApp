@@ -2,7 +2,8 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:converters="clr-namespace:StickEmApp.Windows.ViewModel.Converters"
-             xmlns:system="clr-namespace:System;assembly=mscorlib">
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             DispatcherUnhandledException="App_OnDispatcherUnhandledException">
     
     <Application.Resources>
         <system:String x:Key="VendorStatusFinished">Afgewerkt</system:String>
