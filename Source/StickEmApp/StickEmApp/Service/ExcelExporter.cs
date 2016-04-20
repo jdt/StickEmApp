@@ -22,6 +22,11 @@ namespace StickEmApp.Service
 
         public void Export(IReadOnlyCollection<Vendor> vendors, string destination)
         {
+            if (File.Exists(destination))
+            {
+                File.Delete(destination);
+            }
+
             using (var package = new ExcelPackage(new FileInfo(destination)))
             {
                 var worksheet = package.Workbook.Worksheets.Add(_resourceManager.GetString("StickerSales"));
