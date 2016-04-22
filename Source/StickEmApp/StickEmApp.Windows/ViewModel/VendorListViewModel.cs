@@ -196,7 +196,7 @@ namespace StickEmApp.Windows.ViewModel
                 var vendors = _vendorRepository.SelectVendors(ShowFinishedVendors);
                 _exporter.Export(vendors, target);
 
-                _windowManager.DisplayConfirmation(string.Format(_resourceManager.GetString("DataExportedToExcelFileAt"), target));
+                _windowManager.DisplayInformation(string.Format(_resourceManager.GetString("DataExportedToExcelFileAt"), target));
             }
         }
 

@@ -139,17 +139,17 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
         }
 
         [Test]
-        public void ExportToExcelCommandShouldExportToChosenLocationAndDisplayConfirmation()
+        public void ExportToExcelCommandShouldExportToChosenLocationAndDisplayInformation()
         {
             //arrange
             const string exportLocation = "EXPORT_LOCATION";
 
             _windowManager.Expect(wm => wm.DisplayFileSelection()).Return(exportLocation);
 
-            const string confirmationMessage = "CONFIRM_MESSAGE '{0}'";
-            _resourceManager.Expect(rm => rm.GetString("DataExportedToExcelFileAt")).Return(confirmationMessage);
+            const string informationMessage = "MESSAGE '{0}'";
+            _resourceManager.Expect(rm => rm.GetString("DataExportedToExcelFileAt")).Return(informationMessage);
 
-            _windowManager.Expect(wm => wm.DisplayConfirmation("CONFIRM_MESSAGE 'EXPORT_LOCATION'"));
+            _windowManager.Expect(wm => wm.DisplayInformation("MESSAGE 'EXPORT_LOCATION'"));
 
             //act
             _viewModel.ExportToExcelCommand.Execute();
