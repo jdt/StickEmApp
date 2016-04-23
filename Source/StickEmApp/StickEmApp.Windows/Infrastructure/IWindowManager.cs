@@ -10,6 +10,6 @@ namespace StickEmApp.Windows.Infrastructure
         void DisplayEditStickerSalesPeriod();
 
         string DisplayFileSelection();
-        void DisplayConfirmation(string message);
+        void DisplayInformation(string message);
     }
 }

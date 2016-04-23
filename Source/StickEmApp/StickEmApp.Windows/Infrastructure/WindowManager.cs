@@ -62,7 +62,7 @@ namespace StickEmApp.Windows.Infrastructure
             return saveFileDialog.FileName;
         }
 
-        public void DisplayConfirmation(string message)
+        public void DisplayInformation(string message)
         {
             MessageBox.Show(message, _resourceManager.GetString("Message"), MessageBoxButton.OK, MessageBoxImage.Information);
         }
