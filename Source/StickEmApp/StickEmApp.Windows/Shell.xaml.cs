@@ -15,7 +15,13 @@ namespace StickEmApp.Windows
         public Shell()
         {
             var dbFile = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "data.db");
+
+            var window = new LoadingWindow();
+            window.Show();
+
             UnitOfWorkManager.Initialize(dbFile, DatabaseFileMode.CreateIfNotExists);
+
+            window.Close();
 
             InitializeComponent();
         }

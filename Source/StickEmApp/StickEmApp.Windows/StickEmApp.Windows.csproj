@@ -21,7 +21,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\bin\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -30,7 +30,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\bin-Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -101,6 +101,9 @@
     <Compile Include="Infrastructure\Events\VendorChangedEvent.cs" />
     <Compile Include="Infrastructure\IWindowManager.cs" />
     <Compile Include="Infrastructure\WindowManager.cs" />
+    <Compile Include="LoadingWindow.xaml.cs">
+      <DependentUpon>LoadingWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="StickEmAppBootStrapper.cs" />
     <Compile Include="ViewModel\Converters\MoneyConverter.cs" />
     <Compile Include="ViewModel\Converters\VendorStatusConverter.cs" />
@@ -126,6 +129,10 @@
     </Compile>
     <Compile Include="Infrastructure\Behaviors\ViewExportAttribute.cs" />
     <Compile Include="WpfResourceManager.cs" />
+    <Page Include="LoadingWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Shell.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

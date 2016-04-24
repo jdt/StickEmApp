@@ -3,7 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:prism="http://www.codeplex.com/prism"
         xmlns:infrastructure="clr-namespace:StickEmApp.Windows.Infrastructure"
-        Title="StickEmApp">
+        Title="StickEmApp"
+        WindowState="Maximized"
+        WindowStartupLocation="CenterScreen">
     <Grid HorizontalAlignment="Stretch">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
