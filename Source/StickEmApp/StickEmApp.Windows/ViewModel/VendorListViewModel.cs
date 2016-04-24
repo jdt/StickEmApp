@@ -173,6 +173,10 @@ namespace StickEmApp.Windows.ViewModel
 
         private void RemoveVendor(VendorListItem item)
         {
+            var confirm = _windowManager.IsConfirmation(string.Format(_resourceManager.GetString("AreYouSureYouWantToRemoveVendorWithName"), item.Name));
+            if (!confirm)
+                return;
+
             Vendor vendorToRemove;
             using (new UnitOfWork())
             {

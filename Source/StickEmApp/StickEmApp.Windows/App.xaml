@@ -36,6 +36,8 @@
         <system:String x:Key="ExcelWorkbook">Excel Workbook</system:String>
         <system:String x:Key="Message">Melding</system:String>
         <system:String x:Key="DataExportedToExcelFileAt">Gegevens weggeschreven naar Excel-bestand in {0}</system:String>
+        <system:String x:Key="ConfirmationRequired">Bevestiging nodig</system:String>
+        <system:String x:Key="AreYouSureYouWantToRemoveVendorWithName">Bent u zeker dat u verkoper '{0}' wil verwijderen? Dit kan niet ongedaan gemaakt worden.</system:String>
         
         <converters:VendorStatusConverter x:Key="VendorStatusConverter"/>
         <converters:MoneyConverter x:Key="MoneyConverter"/>

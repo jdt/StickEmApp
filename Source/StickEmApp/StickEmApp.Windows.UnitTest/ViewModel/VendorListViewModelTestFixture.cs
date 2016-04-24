@@ -80,18 +80,23 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
         }
 
         [Test]
-        public void RemoveVendorCommandShouldRemoveVendorAndRaiseVendorChangedEvent()
+        public void RemoveVendorCommandShouldRemoveVendorIfConfirmedAndRaiseVendorChangedEvent()
         {
             var removedVendorId = Guid.NewGuid();
-            var removedVendor = new Vendor
-            {
-                Id = removedVendorId
-            };
+
+            var removedVendor = MockRepository.GenerateMock<Vendor>();
+            removedVendor.Expect(v => v.Id).Return(removedVendorId);
+
+            _resourceManager.Expect(rm => rm.GetString("AreYouSureYouWantToRemoveVendorWithName")).Return("REMOVE {0}");
+            _windowManager.Expect(wm => wm.IsConfirmation("REMOVE theVendor")).Return(true);
             
             _vendorRepository.Expect(p => p.Get(removedVendorId)).Return(removedVendor);
+            removedVendor.Expect(v => v.Remove());
+            _vendorRepository.Expect(vr => vr.Save(removedVendor));
+
             _eventBus.Expect(ea => ea.Publish<VendorChangedEvent, Guid>(removedVendorId));
-            
-            var removedItem = new VendorListItem(removedVendorId, "test");
+
+            var removedItem = new VendorListItem(removedVendorId, "theVendor");
             
             //act
             _viewModel.RemoveVendorCommand.Execute(removedItem);
@@ -99,6 +104,23 @@ namespace StickEmApp.Windows.UnitTest.ViewModel
             //assert
             _windowManager.VerifyAllExpectations();
             _eventBus.VerifyAllExpectations();
+        }
+
+        [Test]
+        public void RemoveVendorCommandShouldNotRemoveVendorIfNotConfirmed()
+        {
+            _resourceManager.Expect(rm => rm.GetString("AreYouSureYouWantToRemoveVendorWithName")).Return("REMOVE {0}");
+            _windowManager.Expect(wm => wm.IsConfirmation(Arg<string>.Is.Same("REMOVE theVendor"))).Return(false);
+
+            _vendorRepository.Expect(p => p.Save(Arg<Vendor>.Is.Anything)).Repeat.Never();
+            
+            var removedItem = new VendorListItem(Guid.NewGuid(), "test");
+
+            //act
+            _viewModel.RemoveVendorCommand.Execute(removedItem);
+
+            //assert
+            _vendorRepository.VerifyAllExpectations();
         }
 
         [Test]

@@ -11,5 +11,6 @@ namespace StickEmApp.Windows.Infrastructure
 
         string DisplayFileSelection();
         void DisplayInformation(string message);
+        bool IsConfirmation(string message);
     }
 }

@@ -66,5 +66,11 @@ namespace StickEmApp.Windows.Infrastructure
         {
             MessageBox.Show(message, _resourceManager.GetString("Message"), MessageBoxButton.OK, MessageBoxImage.Information);
         }
+
+        public bool IsConfirmation(string message)
+        {
+            var result = MessageBox.Show(message, _resourceManager.GetString("ConfirmationRequired"), MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
+            return result == MessageBoxResult.Yes;
+        }
     }
 }
